@@ -1,15 +1,16 @@
 name: Release
 
-# Push a tag like v1.0.0 to publish GanttCrew.html as a release asset.
+# Publish a release on GitHub (Releases → Draft a new release, tag e.g. v1.0.0):
+# this workflow builds GanttCrew.html and attaches it to that release.
 on:
-  push:
-    tags: ['v*']
+  release:
+    types: [published]
 
 permissions:
   contents: write
 
 jobs:
-  release:
+  attach:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -17,7 +18,7 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/build.mjs
-      - uses: softprops/action-gh-release@v2
-        with:
-          files: dist/GanttCrew.html
-          generate_release_notes: true
+      - name: Attach GanttCrew.html to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" dist/GanttCrew.html --clobber
