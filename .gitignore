@@ -1,0 +1,12 @@
+# build output (published as a release asset and on GitHub Pages)
+dist/
+# real team data must never be committed
+datos/
+data/
+*.ics
+# tooling
+node_modules/
+test-results/
+playwright-report/
+.DS_Store
+Thumbs.db

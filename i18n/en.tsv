@@ -1,0 +1,1151 @@
+# Spanish -> English dictionary for the user interface.
+# Format: español || English   (a leading "=" on the Spanish side = only whole texts)
+# Longer phrases win over shorter ones. Data saved in the JSON files is never translated.
+GanttCrew · Gantt del equipo	GanttCrew · Team Gantt
+Control de proyectos	Project control
+· Gantt del equipo	· Team Gantt
+Gantt del equipo	Team Gantt
+=Gantt	Gantt
+Calendario	Calendar
+Tareas	Tasks
+Reuniones	Meetings
+Cumplimiento	Performance
+Ausencias	Absences
+Proyectos y equipo	Projects & team
+versión	version
+=Ene	Jan
+=Feb	Feb
+=Mar	Mar
+=Abr	Apr
+=May	May
+=Jun	Jun
+=Jul	Jul
+=Ago	Aug
+=Sep	Sep
+=Oct	Oct
+=Nov	Nov
+=Dic	Dec
+=mié	Wed
+=sáb	Sat
+=miércoles	Wednesday
+=sábado	Saturday
+Planificada	Planned
+Detectada en desarrollo	Found during development
+Incidencia	Incident
+Cambio solicitado	Change request
+Pendiente	To do
+En curso	In progress
+en curso	in progress
+Bloqueada por dependencia	Blocked by dependency
+Bloqueada por:	Blocked by:
+Bloqueada:	Blocked:
+Bloqueada	Blocked
+Completada	Done
+Seguimiento	Follow-up
+Técnica	Technical
+Con cliente	With client
+Planificación y seguimiento	Planning and tracking
+Planificación	Planning
+=Otra	Other
+No cumple los criterios de aceptación: hay que rehacerla.	Does not meet the acceptance criteria: it must be redone.
+Incumple algún criterio importante: necesita correcciones relevantes.	Misses an important criterion: needs significant corrections.
+Cumple lo esencial, con defectos menores que se corrigen sin rehacerla.	Meets the essentials, with minor defects fixed without redoing it.
+Cumple todos los criterios, con observaciones menores que no requieren cambios.	Meets all criteria, with minor remarks that need no changes.
+Deficiente < 60	Poor < 60
+Deficiente	Poor
+Insuficiente	Insufficient
+Aceptable 60–74	Acceptable 60–74
+Aceptable	Acceptable
+Bueno 75–89	Good 75–89
+=Bueno	Good
+Excelente ≥ 90	Excellent ≥ 90
+Excelente	Excellent
+Año Nuevo	New Year's Day
+Epifanía del Señor	Epiphany
+Jueves Santo	Maundy Thursday
+Viernes Santo	Good Friday
+Fiesta del Trabajo	Labour Day
+Fiesta de la Comunidad de Madrid	Community of Madrid Day
+Traslado de la Asunción de la Virgen	Assumption Day (moved)
+Asunción de la Virgen	Assumption Day
+Fiesta Nacional de España	National Day of Spain
+Traslado de Todos los Santos	All Saints' Day (moved)
+Traslado del Día de la Constitución Española	Constitution Day (moved)
+Inmaculada Concepción	Immaculate Conception
+Natividad del Señor	Christmas Day
+San Isidro Labrador	Saint Isidore's Day
+Nuestra Señora de la Almudena	Our Lady of La Almudena
+San José	Saint Joseph's Day
+Todos los Santos	All Saints' Day
+Día de la Constitución Española	Constitution Day
+Madrid capital	Madrid (city)
+Proyecto interno	Internal project
+Proyecto europeo	European project
+Proyecto nacional	National project
+Grupo de trabajo	Working group
+=Activo	Active
+=Activa	Active
+En pausa desde el	Paused since
+En pausa / cancelada desde esa fecha (plan vigente atenuado)	Paused / cancelled from that date (current plan dimmed)
+⏸ En pausa	⏸ Paused
+· EN PAUSA	· PAUSED
+=En pausa	Paused
+=en pausa	paused
+Cerrado (terminado)	Closed (finished)
+=Cancelado	Cancelled
+=Cerrado	Closed
+=Pausa	Pause
+=Cancelación	Cancellation
+sin asignar	unassigned
+Sin asignar	Unassigned
+Volver a leer la carpeta	Reload the folder
+Cambiar de usuario	Switch user
+=Cambiar	Switch
+leído hace	read
+No se pudo guardar en la carpeta:	Could not save to the folder:
+Comprueba que OneDrive está sincronizando y vuelve a intentarlo.	Check that OneDrive is syncing and try again.
+Tu ficha ya no está en el equipo.	You are no longer in the team.
+Solo el project manager puede cambiar esto.	Only the project manager can change this.
+No se pudieron descifrar las evaluaciones.	Could not decrypt the evaluations.
+No se pudieron descifrar los proyectos privados.	Could not decrypt the private projects.
+Introduce la contraseña de PM para guardar lo privado.	Enter the PM password to save private items.
+Introduce la contraseña de PM para guardar evaluaciones.	Enter the PM password to save evaluations.
+(sin título)	(untitled)
+Lugar:	Location:
+No se repite	Does not repeat
+Cada día laborable (lunes a viernes)	Every working day (Monday to Friday)
+Cada día (también fines de semana)	Every day (weekends too)
+Cada semana	Every week
+Cada dos semanas	Every two weeks
+Cada mes (mismo día)	Every month (same day)
+Elegir personas	Choose people
+Todo el equipo	Whole team
+todo el equipo	whole team
+(todo el equipo)	(whole team)
+Participantes del proyecto	Project participants
+participantes del proyecto	project participants
++ Participantes del proyecto	+ Project participants
+El archivo ya existe:	The file already exists:
+=Creado	Created
+Elige primero quién eres.	First choose who you are.
+Elige un archivo	Choose a file
+(convocatoria o calendario exportado) o un	(invitation or exported calendar) or a
+correo guardado .eml	saved .eml email
+que contenga una convocatoria. Verás sus reuniones antes de registrarlas.	containing an invitation. You will see its meetings before registering them.
+Archivo .ics o .eml	.ics or .eml file
+Importar reuniones desde un .ics o un correo (.eml)	Import meetings from an .ics file or an email (.eml)
+No se pudo leer el archivo.	Could not read the file.
+No encuentro ninguna convocatoria en este archivo. Si es un correo, comprueba que es el de la invitación (el que tiene los botones Aceptar / Rechazar).	No invitation found in this file. If it is an email, check that it is the invitation (the one with the Accept / Decline buttons).
+día completo	all day
+Organiza:	Organiser:
+La hora se toma tal cual	The time is taken as is
+: revisa la hora	: check the time
+ya registrada	already registered
+=Proyecto	Project
+=Tipo	Type
+reunión(es) en el archivo	meeting(s) in the file
+=Fecha	Date
+=Reunión	Meeting
+=reunión	meeting
+Asistentes de la serie	Series attendees
+Asistentes:	Attendees:
+Asistentes	Attendees
+Registrar las marcadas	Register the selected ones
+General (varios proyectos)	General (several projects)
+· las pasadas salen sin marcar	· past ones are left unticked
+Marca al menos una reunión.	Tick at least one meeting.
+Registradas	Registered
+reunión(es). Puedes abrir cada una para ajustarla.	meeting(s). You can open each one to adjust it.
+=Tarea	Task
+Festivo:	Holiday:
+=Festivo	Holiday
+Jornada extra (fin de semana, festivo o día libre)	Extra working day (weekend, holiday or day off)
+Jornada extra (	Extra working day (
+=Jornada extra	Extra working day
++ Jornada extra	+ Extra working day
+Tarea:	Task:
+=Ausente	Absent
+=Ausencia	Absence
++ Ausencia	+ Absence
+Reunión:	Meeting:
+Entrega:	Delivery:
+Plan:	Plan:
+· avance	· progress
+Gantt · Equipo	Gantt · Team
+Versión	Version
+Abre la herramienta con Edge o Chrome	Open the tool with Edge or Chrome
+Este navegador no permite a la página leer y guardar en la carpeta compartida. Abre	This browser does not let the page read and save in the shared folder. Open
+este mismo archivo	this same file
+(clic derecho → Abrir con).	(right-click → Open with).
+Carpeta de datos:	Data folder:
+=Abrir	Open
+El navegador te pedirá permiso para usar la carpeta.	The browser will ask for permission to use the folder.
+Elegir otra carpeta	Choose another folder
+Elige la carpeta	Choose the folder
+que está junto a este archivo, dentro de la carpeta compartida de OneDrive. Solo se pide la primera vez.	next to this file, inside the shared OneDrive folder. It is only asked the first time.
+Elegir carpeta de datos	Choose data folder
+No se puede leer la carpeta	The folder cannot be read
+Reintentar	Retry
+Carpeta vacía: crear el equipo	Empty folder: create the team
+=En	In
+todavía no hay datos. Si eres el project manager, crea el equipo aquí. Si no, pide al PM que lo cree y sincroniza la carpeta.	there is no data yet. If you are the project manager, create the team here. If not, ask the PM to create it and sync the folder.
+Tu nombre	Your name
+Contraseña de project manager	Project manager password
+Repítela	Repeat it
+Cargar los datos de ejemplo	Load the sample data
+La contraseña protege tu papel de PM y cifra las evaluaciones.	The password protects your PM role and encrypts the evaluations.
+Guárdala bien:	Keep it safe:
+si la pierdes, las evaluaciones no se pueden recuperar.	if you lose it, the evaluations cannot be recovered.
+Crear equipo	Create team
+La contraseña debe tener 8 caracteres o más y coincidir.	The password must have 8 characters or more and match.
+Project manager	Project manager
+¿Quién eres?	Who are you?
+Elige tu nombre. El project manager necesita su contraseña.	Choose your name. The project manager needs their password.
+Contraseña de PM	PM password
+=Entrar	Sign in
+¿No apareces? Pide al PM que te añada al equipo.	Not listed? Ask the PM to add you to the team.
+Contraseña incorrecta.	Wrong password.
+Faltan festivos oficiales (	Official holidays missing (
+). Revísalo en la pestaña Ausencias.	). Check it in the Absences tab.
+Calendario actualizado:	Calendar updated:
+festivos reclasificados (nacional / autonómico / local).	holidays reclassified (national / regional / local).
+Copia descargada. Guárdala fuera de la carpeta de datos.	Backup downloaded. Keep it outside the data folder.
+El archivo no es una copia de esta herramienta.	The file is not a backup of this tool.
+Copia restaurada.	Backup restored.
+No se pudo restaurar:	Could not restore:
+tarea en pausa	task paused
+proyecto cancelado	project cancelled
+sin responsable o sin fechas	no owner or no dates
+más de 2 años o esperando a una tarea sin fecha prevista	more than 2 years or waiting for a task with no forecast date
+espera a dependencias (	waiting for dependencies (
+día(s) de ausencia	day(s) of absence
+de ausencia	of absence
+sobrecarga o prioridad de otras tareas (	overload or priority of other tasks (
+reuniones (	meetings (
+aún sin empezar	not started yet
+Termina antes de lo planificado	Finishes earlier than planned
+=Vacaciones	Vacation
+Ausencia con permiso	Leave with permission
+Baja médica	Sick leave
+Viaje de proyecto	Project trip
+Congreso / formación	Conference / training
+Otra ausencia	Other absence
+=Nacional	National
+Autonómico (Comunidad de Madrid)	Regional (Community of Madrid)
+Local (municipio)	Local (municipality)
+Empresa / centro	Company / office
+Comunidad de Madrid	Community of Madrid
+Local ·	Local ·
+Centro ·	Office ·
+Sobrecarga (> 100 %)	Overload (> 100 %)
+=Sobrecarga	Overload
+Al límite	At the limit
+al límite	at the limit
+=Disponible	Available
+=Libre	Free
+Semana sin días laborables	Week without working days
+Ausente toda la semana	Absent all week
+· pico diario	· daily peak
+Sin evaluar	Not evaluated
+=Cancelada	Cancelled
+· CANCELADA	· CANCELLED
+Cancelada el	Cancelled on
+✕ Cancelada	✕ Cancelled
+=Vencida	Overdue
+Vencida desde el	Overdue since
+Retraso previsto +	Forecast delay +
+Conflicto de fechas	Date conflict
+No iniciada	Not started
+=Retrasada	Delayed
+En plazo	On time
+(en plazo)	(on time)
+· en plazo	· on time
+Solo mis tareas	Only my tasks
+Cualquier origen	Any origin
+=Año	Year
+Ir al mes	Go to month
+Ir a hoy	Go to today
+1 de enero	1 January
+Ancho de cada día	Width of each day
+Agrupar las tareas por proyecto o por persona (cronograma)	Group tasks by project or by person (timeline)
+Agrupar las tareas por proyecto o por persona	Group tasks by project or by person
+Trimestre	Quarter
+=Mes	Month
+Mostrar u ocultar tus proyectos privados (por ejemplo, al proyectar la pantalla)	Show or hide your private projects (for example, when sharing your screen)
+Mostrar u ocultar tus proyectos privados	Show or hide your private projects
+Exportar el Gantt de un proyecto o de una fase como imagen para Word	Export the Gantt of a project or a phase as an image for Word
+🖼 Exportar imagen	🖼 Export image
++ Reunión	+ Meeting
++ Tarea	+ Task
+· ver el detalle del día en el Calendario	· see the day's detail in the Calendar
+· Bloqueada por:	· Blocked by:
+· plan vigente	· current plan
+Plan vigente	Current plan
+Fin previsto (rombo con línea)	Forecast end (diamond with line)
+Fin prevista:	Forecast end:
+Fin prevista	Forecast end
+Fin previsto	Forecast end
+días lab. respecto al plan)	working days vs plan)
+días lab.):	working days):
+Días lab.	Work days
+Espera a:	Waits for:
+Bloquea a:	Blocks:
+Gantt anual · detalle diario	Annual Gantt · daily detail
+Visualiza cada día del año, con sus fines de semana y tareas. Desplázate horizontalmente, selecciona un mes o amplía el detalle de los días.	See every day of the year, with its weekends and tasks. Scroll horizontally, pick a month or zoom into the days.
+Todos los proyectos	All projects
+Tareas visibles	Visible tasks
+Días del año	Days of the year
++ Añadir tarea de la que depende…	+ Add a task it depends on…
++ Añadir tarea	+ Add task
+Aún no hay proyectos.	No projects yet.
+Créalos en	Create them in
+h pendientes	h remaining
+=Prevista	Forecast
+días respecto al plan	days vs plan
+Fuera del plazo del proyecto:	Outside the project deadline:
+Fuera del plazo del proyecto	Outside the project deadline
+Carga de esta semana	Load this week
+Sin tareas con estos filtros	No tasks with these filters
+· Participantes:	· Participants:
+Proyecto privado: solo lo ves tú	Private project: only you see it
+Persona / tarea	Person / task
+Proyecto / tarea	Project / task
+Pausa ya reanudada	Pause already resumed
+Plan (relleno = avance)	Plan (fill = progress)
+Fechas reales	Actual dates
+roja discontinua	dashed red
+= empieza antes de que acabe la anterior	= starts before the previous one ends
+⛔ espera en	⛔ waits in
+⛔ espera	⛔ waits
+esperando a otra tarea	waiting for another task
+Esperando a otra tarea	Waiting for another task
+bloquea a n tareas	blocks n tasks
+=Detectada	Found
+Hasta la fin prevista (retraso)	Up to the forecast end (delay)
+Festivo (todo el equipo)	Holiday (whole team)
+Días en que el responsable está ausente	Days when the owner is absent
+=Cambio	Change
+🔒 Privado (solo tú)	🔒 Private (only you)
+Fila de cada persona:	Row of each person:
+carga semanal < 85 %	weekly load < 85 %
+Reunión a la que asiste	Meeting they attend
+Alta ocupación (≥ 85 %)	High load (≥ 85 %)
+Alta ocupación	High load
+Fin de semana, festivo o día sin jornada	Weekend, holiday or non-working day
+Fin de semana	Weekend
+fin de semana · opcional	weekend · optional
+(fin de semana)	(weekend)
+=fin de semana	weekend
+No trabaja	Not working
+No laborable	Non-working
+Todavía no hay miembros en el equipo.	There are no team members yet.
+=Hoy	Today
+=días	days
+=día	day
+Miembro · carga actual	Member · current load
+Miembro del equipo	Team member
+=Miembro	Member
+Ver su calendario	See their calendar
+=Exceso	Excess
+· tareas	· tasks
+h · reuniones	h · meetings
+h · capacidad	h · capacity
+h · Reuniones	h · Meetings
+h · Capacidad	h · Capacity
+Tareas del mes (horas-persona)	Tasks this month (person-hours)
+Reuniones (horas-persona)	Meetings (person-hours)
+Capacidad neta del equipo	Net team capacity
+Días-persona de ausencia	Person-days of absence
+Días-persona con sobrecarga	Person-days overloaded
+Detalle ·	Detail ·
+· festivo:	· holiday:
+Detalle diario	Daily detail
+h tareas	h tasks
+h disponibles	h available
+=Jornada	Working day
+· Reuniones	· Meetings
+Tareas activas ese día (	Tasks active that day (
+Reuniones (	Meetings (
++ extra	+ extra
+Sin tareas ese día.	No tasks that day.
+Sin reuniones registradas.	No meetings registered.
+🔒 Privadas (fuera de jornada)	🔒 Private (outside working hours)
+Tareas en el mes	Tasks this month
+Capacidad disponible	Available capacity
+=Ocupación	Load
+Las horas muestran el	Hours show the
+reparto estimado del trabajo planificado	estimated split of the planned work
+Agenda personal	Personal agenda
+Agenda del equipo	Team agenda
+Cronograma del equipo	Team timeline
+Calendario de	Calendar of
+Calendario conjunto	Joint calendar
+Tareas de cada persona en el tiempo, con su carga semanal.	Each person's tasks over time, with their weekly load.
+Tareas, reuniones, ausencias y festivos de cada día, con su carga diaria.	Tasks, meetings, absences and holidays of each day, with their daily load.
++ Registrar reunión	+ Register meeting
+h ese día	h that day
+Sin actividades registradas.	No activities registered.
+Carga prevista · próximas	Forecast load · next
+=semanas	weeks
+Media de esta semana	Average this week
+h/día ·	h/day ·
+h de reunión este mes	h of meetings this month
+· PM	· PM
+Pico en las próximas 4 semanas	Peak in the next 4 weeks
+de otros	from others
+· disponible	· available
+Franja inferior = carga semanal:	Bottom strip = weekly load:
+> 100% sobrecarga	> 100% overload
+Las tareas que se solapan se apilan: más carriles = más carga en paralelo.	Overlapping tasks are stacked: more lanes = more parallel load.
+por encima del 100% y	above 100% and
+Ordenar por fin plan.	Sort by planned end
+Por fin previsto	By forecast end
+Por inicio	By start
+Por proyecto	By project
+Por responsable	By owner
+Por estado de salud	By health
+Por persona	By person
+No hay tareas con estos filtros.	No tasks with these filters.
+=Origen	Origin
+=Responsable	Owner
+Responsable y participantes	Owner and participants
+· responsable	· owner
+=Inicio	Start
+Fin plan.	Planned end
+Fin real	Actual end
+=Avance	Progress
+Avance:	Progress:
+Depende de	Depends on
+=Estado	Status
+Estado:	Status:
+Salud / índice	Health / index
+=Salud	Health
+Acaba o está prevista después del fin objetivo del proyecto	Ends or is forecast after the project's target end
+Desde hoy (todas las futuras)	From today (all future ones)
+Todo el año	The whole year
+Todos los asistentes	All attendees
+🔍 Buscar por título…	🔍 Search by title…
+Terminar selección	Finish selection
+Seleccionar varias	Select several
+Importar .ics	Import .ics
+=Horas	Hours
+% de jornada*	% of working time*
+Reuniones en fin de semana o festivo: opcionales, no cuentan en horas ni en la carga	Meetings on weekends or holidays: optional, they do not count in hours or load
+* Horas de reunión sobre	* Meeting hours over
+días laborables × 8 h del periodo. Las reuniones en fin de semana o festivo son	working days × 8 h of the period. Meetings on weekends or holidays are
+(«opc.»): no cuentan en las horas, la carga ni las fechas previstas.	(«opt.»): they do not count in hours, load or forecast dates.
+No hay reuniones registradas en este periodo.	No meetings registered in this period.
+min ·	min ·
+No puedes modificar esta reunión	You cannot modify this meeting
+festivo · opcional	holiday · optional
+Registrada desde Thunderbird	Registered from Thunderbird
+Importada desde un .ics	Imported from an .ics
+📅 Hay	📅 There are
+convocatoria(s) de Thunderbird en este periodo sin proyecto asignado (etiqueta «Thunderbird» en la lista). Haz clic en cada una para asignarle proyecto y tipo.	Thunderbird invitation(s) in this period with no project (label «Thunderbird» in the list). Click each one to assign a project and type.
+reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o usa el buscador y el periodo para filtrar (por ejemplo, «briefing» + «Desde hoy»).	meeting(s) selected. Click the meetings to select them, or use the search box and the period to filter (for example, «briefing» + «From today»).
+Marcar las	Select the
+Desmarcar todas	Unselect all
+Modificar las seleccionadas	Modify the selected ones
+Tiempo en reuniones por persona	Time in meetings per person
+Bloqueos activos (	Active blocks (
+· fin	· end
+bloquea a:	blocks:
+⛓ bloquea	⛓ blocks
+Ninguna tarea está frenando a otra.	No task is holding back another.
+En riesgo (	At risk (
+Nada en riesgo.	Nothing at risk.
+Con retraso previsto	With forecast delay
+su fin prevista es posterior a la planificada	its forecast end is later than planned
+Tareas completadas	Tasks done
+Entregadas a tiempo	Delivered on time
+con fecha real	with actual date
+En riesgo ahora	At risk now
+bloqueadas, vencidas o retrasadas	blocked, overdue or delayed
+bloqueadas por dependencias	blocked by dependencies
+En sobrecarga (4 semanas)	Overloaded (4 weeks)
+No planificadas	Unplanned
+detectadas, incidencias o cambios (	found, incidents or changes (
+nadie por encima del 100%	nobody above 100%
+Las evaluaciones de calidad solo las ve el project manager.	Quality evaluations are only visible to the project manager.
+🔒 Solo tú (PM) ves esta sección de evaluación. Índice = Plazo	🔒 Only you (PM) see this evaluation section. Index = Deadline
+% · Calidad	% · Quality
+% · Alcance	% · Scope
+% · Retrabajo	% · Rework
+Índice de calidad de cumplimiento 🔒	Delivery quality index 🔒
+Hechas	Done
+=Plazo	Deadline
+=Calidad	Quality
+=Alcance	Scope
+· Alcance	· Scope
+=Retrabajo	Rework
+· Retrabajo	· Rework
+=En riesgo	At risk
+=Índice	Index
+Por miembro del equipo 🔒	By team member 🔒
+Por proyecto 🔒	By project 🔒
+Completadas pendientes de evaluar (	Done, pending evaluation (
+Todo evaluado.	Everything evaluated.
+Detalle de tareas evaluadas 🔒	Detail of evaluated tasks 🔒
+Retraso	Delay
+Comentario	Comment
+Cuando una tarea se completa, evalúala desde su ficha: calidad (1–5), alcance entregado y nº de retrabajos. El plazo se calcula a partir de la fecha real de fin.	When a task is done, evaluate it from its form: quality (1–5), delivered scope and number of reworks. The deadline score is calculated from the actual end date.
+Un día que alguien trabaja fuera de su jornada: sábado, domingo, festivo o día libre	A day someone works outside their schedule: Saturday, Sunday, holiday or day off
+Importar festivos (BOCM)	Import holidays (BOCM)
++ Festivo	+ Holiday
+=Persona	Person
+=Desde	From
+=Hasta	To
+Hasta (incluido)	To (inclusive)
+Hasta (opcional)	To (optional)
+Hasta (reanudación)	To (resumption)
+=Nota	Note
+Nota (opcional)	Note (optional)
+Sin ausencias registradas en este año.	No absences registered this year.
+=Viajes	Trips
+=Congresos	Conferences
+=Otras	Other
+Días laborables de ausencia por persona ·	Working days of absence per person ·
+=Total	Total
+Cuenta solo días laborables: no incluye fines de semana ni festivos.	Counts working days only: weekends and holidays are not included.
+=Jornadas extra	Extra working days
+· días trabajados fuera de la jornada (fin de semana, festivo o día libre)	· days worked outside the schedule (weekend, holiday or day off)
+=Día	Day
+=Para	For
+Es un día normal de su jornada: se suman como horas extra	It is a normal day of their schedule: added as overtime
+Es un día normal de su jornada: estas horas se suman como	It is a normal day of their schedule: these hours are added as
+horas extra	overtime
+sus tareas en curso	their tasks in progress
+— Sus tareas en curso (reparto normal) —	— Their tasks in progress (normal split) —
+Si alguien trabaja puntualmente un sábado, domingo o festivo (o un día que no le toca), regístralo con «+ Jornada extra»: esas horas cuentan en su carga y adelantan la fecha prevista de la tarea elegida.	If someone occasionally works on a Saturday, Sunday or holiday (or a day they do not usually work), register it with «+ Extra working day»: those hours count in their load and bring forward the forecast date of the chosen task.
+=Festivos	Holidays
+en día laborable)	on a working day)
+Los festivos no cuentan como días laborables: se sombrean en el Gantt y en el calendario, no suman carga y no cuentan en el cálculo del plazo. Cada persona tiene los festivos nacionales, los autonómicos de su comunidad y los locales del municipio de su centro de trabajo (se asigna en su ficha). Los festivos locales de otros municipios se añaden con «+ Festivo» eligiendo el ámbito «Local».	Holidays do not count as working days: they are shaded in the Gantt and the calendar, add no load and do not count in deadline calculations. Each person has the national holidays, the regional ones of their community and the local ones of their office's municipality (set in their profile). Local holidays of other municipalities are added with «+ Holiday» choosing the «Local» scope.
+Copiar los de fecha fija a	Copy fixed-date ones to
+=Ámbito	Scope
+Aplica a	Applies to
+=Fuente	Source
+Fecha que cambia cada año	Date that changes every year
+Nadie del equipo	Nobody in the team
+nadie del equipo	nobody in the team
+No hay festivos registrados para	No holidays registered for
+Añádelos con «+ Festivo».	Add them with «+ Holiday».
+Para la tarea (opcional)	For the task (optional)
+p. ej. despliegue en producción fuera de horario	e.g. production deployment out of hours
+Nueva jornada extra	New extra working day
+Indica el día y las horas.	Enter the day and the hours.
+a su capacidad de ese día.	to their capacity that day.
+=Es	It is
+: ese día pasa a contar como laborable para esta persona, con estas horas.	: that day becomes a working day for this person, with these hours.
+festivo (	holiday (
+un día que no le toca trabajar	a day they do not usually work
+Destino, congreso, motivo…	Destination, conference, reason…
+(solo puedes registrar las tuyas)	(you can only register your own)
+Editar ausencia	Edit absence
+Nueva ausencia	New absence
+Elige la persona.	Choose the person.
+Revisa las fechas planificadas.	Check the planned dates.
+Revisa las fechas.	Check the dates.
+Ya hay otra ausencia de esa persona en esas fechas.	That person already has another absence on those dates.
+días laborables sin actividad en total.	working days without activity in total.
+días laborables antes de lo planificado	working days earlier than planned
+días laborables después	working days later
+días laborables)	working days)
+días laborables	working days
+En esas fechas tiene	On those dates they have
+El resto del equipo solo verá «Ausente», sin el tipo ni la nota. No escribas datos médicos.	The rest of the team will only see «Absent», without the type or the note. Do not write medical details.
+p. ej. Fiesta local	e.g. Local holiday
+p. ej. Fuenlabrada	e.g. Fuenlabrada
+=Centros	Offices
+(ninguno marcado = todos)	(none ticked = all)
+Excepción: aplicar solo a estas personas	Exception: apply only to these people
+(normalmente vacío)	(usually empty)
+Se aplica a:	Applies to:
+(ningún centro está en ese municipio)	(no office is in that municipality)
+Editar festivo	Edit holiday
+Nuevo festivo	New holiday
+Indica fecha y nombre.	Enter date and name.
+Indica el municipio del festivo local.	Enter the municipality of the local holiday.
+p. ej. Sede Fuenlabrada	e.g. Fuenlabrada office
+Por ahora todos los centros están en la Comunidad de Madrid. El municipio decide qué festivos locales se aplican a las personas de este centro.	For now all offices are in the Community of Madrid. The municipality decides which local holidays apply to the people of this office.
+Editar centro de trabajo	Edit office
+Nuevo centro de trabajo	New office
+Indica nombre y municipio.	Enter name and municipality.
+Hay personas en este centro: cámbialas de centro antes.	There are people in this office: move them to another office first.
+Fiesta local de	Local holiday of
+sin conexión	offline
+Descarga del	Download from the
+decreto de fiestas laborales de la Comunidad de Madrid	Community of Madrid decree of public holidays
+(se publica hacia finales de septiembre) o la	(published around the end of September) or the
+resolución de fiestas laborales de ámbito local	resolution of local public holidays
+(diciembre). Ábrelo aquí o pega su texto. Verás lo encontrado antes de guardar.	(December). Open it here or paste its text. You will see what was found before saving.
+PDF del BOCM	BOCM PDF
+Enlace a la publicación (opcional)	Link to the publication (optional)
+… o pega aquí el texto del PDF (Ctrl+A, Ctrl+C en el PDF)	… or paste the PDF text here (Ctrl+A, Ctrl+C in the PDF)
+Analizar	Analyse
+Importar festivos oficiales	Import official holidays
+Leyendo el PDF…	Reading the PDF…
+PDF leído.	PDF read.
+No se pudo leer el PDF (	Could not read the PDF (
+Ábrelo, selecciona todo el texto (Ctrl+A), cópialo (Ctrl+C) y pégalo en el cuadro.	Open it, select all the text (Ctrl+A), copy it (Ctrl+C) and paste it in the box.
+Abre el PDF o pega su texto.	Open the PDF or paste its text.
+Resolución de fiestas	Resolution of holidays
+no aparecen:	do not appear:
+Decreto de fiestas de la	Holidays decree of the
+autonómicas)	regional)
+normalmente son 12: revisa el texto	there are usually 12: check the text
+No he encontrado fechas de festivos en el texto. Comprueba que es el decreto o la resolución de fiestas laborales y que el texto incluye las líneas del tipo «— 1 de enero (viernes), Año Nuevo.»	No holiday dates found in the text. Check that it is the holidays decree or resolution and that the text includes lines like «— 1 de enero (viernes), Año Nuevo.» (the official text is in Spanish)
+se actualiza	is updated
+ya está	already there
+Fuente detectada:	Source detected:
+Guardar festivos	Save holidays
+Estos festivos de	These holidays of
+que ya tenías	that you already had
+no aparecen	do not appear
+en el documento:	in the document:
+Marca los que quieras borrar.	Tick the ones you want to delete.
+No hay nada marcado.	Nothing is ticked.
+Guardados	Saved
+festivo(s) de	holiday(s) of
+y borrados	and deleted
+festivos nacionales y autonómicos	national and regional holidays
+ninguno de los 12	none of the 12
+el decreto de la Comunidad de Madrid se publica en el BOCM hacia finales de septiembre del año anterior	the Community of Madrid decree is published in the BOCM around the end of September of the previous year
+de 2 festivos locales de	of 2 local holidays of
+Faltan festivos oficiales:	Official holidays missing:
+=Pulsa	Click
+en la pestaña Ausencias.	in the Absences tab.
+Avisa al project manager.	Tell the project manager.
+Copiados	Copied
+festivos a	holidays to
+No había festivos nuevos que copiar a	There were no new holidays to copy to
+=Proyectos	Projects
++ Proyecto	+ Project
+tareas ·	tasks ·
+Sin proyectos todavía.	No projects yet.
+=Equipo	Team
++ Miembro	+ Member
+=h/día	h/day
+h/día de	h/day of
+Sin correo no puede iniciar sesión	Without an email they cannot sign in
+sin correo	no email
+Añade a tu equipo, incluido tú como project manager.	Add your team, including yourself as project manager.
+Centros de trabajo y calendario laboral	Offices and working calendar
+Cada persona tiene tres niveles de días no laborables: los	Each person has three levels of non-working days: the
+festivos nacionales	national holidays
+(todo el equipo), los	(whole team), the
+autonómicos y locales	regional and local ones
+de su centro de trabajo y sus	of their office and their
+ausencias personales	personal absences
+(pestaña Ausencias).	(Absences tab).
++ Centro	+ Office
+festivo(s) local(es) en	local holiday(s) in
+faltan festivos locales	local holidays missing
+sin personas	no people
+Solo tú lo ves y lo editas. Cada tarea completada recibe un índice de 0 a 100 que combina cuatro componentes.	Only you see and edit it. Each completed task gets an index from 0 to 100 combining four components.
+Tu valoración 1–5 ★ (×20).	Your rating 1–5 ★ (×20).
+% de lo comprometido que se entregó realmente.	% of what was committed that was actually delivered.
+−30 puntos por cada vez que hubo que rehacerla.	−30 points for each time it had to be redone.
+Guardar pesos	Save weights
+=Niveles:	Levels:
+Tipos de proyecto guardados.	Project types saved.
+Tipos de proyecto	Project types
++ Tipo	+ Type
+Lista que aparece en la ficha de cada proyecto. Cambia los nombres, los colores o el orden (↑) como quieras. Al cambiar un nombre, se actualiza en todos los proyectos que lo usan. Solo se puede quitar un tipo que no esté en uso.	List shown in each project's form. Change the names, colours or order (↑) as you like. Renaming a type updates every project that uses it. Only a type not in use can be removed.
+Guardar tipos	Save types
+=Subir	Move up
+En uso: cambia antes el tipo de esos proyectos	In use: change the type of those projects first
+=Quitar	Remove
+Sin tipos. Pulsa + Tipo.	No types. Click + Type.
+Escala de calidad (estrellas) 🔒	Quality scale (stars) 🔒
+Es la referencia que verás al evaluar cada tarea. Ajusta los textos a vuestros criterios.	It is the reference you will see when evaluating each task. Adjust the texts to your criteria.
+Guardar escala	Save scale
+Restaurar textos por defecto	Restore default texts
+Proyectos privados 🔒	Private projects 🔒
+🔒 Privados:	🔒 Private:
+=Guardar	Save
+proyecto(s) privado(s) ·	private project(s) ·
+Versión de la herramienta	Tool version
+(fecha y hora de publicación, hora de Madrid)	(release date and time, Madrid time)
+Novedades de esta versión	What's new in this version
+Copia de seguridad 🔒	Backup 🔒
+OneDrive guarda versiones anteriores de cada archivo (clic derecho → Historial de versiones). Además, puedes descargar una copia completa de vez en cuando. Incluye las evaluaciones	OneDrive keeps previous versions of each file (right-click → Version history). You can also download a full backup from time to time. It includes the evaluations
+sin cifrar	unencrypted
+: guárdala en un sitio privado, no en la carpeta compartida.	: keep it somewhere private, not in the shared folder.
+Descargar copia (.json)	Download backup (.json)
+Restaurar desde copia…	Restore from backup…
+Archivo leído:	File read:
+Última modificación del archivo:	Last modified:
+leído por la herramienta:	read by the tool:
+=Contenido:	Contents:
+evento(s) en el archivo →	event(s) in the file →
+reunión(es) registradas entre	meeting(s) registered between
+sin proyecto asignado	no project assigned
+El archivo existe pero está vacío: Thunderbird aún no ha guardado ninguna convocatoria en este calendario.	The file exists but is empty: Thunderbird has not yet saved any invitation in this calendar.
+Próximas:	Upcoming:
+sin proyecto	no project
+No encuentro	I cannot find
+en la carpeta de datos.	in the data folder.
+Sí hay	There is
+, pero con ese nombre no sé de quién es: cámbialo a	, but with that name I cannot tell whose it is: rename it to
+(con Thunderbird cerrado).	(with Thunderbird closed).
+Ahora añádelo en Thunderbird (pasos en esta misma tarjeta).	Now add it in Thunderbird (steps in this same card).
+Thunderbird: convocatorias que llegan por correo	Thunderbird: invitations that arrive by email
+Thunderbird guarda las convocatorias que aceptas en un archivo de la carpeta	Thunderbird saves the invitations you accept in a file in the folder
+y la herramienta las registra solas como reuniones, también las periódicas.	and the tool registers them as meetings automatically, recurring ones too.
+↻ Volver a leer ahora	↻ Reload now
+En Thunderbird, pulsa	In Thunderbird, press
+Archivo → Abrir → Archivo de calendario…	File → Open → Calendar File…
+y elige	and choose
+en la carpeta	in the folder
+=No	Do not
+lo pongas en «Solo lectura».	set it to «Read only».
+Clic derecho sobre ese calendario →	Right-click that calendar →
+Propiedades	Properties
+→ en «Correo electrónico» elige la cuenta en la que te llegan las convocatorias. Así, al pulsar	→ under «Email» choose the account where you receive invitations. That way, when you click
+=Aceptar	Accept
+en un correo de convocatoria, Thunderbird la guarda en este calendario.	in an invitation email, Thunderbird saves it in this calendar.
+Para que la herramienta reconozca a los demás asistentes, pon el correo de cada miembro en su ficha del equipo.	For the tool to recognise the other attendees, enter each member's email in their team profile.
+=Conectado:	Connected:
+reunión(es) desde Thunderbird	meeting(s) from Thunderbird
+Archivo encontrado, sin reuniones	File found, no meetings
+Aún no configurado	Not set up yet
+Archivo creado:	File created:
+Crear mi archivo para Thunderbird	Create my file for Thunderbird
+Archivos de Thunderbird en la carpeta:	Thunderbird files in the folder:
+sin dueño reconocido	no recognised owner
+Ver el plan en tu calendario (solo lectura)	See the plan in your calendar (read only)
+La herramienta mantiene	The tool keeps
+(tus reuniones, ausencias, entregas y festivos)	(your meetings, absences, deliveries and holidays)
+En Thunderbird se añade igual (Alt → Archivo → Abrir → Archivo de calendario…), esta vez poniéndolo en «Solo lectura» desde Propiedades.	In Thunderbird it is added the same way (Alt → File → Open → Calendar File…), this time setting it to «Read only» in Properties.
+Las reuniones que ya vienen de tu Thunderbird no se repiten en tu calendario personal.	Meetings that already come from your Thunderbird are not repeated in your personal calendar.
+No confundas los dos archivos	Do not confuse the two files
+y no guardes nunca una descarga encima de	and never save a download over
+=Outlook:	Outlook:
+descarga el archivo y ábrelo con doble clic (copia puntual).	download the file and double-click it (one-off copy).
+Descargar mi calendario (.ics)	Download my calendar (.ics)
+Descargar calendario del equipo (.ics)	Download team calendar (.ics)
+Quién puede hacer qué	Who can do what
+(entra con su contraseña): crea proyectos y miembros, asigna y reasigna tareas, edita cualquier tarea y ausencia, gestiona los festivos y es el único que ve las evaluaciones, que se guardan cifradas.	(signs in with a password): creates projects and members, assigns and reassigns tasks, edits any task and absence, manages holidays and is the only one who sees the evaluations, which are stored encrypted.
+(elige su nombre al entrar): ve todo el plan, crea y edita solo sus tareas y ausencias y registra reuniones. Sus cambios se guardan en su propio archivo de la carpeta	(chooses their name when entering): sees the whole plan, creates and edits only their own tasks and absences, and registers meetings. Their changes are saved in their own file in the folder
+Para incorporar a alguien:	To add someone:
+añádelo aquí, comparte con esa persona la carpeta de OneDrive con permiso de edición y pídele que abra el archivo HTML con Edge o Chrome.	add them here, share the OneDrive folder with them with edit permission and ask them to open the HTML file with Edge or Chrome.
+=Importante:	Important:
+sin servidor, estas reglas las aplica la propia herramienta. Quien tenga acceso de edición a la carpeta podría modificar los archivos a mano. Las evaluaciones sí están protegidas por el cifrado.	without a server, these rules are enforced by the tool itself. Anyone with edit access to the folder could modify the files by hand. The evaluations are protected by encryption.
+=Eliminar	Delete
+Eliminar este registro	Delete this record
+=Cancelar	Cancel
+✕ Cancelar	✕ Cancel
+=Cerrar	Close
+¿Seguro? Pulsa otra vez	Sure? Click again
+Primero crea un proyecto en «Proyectos y equipo».	First create a project in «Projects & team».
+=Prioridad	Priority
+Detectada por	Found by
+Descripción / criterio de aceptación	Description / acceptance criterion
+=Descripción	Description
+=Dependencias	Dependencies
+· esta tarea no puede avanzar hasta que terminen:	· this task cannot progress until these finish:
+Horas pendientes	Hours remaining
+(vacío = según avance)	(empty = by progress)
+Qué o quién te bloquea	What or who is blocking you
+(lo asigna el PM)	(assigned by the PM)
+=Alta	High
+=Media	Medium
+=Baja	Low
+⛓ Esta tarea bloquea a:	⛓ This task blocks:
+Evaluación de la calidad de cumplimiento	Delivery quality evaluation
+🔒 solo la ves tú	🔒 only you see it
+Calidad del resultado	Quality of the result
+Comentario de la evaluación	Evaluation comment
+Ver la escala de calidad completa	See the full quality scale
+✓ hecha	✓ done
+⏳ pendiente	⏳ pending
+Sin dependencias.	No dependencies.
+=desde el	since
+Terminada	Finished
+▶ Reanudar	▶ Resume
+↻ Reactivar	↻ Reactivate
+⏸ Pausar	⏸ Pause
+Fecha de pausa	Pause date
+Fecha de cancelación	Cancellation date
+Fecha de detección	Detection date
+Fecha del informe	Report date
+Fecha de incorporación	Join date
+fecha de incorporación	join date
+Fecha fija cada año (se puede copiar al año siguiente)	Fixed date every year (can be copied to the next year)
+=Fecha de	Date of
+Mientras dure, no cuenta en la carga ni en las fechas previstas y no genera avisos de retraso. En el Gantt se sigue viendo el plan vigente, atenuado desde esa fecha.	While it lasts, it does not count in the load or forecast dates and raises no delay alerts. The Gantt still shows the current plan, dimmed from that date.
+=Aplicar	Apply
+Aplicar los cambios a	Apply the changes to
+Pausar la tarea	Pause the task
+Cancelar la tarea	Cancel the task
+=cancelación	cancellation
+p. ej. a la espera de datos del cliente	e.g. waiting for data from the client
+p. ej. el cliente retira el requisito	e.g. the client withdraws the requirement
+=Días	Days
+Días de trabajo	Working days
+(p. ej. becarios: L, X, V)	(e.g. interns: M, W, F)
+Nuevo fin planificado	New planned end
+(fin anterior	(previous end
++ días	+ days
+Volver a calcularlo	Recalculate it
+Reanudar la tarea	Resume the task
+Reactivar la tarea	Reactivate the task
+=reanudación	resumption
+=reactivación	reactivation
+Corregir el último registro (	Correct the last record (
+Deshacer la reanudación	Undo the resumption
+⏸ Pausa	⏸ Pause
+✕ Cancelación	✕ Cancellation
+Registrado al pausar o cancelar el proyecto	Recorded when pausing or cancelling the project
+· proyecto	· project
+Corregir	Correct
+Registro	Record
+Motivo	Reason
+Motivo del bloqueo	Reason for the block
+Fin planificado	Planned end
+cancelación(es)	cancellation(s)
+Indica la fecha.	Enter the date.
+La fecha no puede ser anterior a la última reanudación (	The date cannot be earlier than the last resumption (
+La fecha de reanudación no puede ser anterior al	The resumption date cannot be earlier than
+Revisa el nuevo fin planificado.	Check the new planned end.
+no se puede avanzar ni completar hasta que terminen	it cannot progress or be completed until these finish
+Avance permitido por el PM aunque siguen pendientes	Progress allowed by the PM although these are still pending
+📅 Empieza antes de que termine aquello de lo que depende. Inicio más temprano coherente:	📅 It starts before what it depends on finishes. Earliest consistent start:
+Mover la tarea a esa fecha	Move the task to that date
+📅 El fin planificado (	📅 The planned end (
+) es posterior al fin objetivo del proyecto «	) is later than the project's target end «
+⚠ Con esta tarea,	⚠ With this task,
+Con esta tarea,	With this task,
+queda en	is at
+de sus horas disponibles la semana del	of their available hours in the week of
+queda al límite (	is at the limit (
+la semana del	the week of
+estará ausente durante la tarea:	will be absent during the task:
+La tarea empieza en un día no laborable (	The task starts on a non-working day (
+Termina en un día no laborable (	It ends on a non-working day (
+Sin fecha prevista:	No forecast date:
+Quedan ≈	≈
+h de	h of
+h estimadas	h estimated
+de la fin planificada (	than the planned end (
+· coincide con la fin planificada	· matches the planned end
+· Influye:	· Factors:
+Valora la calidad (★) para calcular el índice.	Rate the quality (★) to calculate the index.
+El índice se calcula cuando la tarea está completada y valorada.	The index is calculated when the task is done and rated.
+d de retraso)	d late)
+Editar tarea	Edit task
+Tarea (solo lectura)	Task (read only)
+Nueva tarea	New task
+Ponle un nombre a la tarea.	Give the task a name.
+No puede pasar a «	It cannot move to «
+»: está bloqueada por	»: it is blocked by
+No puede completarse mientras esté bloqueada.	It cannot be completed while it is blocked.
+Proyecto privado:	Private project:
+Proyecto privado	Private project
+: solo tú ves esta tarea. Su fecha prevista se calcula con tu calendario privado (	: only you see this task. Its forecast date is calculated with your private calendar (
+h/día, todos los días) y no cuenta en tu carga laboral.	h/day, every day) and does not count in your workload.
+h/día, todos los días) y no cuentan en tu jornada laboral.	h/day, every day) and do not count in your working time.
+Elige de 1 a 5 estrellas según la escala.	Choose 1 to 5 stars according to the scale.
+Acuerdos / notas	Agreements / notes
+↻ Reunión periódica:	↻ Recurring meeting:
+↻ periódica	↻ recurring
+Solo esta reunión (	Only this meeting (
+Esta y las siguientes	This and following ones
+Toda la serie	The whole series
+=hasta el	until
+(sin fecha de fin)	(no end date)
+asistentes elegidos	chosen attendees
+=Repetir	Repeat
+Marca a todos los participantes del proyecto elegido	Ticks all participants of the chosen project
+Añade miembros del equipo primero.	Add team members first.
+📅 Convocatoria registrada desde	📅 Invitation registered from
+Solo quien registró la reunión o el PM pueden modificarla.	Only whoever registered the meeting or the PM can modify it.
+Editar reunión	Edit meeting
+Nueva reunión	New meeting
+Indica título y fecha.	Enter title and date.
+Marca al menos un asistente: la reunión se muestra en la fila de cada asistente.	Tick at least one attendee: the meeting is shown in each attendee's row.
+El proyecto elegido no tiene participantes: elige otro modo de asistentes.	The chosen project has no participants: choose another attendee mode.
+La fecha «Hasta» es anterior al inicio.	The «To» date is earlier than the start.
+Para dejar de repetir, elige «Solo esta reunión» o borra la serie.	To stop repeating, choose «Only this meeting» or delete the series.
+Reunión periódica creada.	Recurring meeting created.
+Ocultar en la herramienta	Hide in the tool
+Marca a:	Ticks:
+El proyecto elegido no tiene participantes registrados	The chosen project has no registered participants
+Asisten todas las personas del equipo. Quien se incorpore después entra solo en las reuniones a partir de su	The whole team attends. Anyone who joins later only enters the meetings from their
+Asisten los participantes del proyecto elegido. Si cambian los participantes, cambian los asistentes.	The participants of the chosen project attend. If the participants change, the attendees change.
+Código corto	Short code
+· automático	· automatic
+se genera con el nombre	generated from the name
+Volver a generarlo a partir del nombre	Regenerate it from the name
+p. ej. Horizonte Europa, plan nacional de I+D…	e.g. Horizon Europe, a national R&D plan…
+Participantes del equipo	Team participants
+(el responsable cuenta siempre como participante)	(the owner always counts as a participant)
+Privado (solo yo)	Private (only me)
+— Sin tipo —	— No type —
+Editar proyecto	Edit project
+Nuevo proyecto	New project
+Para hacerlo privado, todas sus tareas deben estar asignadas a ti.	To make it private, all its tasks must be assigned to you.
+Un proyecto cancelado se reactiva primero (estado «Activo»).	A cancelled project is reactivated first (status «Active»).
+Ponle nombre al proyecto.	Give the project a name.
+tarea(s) pasan a ser privadas.	task(s) become private.
+Proyecto público:	Public project:
+tarea(s) pasan a ser visibles para el equipo.	task(s) become visible to the team.
+tarea(s) actualizada(s).	task(s) updated.
+El proyecto tiene tareas: bórralas o muévelas antes.	The project has tasks: delete or move them first.
+Historial del proyecto	Project history
+Pausar el proyecto	Pause the project
+p. ej. a la espera de financiación	e.g. waiting for funding
+Tareas que se pausan (cada una guarda la pausa en su historial).	Tasks being paused (each one keeps the pause in its history).
+Desmarca las que siguen en curso	Untick the ones that continue
+, por ejemplo las que el responsable sigue llevando.	, for example those the owner keeps working on.
+No hay tareas abiertas sin pausar.	There are no open tasks to pause.
+tarea(s) ya estaban en pausa o canceladas por su cuenta y no se tocan.	task(s) were already paused or cancelled on their own and are not changed.
+Cancelar el proyecto	Cancel the project
+p. ej. el cliente retira la financiación	e.g. the client withdraws the funding
+Las tareas abiertas pasan a	Open tasks become
+: dejan de contar en la carga, las fechas previstas, los avisos y el cumplimiento. Las tareas terminadas y sus evaluaciones se conservan. Si reactivas el proyecto, las tareas vuelven a estar abiertas.	: they no longer count in load, forecast dates, alerts or performance. Finished tasks and their evaluations are kept. If you reactivate the project, the tasks are open again.
+(las que estaban en pausa con el proyecto cierran su pausa en esa fecha)	(those paused with the project close their pause on that date)
+Reanudar el proyecto	Resume the project
+Reanudar proyecto	Resume project
+Reactivar el proyecto	Reactivate the project
+Cada fin se desplaza los días laborables que ha durado la	Each end shifts by the working days that lasted the
+No hay tareas afectadas.	No tasks affected.
+cambia el estado a «Activo».	change the status to «Active».
+✕ Cancelado	✕ Cancelled
+reunión(es) del	meeting(s) of
+Añadir como asistentes	Add as attendees
+Quitar de los asistentes	Remove from attendees
+— No cambiar —	— Do not change —
+no cambiar	do not change
+=Hora	Time
+Duración (min)	Duration (min)
+Hora y duración vacías = no cambiar.	Empty time and duration = do not change.
+vienen de Thunderbird (en esas solo cambian asistentes, proyecto y tipo)	come from Thunderbird (only attendees, project and type change in those)
+No se aplican a las de Thunderbird.	Not applied to the Thunderbird ones.
+Modificar	Modify
+reunión(es) modificada(s).	meeting(s) modified.
+=reunión(es)	meeting(s)
+No has cambiado nada.	You have not changed anything.
+Todas quedarían sin asistentes: no se ha cambiado nada.	All would be left without attendees: nothing has been changed.
+no se tocaron porque quedarían sin asistentes.	were not changed because they would be left without attendees.
+Se añade a	Adding
+Se quita a	Removing
+días) ·	days) ·
+Vence hoy ·	Due today ·
+Vence el	Due on
+días: prevista	days: forecast
+y el proyecto termina el	and the project ends on
+Fin objetivo superado (	Target end exceeded (
+) con	) with
+tarea(s) abierta(s)	open task(s)
+Fin objetivo el	Target end on
+=Fin objetivo	Target end
+No se cumplirá el fin objetivo (	The target end will not be met (
+» acaba o está prevista el	» ends or is forecast on
+aviso(s) de fechas	date alert(s)
+Sin avisos de fechas	No date alerts
+No hay avisos: ninguna tarea vence en los próximos 5 días laborables ni está vencida o con retraso previsto, y ningún proyecto está en riesgo.	No alerts: no task is due in the next 5 working days, overdue or forecast to be late, and no project is at risk.
+Proyectos (	Projects (
+Tareas (	Tasks (
+Ves los avisos de todo el equipo.	You see the alerts of the whole team.
+Ves los avisos de tus tareas y de los proyectos de los que eres responsable.	You see the alerts of your tasks and of the projects you own.
+🔔 Avisos de fechas	🔔 Date alerts
+aviso(s) nuevo(s) de fechas	new date alert(s)
+Pulsa la campana para verlos.	Click the bell to see them.
+=Semanas	Weeks
+=Meses	Months
+=Trimestres	Quarters
+No hay proyectos.	No projects.
+=Escala	Scale
+por defecto, el nombre del proyecto	by default, the project name
+p. ej. Fase 2 · Desarrollo	e.g. Phase 2 · Development
+=Título	Title
+Fase (opcional, aparece en el título)	Phase (optional, shown in the title)
+=Leyenda	Legend
+Cabecera con avance y fecha	Header with progress and date
+Tareas que se incluyen	Tasks included
+(desmarca para exportar solo una fase)	(untick to export only one phase)
+=Todas	All
+=Ninguna	None
+Copiar imagen	Copy image
+Descargar PNG	Download PNG
+(sin los privados)	(without private ones)
+Exportar diagrama Gantt como imagen	Export Gantt chart as an image
+No hay tareas.	No tasks.
+Diagrama Gantt	Gantt chart
+tarea(s) · avance	task(s) · progress
+% · fecha del informe	% · report date
+Marca al menos una tarea y un periodo válido.	Tick at least one task and a valid period.
+La imagen sale de	The image is
+px de ancho: para Word, acorta el periodo o usa una escala mayor.	px wide: for Word, shorten the period or use a larger scale.
+Con «Copiar imagen» lo pegas directamente en Word (Ctrl+V).	With «Copy image» you paste it straight into Word (Ctrl+V).
+No hay nada que exportar.	There is nothing to export.
+Imagen descargada:	Image downloaded:
+No se pudo generar la imagen:	Could not generate the image:
+Imagen copiada. Pégala en Word con Ctrl+V.	Image copied. Paste it in Word with Ctrl+V.
+El navegador no permite copiar la imagen aquí: usa «Descargar PNG» e insértala en Word.	The browser does not allow copying the image here: use «Download PNG» and insert it in Word.
+La pausa ha durado	The pause lasted
+=día(s)	day(s)
+=día(s).	day(s).
+(desde el	(since
+). ¿Desplazas las fechas planificadas de las	). Shift the planned dates of the
+tarea(s) que estaban en pausa?	task(s) that were paused?
+=Ahora	Now
+=Quedaría	Would be
+para mantener las fechas como están.	to keep the dates as they are.
+Fechas desplazadas	Dates shifted
+Desarrollador/a, QA, diseño…	Developer, QA, design…
+Centro de trabajo	Office
+Eres tú: tu rol de PM no se puede quitar desde aquí.	It is you: your PM role cannot be removed from here.
+Editar miembro	Edit member
+Nuevo miembro	New member
+Marca al menos un día de trabajo.	Tick at least one working day.
+Indica el nombre.	Enter the name.
+Tiene tareas asignadas: reasígnalas antes.	They have assigned tasks: reassign them first.
+Tiene ausencias registradas: bórralas antes.	They have registered absences: delete them first.
+Ningún tipo puede quedar sin nombre.	No type can be left without a name.
+Hay dos tipos con el mismo nombre.	There are two types with the same name.
+Nombre del nuevo tipo	Name of the new type
+Tipo quitado.	Type removed.
+Orden guardado.	Order saved.
+Escala guardada.	Scale saved.
+Textos restaurados.	Texts restored.
+Al menos un peso debe ser mayor que 0.	At least one weight must be greater than 0.
+Pesos guardados.	Weights saved.
+Indica las horas.	Enter the hours.
+Calendario privado:	Private calendar:
+sin previsión	no forecast
+Mostrar completadas	Show completed
+Evaluar	Evaluate
+Horas trabajadas	Hours worked
+Disponibilidad durante la ausencia (%)	Availability during the absence (%)
+Revisa fechas o reasigna si hace falta.	Check dates or reassign if needed.
+=Nombre	Name
+Municipio	Municipality
+Fuente (enlace, opcional)	Source (link, optional)
+Nombre del centro	Office name
+Comunidad autónoma	Autonomous community
+Municipios de tus centros encontrados:	Municipalities of your offices found:
+Revisa Semana Santa, traslados y fiestas locales cuando se publique el calendario oficial.	Check Easter, moved holidays and local holidays when the official calendar is published.
+· peso	· weight
+Horas al día para lo privado	Hours per day for private work
+Nombre de la tarea	Task name
+Inicio planificado	Planned start
+Inicio real	Actual start
+Dedicación prevista (% de su jornada)	Planned dedication (% of their working time)
+Horas estimadas (total)	Estimated hours (total)
+Mientras no la completes, esas personas no pueden avanzar.	Until you complete it, those people cannot progress.
+Alcance entregado (%)	Delivered scope (%)
+Nº de retrabajos	No. of reworks
+Permitir avanzar igualmente (decisión del PM)	Allow progress anyway (PM decision)
+Reduce la dedicación, mueve fechas o reasigna.	Reduce the dedication, move dates or reassign.
+Cálculo con su calendario (festivos de su centro y ausencias), sus reuniones y sus otras tareas: primero las de prioridad alta.	Calculated with their calendar (office holidays and absences), their meetings and their other tasks: high priority first.
+No ponerla en festivos de todo el equipo	Do not place it on whole-team holidays
+=Color	Colour
+Programa / organismo	Programme / funding body
+Desplazar (días naturales)	Shift (calendar days)
+=Rol	Role
+Correo (opcional)	Email (optional)
+Horas disponibles por día	Available hours per day
+Es project manager	Is project manager
+=Ausente	Absent
+=Ausentes	Absent
+=Sí	Yes
+=Hecho	Done
+Cumple todos los criterios sin observaciones; puede servir de referencia.	Meets all criteria with no remarks; can serve as a reference.
+Algunos archivos se están sincronizando; se volverán a leer en unos segundos.	Some files are syncing; they will be read again in a few seconds.
+No se puede leer la carpeta de datos. Comprueba que OneDrive está en marcha y que la carpeta sigue en su sitio; después pulsa ↻.	The data folder cannot be read. Check that OneDrive is running and the folder is still in place; then click ↻.
+→ Dependencia (fin → inicio);	→ Dependency (end → start);
+(dedicación × jornada en los días de la tarea), no horas fichadas. Reuniones y ausencias descuentan capacidad; las reuniones en fin de semana o festivo son opcionales y no cuentan. Pulsa un día para ver el detalle y un nombre para ver su calendario.	(dedication × working time on the task's days), not clocked hours. Meetings and absences reduce capacity; meetings on weekends or holidays are optional and do not count. Click a day to see its detail and a name to see their calendar.
+Cada fila es una persona y cada columna un día. Pulsa una celda para ver tareas y reuniones; pulsa un nombre para ver su calendario.	Each row is a person and each column a day. Click a cell to see tasks and meetings; click a name to see their calendar.
+Carga = dedicación prevista de sus tareas (en sus días de trabajo) + horas de reunión, sobre sus horas disponibles (jornada × disponibilidad: festivos 0 h, las ausencias reducen horas, las jornadas extra suman). «·A» = semana con ausencias; ∞ = tareas previstas en días sin disponibilidad.	Load = planned dedication of their tasks (on their working days) + meeting hours, over their available hours (working time × availability: holidays 0 h, absences reduce hours, extra working days add). «·A» = week with absences; ∞ = tasks planned on days without availability.
+Barras coloreadas por miembro; el texto emergente indica el proyecto.	Bars coloured by member; the tooltip shows the project.
+Reunión a la que asiste (en Mes y Semana, etiqueta con hora y título; clic para abrirla)	Meeting they attend (in Month view, label with time and title; click to open it)
+Carga = suma de la dedicación prevista de sus tareas (en sus días laborables) + horas de reunión, sobre sus horas disponibles (jornada × disponibilidad: los festivos cuentan 0 y las ausencias reducen las horas). Media de lunes a viernes; «·A» = semana con ausencias; ∞ = tareas previstas en días en que no está disponible. Se considera	Load = sum of the planned dedication of their tasks (on their working days) + meeting hours, over their available hours (working time × availability: holidays count 0 and absences reduce the hours). Monday-to-Friday average; «·A» = week with absences; ∞ = tasks planned on days when they are not available. Considered
+entre el 85 y el 100%. La dedicación se fija en cada tarea; si no se indica, cuenta como 100%.	between 85 and 100%. Dedication is set in each task; if not set, it counts as 100%.
+Escribe parte del título (p. ej. «briefing») para ver solo esas reuniones; útil junto con «Seleccionar varias»	Type part of the title (e.g. «briefing») to see only those meetings; useful together with «Select several»
+Si eliges una tarea, todas las horas van a esa tarea (adelantan su fecha prevista); si no, se reparten entre sus tareas en curso.	If you choose a task, all the hours go to that task (bringing its forecast date forward); otherwise they are split among their tasks in progress.
+la resolución de fiestas locales sale en el BOCM en diciembre; Madrid capital las aprueba antes, en el Pleno de finales de septiembre	the local holidays resolution is published in the BOCM in December; Madrid city approves them earlier, at the end-of-September council meeting
+100 si termina en fecha; baja en proporción al retraso respecto a la duración planificada (mín. 5 días).	100 if it finishes on time; it drops in proportion to the delay relative to the planned duration (min. 5 days).
+Marca un proyecto como «Privado (solo yo)» en su ficha. Solo tú lo ves (cifrado con tu contraseña en «privado-pm.json»); el equipo no ve nada en ninguna vista, cálculo ni calendario .ics. Sus tareas no cuentan en tu jornada laboral y su fecha prevista se calcula con este calendario propio, todos los días (también fines de semana y festivos).	Mark a project as «Private (only me)» in its form. Only you see it (encrypted with your password in «privado-pm.json»); the team sees nothing in any view, calculation or .ics calendar. Its tasks do not count in your working time and their forecast date is calculated with this own calendar, every day (weekends and holidays too).
+La herramienta solo lee ese archivo, nunca lo modifica. Si cambias la fecha en Thunderbird, cambia aquí; si la borras o la cancelas allí, desaparece aquí.	The tool only reads that file, it never modifies it. If you change the date in Thunderbird, it changes here; if you delete or cancel it there, it disappears here.
+Puedes guardarla igualmente; aparecerá como «Fuera del plazo del proyecto» y en los avisos 🔔.	You can save it anyway; it will show as «Outside the project deadline» and in the 🔔 alerts.
+El título, la fecha, la hora y la duración se cambian allí; aquí puedes completar el tipo, el proyecto, los asistentes y las notas.	Title, date, time and duration are changed there; here you can fill in the type, project, attendees and notes.
+el equipo no lo ve en ningún sitio; se guarda cifrado con tu contraseña. Sus tareas usan tu calendario privado (	the team does not see it anywhere; it is stored encrypted with your password. Its tasks use your private calendar (
+para su responsable; puedes cambiar cualquiera a mano.	for its owner; you can change any of them by hand.
+Solo se cambia lo que toques; lo demás se queda como está.	Only what you touch is changed; everything else stays as it is.
+Avisa de tareas que vencen en los próximos 5 días laborables, vencidas, con retraso previsto o que acaban después del fin objetivo de su proyecto; y de proyectos cuyo fin objetivo llega en 10 días laborables, ya pasó o no se cumplirá.	Warns about tasks due in the next 5 working days, overdue, forecast to be late or ending after their project's target end; and about projects whose target end is within 10 working days, already passed or will not be met.
+Al abrir la herramienta, esta persona elegirá su nombre de la lista; a partir de ahí podrá editar sus propias tareas y ausencias.	When opening the tool, this person will choose their name from the list; from then on they can edit their own tasks and absences.
+Para actualizar, sustituye solo el archivo .html de la herramienta en la carpeta de OneDrive; los datos de la carpeta «datos» se conservan. Si alguien tiene la herramienta abierta, que recargue la página (F5).	To update, replace only the tool's .html file in the OneDrive folder; the data in the «datos» folder is kept. If someone has the tool open, they should reload the page (F5).
+revisa la hora	check the time
+las pasadas salen sin marcar	past ones are left unticked
+Revísalo en la pestaña Ausencias.	Check it in the Absences tab.
+ver el detalle del día en el Calendario	see the day's detail in the Calendar
+EN PAUSA	PAUSED
+no trabaja este día	not working this day
+No trabaja este día (jornada	Not working this day (schedule
+=prevista	forecast
+Prevista	Forecast
+en plazo	on time
+Acaba o está prevista después del fin objetivo del proyecto (	Ends or is forecast after the project's target end (
+Semana del	Week of
+de sus horas disponibles	of their available hours
+empieza antes de que acabe la anterior	starts before the previous one ends
+carga semanal	weekly load
+=personas	people
+=ausencia	absence
+=tareas	tasks
+=tarea	task
+=festivo	holiday
+=reuniones	meetings
+=hoy	today
+=avance	progress
+Hasta el	Until
+Días laborables de ausencia por persona	Working days of absence per person
+días trabajados fuera de la jornada (fin de semana, festivo o día libre)	days worked outside the schedule (weekend, holiday or day off)
+ese día pasa a contar como laborable para esta persona, con estas horas.	that day becomes a working day for this person, with these hours.
+fecha(s) (	date(s) (
+tarea(s)	task(s)
+proyecto(s) privado(s)	private project(s)
+proyecto(s)	project(s)
+guárdala en un sitio privado, no en la carpeta compartida.	keep it somewhere private, not in the shared folder.
+pero con ese nombre no sé de quién es: cámbialo a	but with that name I cannot tell whose it is: rename it to
+esta tarea no puede avanzar hasta que terminen:	this task cannot progress until these finish:
+pausa(s)	pause(s)
+es posterior al fin objetivo del proyecto «	is later than the project's target end «
+coincide con la fin planificada	matches the planned end
+solo tú ves esta tarea. Su fecha prevista se calcula con tu calendario privado (	only you see this task. Its forecast date is calculated with your private calendar (
+=automático	automatic
+por ejemplo las que el responsable sigue llevando.	for example those the owner keeps working on.
+dejan de contar en la carga, las fechas previstas, los avisos y el cumplimiento. Las tareas terminadas y sus evaluaciones se conservan. Si reactivas el proyecto, las tareas vuelven a estar abiertas.	they no longer count in load, forecast dates, alerts or performance. Finished tasks and their evaluations are kept. If you reactivate the project, the tasks are open again.
+Vence hoy	Due today
+=nuevo	new
+nuevo(s)	new
+¿Desplazas las fechas planificadas de las	Shift the planned dates of the
+h/día.	h/day.
+=el	the
+Es festivo (	It is a holiday (
+Es fin de semana	It is a weekend
+Es un día que no le toca trabajar	It is a day they do not usually work
+Cae en festivo: asistencia opcional; no cuenta en horas, carga ni fechas previstas	Falls on a holiday: optional attendance; it does not count in hours, load or forecast dates
+(tus reuniones, ausencias, entregas y festivos) y	(your meetings, absences, deliveries and holidays) and
+Modificar # reunión(es)	Modify # meeting(s)
+· Prevista	· Forecast
+· prevista	· forecast
+importante(s)	important
+importante(s))	important)
+(abajo)	(below)
+p. ej. Ana	e.g. Ana
+los datos se guardan solo en este navegador · contraseña de PM:	data is stored only in this browser · PM password:
+Reiniciar la demo	Reset the demo
+aus. # d	abs. # d
+acaba el	ends on
+prevista el	forecast on
+· Vacaciones	· Vacation
+Planificación ·	Planning ·
+Técnica ·	Technical ·
+Seguimiento ·	Follow-up ·
+Otra ·	Other ·
+Disponible ·	Available ·
+Sobrecarga ·	Overload ·
+Libre ·	Free ·

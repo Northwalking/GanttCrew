@@ -1,0 +1,23 @@
+{
+  "name": "ganttcrew",
+  "version": "1.0.0",
+  "description": "A single-file Gantt & project planner for small teams, shared through a cloud folder (Spanish / English).",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/build.mjs && node scripts/serve.mjs",
+    "test": "playwright test",
+    "format": "prettier --write \"src/**/*.{js,css}\" \"tests/**/*.mjs\" \"scripts/**/*.mjs\"",
+    "format:check": "prettier --check \"src/**/*.{js,css}\" \"tests/**/*.mjs\" \"scripts/**/*.mjs\""
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.48.0",
+    "prettier": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["gantt", "project-management", "team", "planner", "onedrive", "single-file", "offline", "spanish"]
+}
