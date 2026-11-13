@@ -34,6 +34,8 @@ The interface is in **Spanish and English** (switch `ES | EN` next to the versio
 - **Absences and holidays** in three levels: national, regional and local (by office), plus personal
   absences. Includes the official calendar of the Community of Madrid (Spain) and an importer for its
   official gazette (BOCM) as an example you can adapt.
+- **People change**: leave dates, handing a task over halfway, changing the PM password and handing over
+  the team lead, keeping the whole history.
 - **Pause, cancel and resume** tasks or whole projects, several times, with history; the end date shifts by
   the paused working days.
 - **Date alerts** (🔔): tasks due in the next 5 working days, overdue, forecast to be late or ending after
@@ -41,6 +43,7 @@ The interface is in **Spanish and English** (switch `ES | EN` next to the versio
 - **Performance** page: on-time delivery, risk, unplanned work, and — **only for the project manager** —
   a quality index per task, person and project, stored **encrypted**.
 - **Private projects** for the project manager: encrypted, invisible to the team, with their own calendar.
+- **Work diary**: a private, encrypted daily log for each person, with import from and download to Word.
 - **Export the Gantt as an image** (PNG or clipboard) for Word or slides, with legend and scale.
 - Works **offline**; no account, no server, no tracking.
 
@@ -58,7 +61,8 @@ The interface is in **Spanish and English** (switch `ES | EN` next to the versio
 6. In *Projects & team*, add people (with their email if you use Thunderbird), offices and projects.
    Everyone else just opens the same file and picks their name.
 
-The full user guide is in [docs/guide.en.md](docs/guide.en.md).
+The full user guide is in [docs/guide.en.md](docs/guide.en.md); backups, people leaving and handing over
+the team lead are covered step by step in [docs/handovers-and-backups.en.md](docs/handovers-and-backups.en.md).
 Try it first in the [online demo](https://northwalking.github.io/GanttCrew/): it runs with the sample
 company **Astrorel** and stores data only in your browser (PM password `demo-1234`).
 
@@ -140,6 +144,8 @@ La interfaz está en **español e inglés** (selector `ES | EN` junto a la versi
 - **Ausencias y festivos** en tres niveles: nacionales, autonómicos y locales (por centro), además de las
   ausencias personales. Incluye el calendario oficial de la Comunidad de Madrid y un importador del BOCM,
   como ejemplo adaptable a otras regiones.
+- **Cambios de personas**: fechas de baja, traspaso de una tarea a medias, cambio de la contraseña de PM y
+  traspaso de la dirección del equipo, conservando todo el histórico.
 - **Pausar, cancelar y reanudar** tareas o proyectos completos, varias veces, con historial; el fin se
   desplaza los días laborables que ha durado la pausa.
 - **Avisos de fechas** (🔔): tareas que vencen en los próximos 5 días laborables, vencidas, con retraso
@@ -147,6 +153,8 @@ La interfaz está en **español e inglés** (selector `ES | EN` junto a la versi
 - Página de **cumplimiento**: entregas a tiempo, riesgos, trabajo no planificado y —**solo para el project
   manager**— un índice de calidad por tarea, persona y proyecto, guardado **cifrado**.
 - **Proyectos privados** del project manager: cifrados, invisibles para el equipo y con su propio calendario.
+- **Diario de trabajo**: un registro diario privado y cifrado para cada persona, con importación y
+  descarga en Word.
 - **Exportar el Gantt como imagen** (PNG o portapapeles) para Word o presentaciones, con leyenda y escala.
 - Funciona **sin conexión**; sin cuentas, sin servidor y sin seguimiento.
 
@@ -165,7 +173,9 @@ La interfaz está en **español e inglés** (selector `ES | EN` junto a la versi
 6. En *Proyectos y equipo*, añade a las personas (con su correo si usáis Thunderbird), los centros y los
    proyectos. El resto del equipo solo tiene que abrir el mismo archivo y elegir su nombre.
 
-La guía completa está en [docs/guia.es.md](docs/guia.es.md).
+La guía completa está en [docs/guia.es.md](docs/guia.es.md); las copias de seguridad, las bajas y el
+traspaso de la dirección del equipo se explican paso a paso en
+[docs/traspasos-y-copias.es.md](docs/traspasos-y-copias.es.md).
 Pruébala antes en la [demo en línea](https://northwalking.github.io/GanttCrew/): usa la empresa ficticia
 **Astrorel** y guarda los datos solo en tu navegador (contraseña de PM `demo-1234`).
 

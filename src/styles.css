@@ -1716,3 +1716,180 @@ tr.click:hover td {
 #demoBar a {
   color: #b54708;
 }
+
+/* diario de trabajo */
+.dsug {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  align-items: center;
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  background: #f8fafc;
+  border: 1px dashed var(--line);
+  border-radius: 10px;
+  font-size: 12.5px;
+}
+.dchip {
+  border: 1px solid var(--line);
+  background: #fff;
+  border-radius: 999px;
+  padding: 3px 10px;
+  font: inherit;
+  font-size: 12.5px;
+  cursor: pointer;
+  max-width: 380px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.dchip:hover {
+  border-color: var(--acc);
+  background: #eef3ff;
+}
+.dchip b {
+  color: var(--acc);
+}
+.dline {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 3px 0;
+}
+.dline .dtx,
+.dline #dNew {
+  flex: 1;
+  min-width: 0;
+}
+.dline .dpj {
+  width: 130px;
+  flex: none;
+  color: var(--mut);
+}
+.dline.pend .dtx {
+  border-color: #fec84b;
+  background: #fffcf5;
+}
+.dline.done .dtx {
+  color: var(--mut);
+}
+.dline.add {
+  margin-top: 6px;
+}
+.dline [data-dundo] {
+  cursor: pointer;
+  white-space: nowrap;
+}
+.btn.ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--mut);
+}
+.btn.ghost:hover {
+  border-color: var(--line);
+  color: inherit;
+}
+.dday {
+  padding: 8px 0;
+  border-top: 1px solid var(--line);
+}
+.dday:first-of-type {
+  border-top: 0;
+}
+.dday a {
+  color: inherit;
+  text-decoration: none;
+}
+.dday a:hover {
+  color: var(--acc);
+}
+.dday ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+.dday li {
+  margin: 2px 0;
+  line-height: 1.45;
+}
+.dday li.pend {
+  color: #93370d;
+}
+.dprev {
+  max-height: 220px;
+  overflow: auto;
+  margin-top: 8px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+}
+
+.dline {
+  align-items: flex-start;
+}
+.dline textarea.dtx {
+  resize: none;
+  overflow: hidden;
+  min-height: 34px;
+  line-height: 1.4;
+  font: inherit;
+  padding: 6px 9px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  width: auto;
+}
+.dline .tag,
+.dline .btn {
+  margin-top: 3px;
+}
+
+/* Markdown notes */
+.mdv {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 7px 10px;
+  background: #fff;
+  min-height: 34px;
+  line-height: 1.45;
+  cursor: text;
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+.mdv:hover,
+.mdv:focus {
+  border-color: var(--acc);
+  outline: none;
+}
+.mdv ul,
+.mdv ol {
+  margin: 2px 0;
+  padding-left: 22px;
+}
+.mdv a {
+  color: var(--acc);
+}
+.mdv.in {
+  border: 0;
+  padding: 0;
+  background: none;
+  min-height: 0;
+  cursor: default;
+  display: inline-block;
+  vertical-align: top;
+}
+.mdhint {
+  font-size: 11.5px;
+  color: var(--mut);
+  font-weight: 400;
+  margin-top: 4px;
+}
+.dline .mdv {
+  flex: 1;
+  min-width: 0;
+}
+.dline.pend .mdv {
+  border-color: #fec84b;
+  background: #fffcf5;
+}
+.dline.done .mdv {
+  color: var(--mut);
+}

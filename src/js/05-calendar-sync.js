@@ -329,7 +329,7 @@ function seriesDates(sr, from, to) {
   return out;
 }
 function seriesAtt(sr, date) {
-  const joined = (m) => !m.joinedAt || date >= m.joinedAt;
+  const joined = (m) => (!m.joinedAt || date >= m.joinedAt) && inTeam(m, date);
   if (sr.attMode === 'team')
     return members()
       .filter(joined)
@@ -338,7 +338,7 @@ function seriesAtt(sr, date) {
     const ids = projPeople(S.projects[sr.projectId]);
     return ids.filter((id) => S.members[id] && joined(S.members[id]));
   }
-  return (sr.attendees || []).filter((id) => S.members[id]);
+  return (sr.attendees || []).filter((id) => S.members[id] && inTeam(S.members[id], date));
 }
 const occId = (sid, d) => 'rs-' + sid + '-' + iso(d).replace(/-/g, '');
 function expandSeries(meet) {

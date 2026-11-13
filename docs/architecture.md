@@ -33,7 +33,9 @@ someone imports a holidays PDF.
 | `10-holiday-import.js` | Importer of the official holidays gazette (BOCM, Community of Madrid) |
 | `11-settings.js` | *Projects & team* view |
 | `12-dialogs.js` | All forms: task, project, meeting, absence, holiday, member, pause/resume… |
+| `13-diary.js` | Personal work diary: per-person encrypted file, day/month/pending views, Word import/export |
 | `13-alerts.js` | Date alerts and the 🔔 bell |
+| `14-team-admin.js` | PM password change and handover of the PM role |
 | `14-export-image.js` | Export the Gantt as PNG (SVG `foreignObject` rasterisation) |
 | `15-main.js` | Bar dragging, `render()` and `init()` |
 
@@ -47,12 +49,15 @@ The data folder (`datos/`) holds JSON files:
 | `miembro-<id>.json` | each member | that member's tasks, absences, meetings and extra days |
 | `evaluaciones-cifradas.json` | project manager | quality evaluations, encrypted |
 | `privado-pm.json` | project manager | private projects and their tasks, encrypted |
+| `diario-<id>.json` | each person | that person's work diary, encrypted with their own key (not merged, not readable by others) |
 | `thunderbird-<name>.ics` | Thunderbird | accepted invitations (read only by the tool) |
 | `calendario-<name>.ics`, `calendario-equipo.ics` | the tool | calendars to subscribe to (read only) |
 
 Every record carries `_u` (update time) and `_by` (author). When reading, the newest version of each record
 wins among the authors allowed to write it (`ownerField`: tasks → `assigneeId`, absences → `memberId`,
 meetings → `createdBy`, extras → `memberId`; the PM can write everything). Deletions are tombstones.
+A member may carry `leftOn` (last day in the team). The PM is the member flagged `isPM`; the PM file is
+marked `owner: "pm"` (a role, not a person), and a former PM whose member id is `pm` writes as `member:pm`.
 The internal format id is `gantt-equipo` and file names are kept in Spanish for compatibility.
 
 Encryption: PBKDF2 (SHA-256) derives an AES-GCM key from the PM password with a random salt stored in

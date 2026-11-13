@@ -33,6 +33,13 @@ const initials = (n) =>
       .join('') || '?'
   ).toUpperCase();
 const arr = (col) => Object.entries(S[col]).map(([id, v]) => ({ id, ...v }));
+// A member with a leave date (leftOn = last day in the team) keeps their history but is no longer
+// offered for new work. inTeam(m, day) tells whether they belong to the team on that day.
+const inTeam = (m, day) => !!m && (!m.leftOn || (day || todayS()) <= m.leftOn);
+const hasLeft = (mid, day) => !!S.members[mid] && !inTeam(S.members[mid], day);
+const activeMembers = (day) => members().filter((m) => inTeam(m, day));
+// For pick lists: people in the team that day, plus whoever is already selected
+const pickMembers = (keep = [], day) => members().filter((m) => inTeam(m, day) || keep.includes(m.id));
 const members = () =>
   arr('members').sort((a, b) => (b.isPM ? 1 : 0) - (a.isPM ? 1 : 0) || String(a.name).localeCompare(b.name));
 const projects = () => arr('projects').sort((a, b) => String(a.name).localeCompare(b.name));
@@ -160,10 +167,12 @@ function inGap(t, d) {
   return false;
 }
 function addWork(mid, d, n) {
-  let x = d;
+  let x = d,
+    guard = 0;
+  // someone who has left the team has no working days ahead: fall back to calendar days
   while (n > 0) {
     x++;
-    if (isWorkM(mid, x)) n--;
+    if (isWorkM(mid, x) || ++guard > 400) n--;
   }
   return x;
 }
@@ -204,4 +213,104 @@ function who(id, small) {
   const m = mem(id);
   if (!m) return '<span class="mut">Sin asignar</span>';
   return `<span class="who" title="${esc(m.name)}"><span class="av" style="background:${esc(m.color || '#98a2b3')}">${esc(initials(m.name))}</span>${small ? '' : esc(m.name)}</span>`;
+}
+
+/* ---------- Markdown básico para notas (negrita, cursiva, listas, enlaces) ---------- */
+// Inline: **bold**, *italic*, and http(s) links. The text is escaped first, so no HTML gets through.
+function mdInline(s) {
+  return esc(s)
+    .replace(/\*\*(?=\S)(.+?)(?<=\S)\*\*/g, '<b>$1</b>')
+    .replace(/(?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w])/g, '<i>$1</i>')
+    .replace(
+      /(^|[\s(])(https?:\/\/[^\s<]*[^\s<.,;:)!?])/g,
+      '$1<a href="$2" target="_blank" rel="noopener noreferrer">$2</a>',
+    );
+}
+// Blocks: lines starting with "- " / "* " are bullets, "1. " numbered items; the rest are paragraphs
+function mdBlocks(text) {
+  const out = [];
+  for (const raw of String(text || '').split(/\r?\n/)) {
+    const ln = raw.trimEnd();
+    let m;
+    if ((m = ln.match(/^\s*[-*•]\s+(.*)$/))) out.push({ k: 'ul', t: m[1] });
+    else if ((m = ln.match(/^\s*\d+[.)]\s+(.*)$/))) out.push({ k: 'ol', t: m[1] });
+    else out.push({ k: ln.trim() ? 'p' : 'br', t: ln.trim() });
+  }
+  while (out.length && out[out.length - 1].k === 'br') out.pop();
+  return out;
+}
+// Inline text as runs for the Word export: [{t, b, i}]
+function mdRuns(s) {
+  const out = [],
+    re = /\*\*(?=\S)(.+?)(?<=\S)\*\*|(?<![*\w])\*(?=[^\s*])(.+?)(?<=[^\s*])\*(?![*\w])/g;
+  let last = 0,
+    m;
+  while ((m = re.exec(s))) {
+    if (m.index > last) out.push({ t: s.slice(last, m.index) });
+    out.push(m[1] != null ? { t: m[1], b: 1 } : { t: m[2], i: 1 });
+    last = re.lastIndex;
+  }
+  if (last < s.length) out.push({ t: s.slice(last) });
+  return out;
+}
+function mdHtml(text) {
+  const bl = mdBlocks(text);
+  let h = '',
+    open = '';
+  const close = () => {
+    if (open) h += `</${open}>`;
+    open = '';
+  };
+  bl.forEach((b, i) => {
+    if (b.k === 'ul' || b.k === 'ol') {
+      if (open !== b.k) {
+        close();
+        h += `<${b.k}>`;
+        open = b.k;
+      }
+      h += `<li>${mdInline(b.t)}</li>`;
+    } else {
+      close();
+      if (b.k === 'p') h += mdInline(b.t) + (bl[i + 1] && bl[i + 1].k === 'p' ? '<br>' : '');
+      else if (bl[i - 1] && bl[i - 1].k === 'p') h += '<br><br>';
+    }
+  });
+  close();
+  return h;
+}
+// A notes field with Markdown: shows the formatted text; click to edit, leave the field to see it again
+function mdField(ta, opt = {}) {
+  if (!ta || ta.dataset.md) return;
+  ta.dataset.md = 1;
+  const pv = document.createElement('div');
+  pv.className = 'mdv';
+  pv.setAttribute('data-notr', '');
+  pv.tabIndex = ta.disabled ? -1 : 0;
+  ta.insertAdjacentElement('beforebegin', pv);
+  const hint = document.createElement('div');
+  hint.className = 'mdhint';
+  hint.textContent = 'Formato: **negrita**, *cursiva*, listas con «- » o «1. »';
+  ta.insertAdjacentElement('afterend', hint);
+  const show = () => {
+    const has = ta.value.trim() !== '';
+    pv.innerHTML = mdHtml(ta.value);
+    pv.style.display = has ? '' : 'none';
+    ta.style.display = has ? 'none' : '';
+    hint.style.display = has || ta.disabled || opt.hint === false ? 'none' : '';
+  };
+  const edit = () => {
+    if (ta.disabled) return;
+    pv.style.display = 'none';
+    ta.style.display = '';
+    hint.style.display = opt.hint === false ? 'none' : '';
+    ta.focus();
+  };
+  pv.addEventListener('click', (e) => {
+    if (e.target.closest('a')) return;
+    e.preventDefault(); // the field sits inside a <label>
+    edit();
+  });
+  pv.addEventListener('focus', edit);
+  ta.addEventListener('blur', show);
+  show();
 }

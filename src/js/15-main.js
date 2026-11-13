@@ -8,7 +8,7 @@ function bindDrag() {
     const id = bar.dataset.id,
       t = S.tasks[id];
     if (!t) return;
-    if (!canEditTask(t)) {
+    if (!canPlan()) {
       openTask(id);
       return;
     }
@@ -63,7 +63,16 @@ function bindDrag() {
 /* ---------- render ---------- */
 function readHash() {
   const v = location.hash.slice(1);
-  UI.view = ['gantt', 'equipo', 'tareas', 'reuniones', 'cumplimiento', 'ausencias', 'ajustes'].includes(v)
+  UI.view = [
+    'gantt',
+    'equipo',
+    'tareas',
+    'reuniones',
+    'cumplimiento',
+    'ausencias',
+    'diario',
+    'ajustes',
+  ].includes(v)
     ? v
     : 'gantt';
 }
@@ -75,6 +84,16 @@ function render() {
   if (!started && dirH) {
     return;
   }
+  // do not redraw the diary under the user's cursor when the folder is re-read
+  const ae = document.activeElement;
+  if (
+    UI.view === 'diario' &&
+    ae &&
+    /INPUT|TEXTAREA|SELECT/.test(ae.tagName) &&
+    $('#main').contains(ae) &&
+    $('#dMode')
+  )
+    return;
   if (dragging || $('#modal').classList.contains('show')) {
     pendingRender = true;
     return;
@@ -93,6 +112,7 @@ function render() {
     reuniones: vReuniones,
     cumplimiento: vCumplimiento,
     ausencias: vAusencias,
+    diario: vDiario,
     ajustes: vAjustes,
   }[UI.view];
   $('#main').innerHTML = V();
@@ -121,6 +141,7 @@ function render() {
     bindTimeTools();
   }
   bindFilters();
+  if (UI.view === 'diario') bindDiario();
   const m = $('#main');
   m.querySelectorAll('[data-task]').forEach((el) =>
     el.addEventListener('click', (e) => {
@@ -331,7 +352,9 @@ function render() {
   );
   on('icsMe', () => downloadICS(ME.memberId));
   on('icsTeam', () => downloadICS(null));
-  on('bkExp', exportBackup);
+  on('bkExp', () => exportBackup());
+  on('pmPw', openChangePw);
+  on('pmHo', openPmHandover);
   on('pvHs', async () => {
     const v = +val('pvH');
     if (!(v > 0)) {

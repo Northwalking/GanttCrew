@@ -5,6 +5,29 @@ title and in *Projects & team → Tool version*.
 Los cambios relevantes se recogen aquí. La herramienta muestra además su fecha y hora de publicación
 (hora de Madrid) bajo el título y en *Proyectos y equipo → Versión de la herramienta*.
 
+## [1.1.0] — 2026-11-13
+
+- **Work diary**: private, encrypted per person (the PM uses the PM password, members their own diary
+  password); day suggestions from meetings and tasks, pending items, search, Word/text import and
+  download · **Diario de trabajo**: privado y cifrado por persona; sugerencias del día, pendientes,
+  buscador, importación y descarga en Word o texto.
+- **Planning is PM-only**: members report status, progress, hours remaining and actual dates on their
+  tasks, but no longer create tasks or change the plan · **Solo el PM planifica**: los miembros informan
+  del estado, avance, horas pendientes y fechas reales, pero no crean tareas ni cambian el plan.
+- **Basic Markdown** (bold, italic, lists, links) in the diary, meeting notes and task descriptions ·
+  **Markdown básico** (negrita, cursiva, listas, enlaces) en el diario, las notas de reunión y la
+  descripción de las tareas.
+- **Leave date** for members: no new work, load or meetings after it, history kept, open tasks listed ·
+  **Fecha de baja** de un miembro: sin trabajo nuevo, carga ni reuniones después; se conserva su histórico
+  y se listan sus tareas abiertas.
+- **Task handover**: the part done stays with its owner and a linked continuation goes to someone else ·
+  **Traspaso de tareas**: lo hecho queda con su responsable y la continuación, enlazada, pasa a otra
+  persona.
+- **Team lead**: change the PM password and hand over the PM role (evaluations re-encrypted; the outgoing
+  PM's private projects are not handed over) · **Dirección del equipo**: cambiar la contraseña de PM y
+  traspasar el cargo (se vuelven a cifrar las evaluaciones; los proyectos privados del PM saliente no se
+  traspasan).
+
 ## [1.0.1] — 2026-11-13
 
 - Meetings: an **end time** replaces the duration in minutes; changing the start time keeps the length;

@@ -32,8 +32,9 @@ interface.
 - **Two roles.**
   - **Project manager (PM)**: signs in with a password; creates projects and members, assigns tasks, edits
     any task or absence, manages holidays and is the only one who sees the evaluations.
-  - **Team member**: picks their name when entering; sees the whole plan, creates and edits their own tasks
-    and absences, and registers meetings.
+  - **Team member**: picks their name when entering; sees the whole plan, reports on their own tasks
+    (status, progress, hours remaining, actual dates), registers their absences and meetings and keeps
+    their diary. Planning (creating tasks, dates, dedication, dependencies) is changed only by the PM.
 - **Everyone writes their own file** inside `datos/`, so there are no sync conflicts. The tool reads the
   folder again every 20 seconds; the ↻ button in the header forces a read.
 - **Forecast date.** Besides the planned dates, each task has a **forecast end** that the tool calculates
@@ -177,6 +178,47 @@ In the **Absences** tab:
 - **+ Extra working day**: someone occasionally works on a Saturday, Sunday, holiday or a day they do not
   usually work. Those hours count in their load and bring forward the forecast date of the chosen task (or
   of all their tasks in progress).
+
+## Work diary
+
+The **Diary** tab is a personal log of what you do each day.
+
+- **It is private.** It is stored encrypted in `datos/diario-<person>.json`. The project manager opens it
+  with the PM password. Each member creates their **diary password** the first time and can tick
+  *Remember in this browser* so as not to type it every time. Nobody else can read it, not even the project
+  manager. **If the password is forgotten, the diary cannot be recovered.**
+- **Day:** type a line and press Enter. The tool suggests the meetings and tasks you had that day, to add
+  them with one click. Each line can be linked to a project.
+- **Pending:** mark a line as *Pending* and follow it in the **Pending** view; *Resolve* records the date it
+  was closed.
+- **Formatting:** `**bold**`, `*italic*`, and sub-points with Shift+Enter and «- ». The same works in
+  meeting notes and task descriptions.
+- **Month** view and **search** to review your notes.
+- **Import…** loads a Word (`.docx`) or text file in which each day starts with «Día 11/06/2026».
+- **Download…** saves a period as Word or text. The downloaded file is not encrypted.
+
+## Changes in the team
+
+Summary. The step-by-step detail is in **[Handovers and backups](handovers-and-backups.en.md)**.
+
+- **A member leaves.** In their form (*Projects & team*), set the **Leave date** (their last day). From the
+  next day they are not offered in «Who are you?» or for new work, and do not count in the load or in
+  recurring meetings. Their history (tasks, meetings, absences, evaluations) is kept. On saving, the tool
+  lists their open tasks to hand them over; any left show as «Owner has left» in the alerts. If they come
+  back, clear the date.
+- **Handing over a task halfway.** In the task form, **⇄ Hand over…**: choose the other person and the last
+  day of the current owner. The part done is closed under their name on that date and a linked continuation
+  is created with the hours remaining. Tasks that depended on the original now depend on the continuation.
+  To pass a whole task, just change its owner.
+- **Recurring meetings.** To change attendees from a date on, open that day's meeting and choose *This and
+  following ones*.
+- **Change the PM password** (*Projects & team → Team lead*): re-encrypts the evaluations, your private
+  projects and your diary.
+- **Hand over the team lead.** In the same place. First you can download your **personal copy** (the team
+  data and your private projects; the evaluations if you tick the box) and your diary as Word. Choose the
+  new PM, who types their password, and whether you stay as a member or leave. The new PM continues with
+  everything shared and the evaluations. Your private projects are removed from the folder and your diary
+  is kept under a password of your own or removed. **It cannot be undone.**
 
 ## 9. Pause, cancel and resume
 

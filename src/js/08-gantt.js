@@ -308,7 +308,7 @@ function taskBar(R, t, top, extraTitle = '') {
     const bl = blockers(t);
     const tip = `${extraTitle}${t.name}${inact(t) === 'paused' ? ' · EN PAUSA' : inact(t) === 'cancelled' ? ' · CANCELADA' : ''} · ${fmt(t.start)}–${fmt(t.end)} · ${t.progress || 0}%${bl.length && !t.forceStart ? ' · Bloqueada por: ' + bl.map(tlabel).join(', ') : ''}`;
     const ia = inact(t);
-    h += `<div class="bar ${late && !ia ? 'late' : ''} ${t.status === 'done' ? 'done' : ''} ${blk && !ia ? 'blk' : ''} ${!hist(t).length ? (ia === 'paused' ? 'pz' : ia === 'cancelled' ? 'cx' : '') : ''} ${t.priv ? 'privb' : ''}" data-id="${t.id}" title="${esc(tip)}" style="left:${c.x}px;width:${c.w}px;top:${top ?? GBT}px;background-color:${col}40;${canEditTask(t) ? '' : 'cursor:pointer'}"><i style="width:${t.progress || 0}%;background:${col}"></i>${GBT >= 17 && c.w >= 34 ? `<em class="bpct">${t.progress || 0} %</em>` : ''}${canEditTask(t) ? '<span class="rz"></span>' : ''}</div>`;
+    h += `<div class="bar ${late && !ia ? 'late' : ''} ${t.status === 'done' ? 'done' : ''} ${blk && !ia ? 'blk' : ''} ${!hist(t).length ? (ia === 'paused' ? 'pz' : ia === 'cancelled' ? 'cx' : '') : ''} ${t.priv ? 'privb' : ''}" data-id="${t.id}" title="${esc(tip)}" style="left:${c.x}px;width:${c.w}px;top:${top ?? GBT}px;background-color:${col}40;${canPlan() ? '' : 'cursor:pointer'}"><i style="width:${t.progress || 0}%;background:${col}"></i>${GBT >= 17 && c.w >= 34 ? `<em class="bpct">${t.progress || 0} %</em>` : ''}${canEditTask(t) ? '<span class="rz"></span>' : ''}</div>`;
     {
       const TP = top ?? GBT;
       for (const ev of hist(t)) {
@@ -492,13 +492,15 @@ function vGantt_(X) {
     ]
       .filter(Boolean)
       .join(' · ');
-    body += `<div class="grow gt" style="height:64px"><div class="lbl gl" style="padding-left:30px"><div class="gl1">${byPerson ? `<span class="dot" style="background:${esc(pj?.color || '#98a2b3')};margin:0 6px 0 4px"></span>` : who(t.assigneeId, true)}<span class="tname" data-task="${t.id}" title="${esc(t.name)}">${t.priv ? '🔒 ' : ''}${esc(t.name)}</span></div><div class="gl2" title="${esc(meta)}">${esc(meta)}</div><div class="gl3"><span class="tag ${t.origin && t.origin !== 'plan' ? o.c : 'lv2'}">${esc(o.t)}</span>${depTags(t)}${health(t) && health(t).c === 'bad' ? `<span class="tag bad">${esc(health(t).t)}</span>` : ''}${projEndRisk(t) ? `<span class="tag bad" title="Acaba o está prevista después del fin objetivo del proyecto (${fmt(S.projects[t.projectId].end)})">Fuera del plazo del proyecto</span>` : ''}</div></div><div class="trk" style="width:${W}px;height:64px">${taskBar(R, t)}</div></div>`;
+    body += `<div class="grow gt" style="height:64px"><div class="lbl gl" style="padding-left:30px"><div class="gl1">${byPerson ? `<span class="dot" style="background:${esc(pj?.color || '#98a2b3')};margin:0 6px 0 4px"></span>` : who(t.assigneeId, true)}<span class="tname" data-task="${t.id}" title="${esc(t.name)}">${t.priv ? '🔒 ' : ''}${esc(t.name)}</span>${t.handover ? '<span class="tag mut" title="Parte traspasada a otra persona" style="margin-left:6px">⇄ 1.ª parte</span>' : t.contOf ? '<span class="tag mut" title="Continúa una tarea traspasada" style="margin-left:6px">⇄ continuación</span>' : ''}</div><div class="gl2" title="${esc(meta)}">${esc(meta)}</div><div class="gl3"><span class="tag ${t.origin && t.origin !== 'plan' ? o.c : 'lv2'}">${esc(o.t)}</span>${depTags(t)}${health(t) && health(t).c === 'bad' ? `<span class="tag bad">${esc(health(t).t)}</span>` : ''}${projEndRisk(t) ? `<span class="tag bad" title="Acaba o está prevista después del fin objetivo del proyecto (${fmt(S.projects[t.projectId].end)})">Fuera del plazo del proyecto</span>` : ''}</div></div><div class="trk" style="width:${W}px;height:64px">${taskBar(R, t)}</div></div>`;
     y += 64;
   };
   if (byPerson) {
     const T = todayN();
     const ms = members().filter(
-      (m) => !UI.member || (UI.member === '__me' ? m.id === myMemberId() : m.id === UI.member),
+      (m) =>
+        (!UI.member || (UI.member === '__me' ? m.id === myMemberId() : m.id === UI.member)) &&
+        (inTeam(m, UI.year + '-01-01') || UI.member === m.id),
     );
     const groups = ms.map((m) => ({
       m,
@@ -632,7 +634,7 @@ function vGantt_(X) {
     h +=
       `<div class="legend" style="margin-top:-6px"><span>Fila de cada persona: <span class="dot" style="background:#32d583;border-radius:2px"></span> carga semanal &lt; 85 % <span class="dot" style="background:#f79009;border-radius:2px"></span> 85–100 % <span class="dot" style="background:#f04438;border-radius:2px"></span> &gt; 100 %</span><span><span class="absband" style="position:static;display:inline-block;width:22px;height:12px"></span>Ausencia</span><span><span class="mtg" style="position:static;display:inline-block"></span>Reunión a la que asiste</span></div>` +
       loadTable(
-        members().filter(
+        activeMembers().filter(
           (m) => !UI.member || (UI.member === '__me' ? m.id === myMemberId() : m.id === UI.member),
         ),
       );

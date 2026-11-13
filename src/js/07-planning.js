@@ -337,6 +337,8 @@ const memDays = (mid) => {
   return Array.isArray(w) && w.length ? w : null;
 };
 const onSchedule = (mid, d) => {
+  const lf = S.members[mid]?.leftOn;
+  if (lf && d > dn(lf)) return false; // no longer in the team
   const w = memDays(mid);
   return !w || w.includes(dow(d));
 };
@@ -491,6 +493,11 @@ function level(s) {
   if (s >= 60) return { t: 'Aceptable', c: 'lv2' };
   return { t: 'Deficiente', c: 'lv1' };
 }
+// An open task whose owner has left the team, or leaves before its planned end
+const ownerLeft = (t) => {
+  const lf = S.members[t.assigneeId]?.leftOn;
+  return !!lf && t.status !== 'done' && !inact(t) && (t.end > lf || todayS() > lf);
+};
 function health(t) {
   if (t.status === 'done') return null;
   {
@@ -500,6 +507,7 @@ function health(t) {
   const T = todayN(),
     st = dn(t.start),
     en = dn(t.end);
+  if (ownerLeft(t)) return { t: 'Responsable de baja', c: 'bad' };
   if (depBlocked(t)) return { t: 'Bloqueada por dependencia', c: 'bad' };
   if (t.status === 'blocked') return { t: 'Bloqueada', c: 'bad' };
   if (T > en) return { t: 'Vencida', c: 'bad' };
@@ -515,6 +523,8 @@ function health(t) {
 }
 function statusCell(t) {
   if (t.status === 'done') {
+    if (t.handover)
+      return `<span class="tag mut">⇄ Traspasada a ${esc(S.members[t.handover.member]?.name || '—')}</span>`;
     if (!ME.owner) return '<span class="tag ok">Completada</span>';
     const s = score(t);
     const l = level(s?.total);
@@ -523,7 +533,7 @@ function statusCell(t) {
   const h = health(t);
   return `<span class="tag ${h.c}">${h.t}</span>`;
 }
-const overloaded = () => members().filter((m) => weekLoads(m.id, todayN(), 4).some((w) => w.avg > 100));
+const overloaded = () => activeMembers().filter((m) => weekLoads(m.id, todayN(), 4).some((w) => w.avg > 100));
 const atRisk = (t) => {
   const h = health(t);
   return h && (h.c === 'bad' || h.c === 'warn');

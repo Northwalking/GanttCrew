@@ -96,7 +96,8 @@ function calStateChip(di) {
   return `<span class="tag ${m[0]}">${m[1]}</span>`;
 }
 function vCalendario() {
-  const ms = members();
+  // people who were in the team at some point of the month on screen
+  const ms = members().filter((m) => inTeam(m, (UI.calMonth || todayS().slice(0, 7)) + '-01'));
   if (!ms.length)
     return calHead('mes') + `<div class="card empty">Todavía no hay miembros en el equipo.</div>`;
   const ym = UI.calMonth || todayS().slice(0, 7);
@@ -708,7 +709,7 @@ function vAusencias() {
   const y = UI.year,
     ys = dn(y + '-01-01'),
     ye = dn(y + 1 + '-01-01') - 1,
-    ms = members();
+    ms = members().filter((m) => inTeam(m, y + '-01-01'));
   let h =
     `<div class="bar-tools"><button class="btn" id="yPrev">‹</button><b style="font-size:14px">${y}</b><button class="btn" id="yNext">›</button><select id="aMem"><option value="">Todo el equipo</option>${ms.map((m) => `<option value="${m.id}" ${UI.member === m.id ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select><span class="sp"></span>${ME.memberId ? '<button class="btn pri" id="addAbs">+ Ausencia</button><button class="btn" id="addExt" title="Un día que alguien trabaja fuera de su jornada: sábado, domingo, festivo o día libre">+ Jornada extra</button>' : ''}${ME.owner ? '<button class="btn" id="impHol">Importar festivos (BOCM)</button><button class="btn" id="addHol">+ Festivo</button>' : ''}</div>` +
     gapsNote();
@@ -809,7 +810,7 @@ function openExtra(id) {
       .filter((t) => t.assigneeId === mid && t.status !== 'done' && !inact(t) && !t.priv)
       .sort((a, b) => String(a.name).localeCompare(b.name));
   const body = `<label>Persona<select id="xM" ${ME.owner ? '' : 'disabled'}>${opt(
-    members().map((m) => [m.id, m.name]),
+    pickMembers([x.memberId]).map((m) => [m.id, m.name]),
     x.memberId,
   )}</select></label>
    <label>Día<input type="date" id="xD" value="${esc(x.date)}"></label>
@@ -884,7 +885,7 @@ function openAbsence(id, defs = {}) {
   const priv = id && absPrivate(a);
   let byH = !!absHours(a);
   const body = `<label>Persona${ME.owner ? '' : ' <span class="mut" style="font-weight:400">(solo puedes registrar las tuyas)</span>'}<select id="aM" ${ME.owner ? '' : 'disabled'}>${opt(
-    members().map((m) => [m.id, m.name]),
+    pickMembers([a.memberId]).map((m) => [m.id, m.name]),
     a.memberId,
   )}</select></label>
    <label>Tipo<select id="aT">${

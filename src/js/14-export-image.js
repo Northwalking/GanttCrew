@@ -292,8 +292,11 @@ function openMember(id) {
      m.centerId || centers()[0].id,
    )}</select></label>
    <label>Fecha de incorporación<input type="date" id="uJ" value="${esc(m.joinedAt || (id ? '' : todayS()))}"></label>
-   <label style="flex-direction:row;align-items:center;gap:8px;margin-top:20px"><input type="checkbox" id="uP" ${m.isPM ? 'checked' : ''} ${id && id === ME.memberId ? 'disabled' : ''} style="width:auto"> Es project manager</label>
-   <div class="note info">${id && id === ME.memberId ? 'Eres tú: tu rol de PM no se puede quitar desde aquí.' : 'Al abrir la herramienta, esta persona elegirá su nombre de la lista; a partir de ahí podrá editar sus propias tareas y ausencias.'}</div>`;
+   <label>Fecha de baja <span class="mut" style="font-weight:400">(último día en el equipo)</span><input type="date" id="uL" value="${esc(m.leftOn || '')}"></label>
+   <input type="checkbox" id="uP" ${m.isPM ? 'checked' : ''} hidden>
+   ${m.isPM ? '<div class="note info full">Es el project manager. El cargo se cambia con «Traspasar la dirección del equipo», en esta misma página.</div>' : ''}
+   ${m.leftOn ? `<div class="note warn full">De baja desde el ${fmt(m.leftOn)}: no aparece para entrar ni para asignarle trabajo nuevo, y no cuenta en la carga. Su histórico se conserva. Borra la fecha si vuelve al equipo.</div>` : ''}
+   <div class="note info">${id && id === ME.memberId ? 'Eres tú: tu rol de PM no se puede quitar desde aquí.' : 'Al abrir la herramienta, esta persona elegirá su nombre de la lista; a partir de ahí podrá actualizar el avance de sus tareas, registrar sus ausencias y llevar su diario.'}</div>`;
   openDlg(
     id ? 'Editar miembro' : 'Nuevo miembro',
     body,
@@ -308,6 +311,7 @@ function openMember(id) {
         centerId: val('uCt'),
         joinedAt: val('uJ'),
       };
+      if (val('uL')) o.leftOn = val('uL');
       {
         const wd = [...document.querySelectorAll('#uWd .chip.on')].map((c) => +c.dataset.wd);
         if (!wd.length) {
@@ -320,7 +324,18 @@ function openMember(id) {
         toast('Indica el nombre.');
         return false;
       }
-      if (!(await save('members', id, o))) return false;
+      if (o.leftOn && o.isPM) {
+        toast('El project manager no puede darse de baja: traspasa antes la dirección del equipo.');
+        return false;
+      }
+      if (o.leftOn && o.joinedAt && o.leftOn < o.joinedAt) {
+        toast('La fecha de baja es anterior a la de incorporación.');
+        return false;
+      }
+      const nid = await save('members', id, o);
+      if (!nid) return false;
+      // leaving: show the work that stays open so it can be handed over
+      if (o.leftOn && o.leftOn !== m.leftOn && id) setTimeout(() => openLeaving(id), 50);
     },
     id
       ? () => {
@@ -337,4 +352,30 @@ function openMember(id) {
       : null,
   );
   document.querySelectorAll('#uWd [data-wd]').forEach((c) => (c.onclick = () => c.classList.toggle('on')));
+}
+
+// Open work of someone who leaves the team: tasks to hand over and the series they attend
+function leavingTasks(mid) {
+  return arr('tasks')
+    .filter((t) => t.assigneeId === mid && t.status !== 'done' && inact(t) !== 'cancelled' && !t.priv)
+    .sort((a, b) => String(a.end).localeCompare(String(b.end)));
+}
+function openLeaving(mid) {
+  const m = S.members[mid];
+  if (!m) return;
+  const ts = leavingTasks(mid);
+  const body = `<div class="full"><p style="margin:0 0 8px">${who(mid)} deja el equipo el <b>${fmt(m.leftOn)}</b>. Desde el día siguiente no cuenta en la carga ni en las reuniones, y su histórico se conserva.</p>
+    ${
+      ts.length
+        ? `<div class="sect" style="margin-top:0">Tareas abiertas (${ts.length})</div><p class="hint" style="margin:0 0 6px">Traspasa cada una a quien vaya a continuarla: lo hecho hasta la fecha queda a nombre de ${esc(m.name)} y el resto pasa a la otra persona.</p>${ts
+            .map(
+              (t) =>
+                `<div class="list-row"><span style="flex:1"><b data-notr>${esc(t.name)}</b> <span class="mut">${esc(S.projects[t.projectId]?.code || '')} · ${fmt(t.start)}–${fmt(t.end)} · ${t.progress || 0} %</span></span><button type="button" class="btn sm pri" data-ho="${t.id}">Traspasar…</button></div>`,
+            )
+            .join('')}`
+        : '<div class="note info">No tiene tareas abiertas.</div>'
+    }</div>`;
+  openDlg(`Baja de ${esc(m.name)}`, body, null);
+  $('#mCancel').textContent = 'Cerrar';
+  document.querySelectorAll('[data-ho]').forEach((b) => (b.onclick = () => openHandover(b.dataset.ho, mid)));
 }

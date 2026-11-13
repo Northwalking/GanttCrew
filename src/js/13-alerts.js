@@ -31,7 +31,14 @@ function alerts() {
       pv = !!t.priv,
       lim = pv ? T + AL_T + 2 : t.assigneeId ? addWork(t.assigneeId, T, AL_T) : addWorkG(T, AL_T);
     const base = { kind: 'task', id: t.id, name: t.name, proj: p?.code || p?.name || '', who: t.assigneeId };
-    if (e < T)
+    if (ME.owner && ownerLeft(t))
+      out.push({
+        ...base,
+        key: 'lf:' + t.id + ':' + S.members[t.assigneeId].leftOn,
+        sev: 'bad',
+        txt: `Responsable de baja desde el ${fmt(S.members[t.assigneeId].leftOn)}: traspasa la tarea`,
+      });
+    else if (e < T)
       out.push({
         ...base,
         key: 'od:' + t.id + ':' + t.end,

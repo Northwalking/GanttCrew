@@ -725,8 +725,8 @@ descarga el archivo y ábrelo con doble clic (copia puntual).	download the file 
 Descargar mi calendario (.ics)	Download my calendar (.ics)
 Descargar calendario del equipo (.ics)	Download team calendar (.ics)
 Quién puede hacer qué	Who can do what
-(entra con su contraseña): crea proyectos y miembros, asigna y reasigna tareas, edita cualquier tarea y ausencia, gestiona los festivos y es el único que ve las evaluaciones, que se guardan cifradas.	(signs in with a password): creates projects and members, assigns and reassigns tasks, edits any task and absence, manages holidays and is the only one who sees the evaluations, which are stored encrypted.
-(elige su nombre al entrar): ve todo el plan, crea y edita solo sus tareas y ausencias y registra reuniones. Sus cambios se guardan en su propio archivo de la carpeta	(chooses their name when entering): sees the whole plan, creates and edits only their own tasks and absences, and registers meetings. Their changes are saved in their own file in the folder
+(entra con su contraseña): crea proyectos y miembros, crea y planifica las tareas, las asigna y reasigna, edita cualquier tarea y ausencia, gestiona los festivos y es el único que ve las evaluaciones, que se guardan cifradas.	(signs in with a password): creates projects and members, creates and plans tasks, assigns and reassigns them, edits any task and absence, manages holidays and is the only one who sees the evaluations, which are stored encrypted.
+(elige su nombre al entrar): ve todo el plan; en sus tareas actualiza el estado, el avance, las horas pendientes y las fechas reales (la planificación la cambia el project manager); registra sus ausencias y reuniones y lleva su diario privado. Sus cambios se guardan en su propio archivo de la carpeta	(chooses their name when entering): sees the whole plan; on their tasks they update the status, progress, hours remaining and actual dates (the plan is changed by the project manager); registers their absences and meetings and keeps their private diary. Their changes are saved in their own file in the folder
 Para incorporar a alguien:	To add someone:
 añádelo aquí, comparte con esa persona la carpeta de OneDrive con permiso de edición y pídele que abra el archivo HTML con Edge o Chrome.	add them here, share the OneDrive folder with them with edit permission and ask them to open the HTML file with Edge or Chrome.
 =Importante:	Important:
@@ -1075,7 +1075,7 @@ el equipo no lo ve en ningún sitio; se guarda cifrado con tu contraseña. Sus t
 para su responsable; puedes cambiar cualquiera a mano.	for its owner; you can change any of them by hand.
 Solo se cambia lo que toques; lo demás se queda como está.	Only what you touch is changed; everything else stays as it is.
 Avisa de tareas que vencen en los próximos 5 días laborables, vencidas, con retraso previsto o que acaban después del fin objetivo de su proyecto; y de proyectos cuyo fin objetivo llega en 10 días laborables, ya pasó o no se cumplirá.	Warns about tasks due in the next 5 working days, overdue, forecast to be late or ending after their project's target end; and about projects whose target end is within 10 working days, already passed or will not be met.
-Al abrir la herramienta, esta persona elegirá su nombre de la lista; a partir de ahí podrá editar sus propias tareas y ausencias.	When opening the tool, this person will choose their name from the list; from then on they can edit their own tasks and absences.
+Al abrir la herramienta, esta persona elegirá su nombre de la lista; a partir de ahí podrá actualizar el avance de sus tareas, registrar sus ausencias y llevar su diario.	When opening the tool, this person will choose their name from the list; from then on they can update the progress of their tasks, register their absences and keep their diary.
 Para actualizar, sustituye solo el archivo .html de la herramienta en la carpeta de OneDrive; los datos de la carpeta «datos» se conservan. Si alguien tiene la herramienta abierta, que recargue la página (F5).	To update, replace only the tool's .html file in the OneDrive folder; the data in the «datos» folder is kept. If someone has the tool open, they should reload the page (F5).
 revisa la hora	check the time
 las pasadas salen sin marcar	past ones are left unticked
@@ -1159,3 +1159,170 @@ Hasta las	Until
 Hasta / horario	To / hours
 h de ausencia · quedan	h of absence ·
 h de su jornada	h of their working day left
+=Diario	Diary
+Registro personal	Personal log
+Diario de trabajo	Work diary
+Lo que has hecho cada día. Solo tú puedes leerlo: se guarda cifrado y no lo ven ni tus compañeros ni el project manager.	What you did each day. Only you can read it: it is stored encrypted, and neither your colleagues nor the project manager can see it.
+Abriendo tu diario…	Opening your diary…
+Introduce la contraseña de PM para abrir tu diario.	Enter the PM password to open your diary.
+Crea la contraseña de tu diario	Create your diary password
+Tu diario está protegido	Your diary is protected
+Tu diario se guarda cifrado con una contraseña que solo conoces tú. Nadie más puede leerlo: ni tus compañeros ni el project manager.	Your diary is stored encrypted with a password only you know. Nobody else can read it: neither your colleagues nor the project manager.
+Escribe la contraseña de tu diario para abrirlo.	Enter your diary password to open it.
+Contraseña del diario	Diary password
+Recordar en este navegador (no la marques en un ordenador compartido)	Remember in this browser (do not tick it on a shared computer)
+Crear mi diario	Create my diary
+si la olvidas, el diario no se puede recuperar. Nadie puede restablecerla.	if you forget it, the diary cannot be recovered. Nobody can reset it.
+Si la has olvidado, el diario no se puede recuperar.	If you have forgotten it, the diary cannot be recovered.
+Las dos contraseñas no coinciden.	The two passwords do not match.
+La contraseña debe tener 8 caracteres o más.	The password must have 8 characters or more.
+=Pendientes	Pending
+Pendientes (	Pending (
+=Pendiente	Pending
+🔍 Buscar en el diario…	🔍 Search the diary…
+Importar…	Import…
+Descargar…	Download…
+=Descargar	Download
+=Importar	Import
+Día anterior	Previous day
+Día siguiente	Next day
+De tu agenda de este día:	From your agenda for this day:
+Añadir al diario	Add to the diary
+Añadir todo	Add all
+=Texto	Text
+— Sin proyecto —	— No project —
+Pulsa para volver a dejarlo pendiente	Click to mark it as pending again
+=Resolver	Resolve
+Marcar como pendiente de resolver	Mark as pending
+Quitar esta línea	Remove this line
+Escribe lo que has hecho y pulsa Intro…	Write what you did and press Enter…
+Aún no hay nada apuntado este día.	Nothing noted for this day yet.
+días con anotaciones en ese periodo.	days with notes in that period.
+días con anotaciones	days with notes
+No hay anotaciones este mes.	No notes this month.
+=Resultados	Results
+No hay anotaciones con ese texto.	No notes with that text.
+Pendientes abiertos	Open pending items
+No tienes pendientes abiertos. Marca una línea como «Pendiente» para seguirla aquí.	You have no open pending items. Mark a line as «Pending» to follow it here.
+Tu diario está vacío.	Your diary is empty.
+Descargar el diario	Download the diary
+=Formato	Format
+Texto (.txt)	Text (.txt)
+Todo el diario	The whole diary
+El archivo descargado	The downloaded file
+no está cifrado	is not encrypted
+No hay anotaciones en ese periodo.	No notes in that period.
+Diario descargado.	Diary downloaded.
+Importar un diario	Import a diary
+Elige un documento de	Choose a
+o de	or a
+en el que cada día empiece con una línea del tipo	document in which each day starts with a line like
+. Las líneas siguientes se importan como anotaciones de ese día.	. The lines that follow are imported as that day's notes.
+=Archivo	File
+Elige primero un archivo con anotaciones.	First choose a file with notes.
+anotaciones importadas.	notes imported.
+No he encontrado ningún día en el archivo. Cada día debe empezar con una línea como	No day was found in the file. Each day must start with a line like
+días y	days and
+anotaciones (	notes (
+quedan marcadas como pendientes.	are marked as pending.
+Las que ya estén en tu diario con el mismo texto no se duplican.	Those already in your diary with the same text are not duplicated.
+: guárdalo en un sitio privado, no en la carpeta compartida.	: keep it somewhere private, not in the shared folder.
+Formato: **negrita**, *cursiva*, listas con «- » o «1. »	Formatting: **bold**, *italic*, lists with «- » or «1. »
+Formato: **negrita**, *cursiva*. Pulsa una línea para editarla; con Mayús+Intro añades subpuntos que empiecen por «- ».	Formatting: **bold**, *italic*. Click a line to edit it; Shift+Enter adds sub-points starting with «- ».
+La planificación de la tarea la cambia el project manager. Tú puedes actualizar el estado, el avance, las horas pendientes, las fechas reales y el motivo de un bloqueo.	The task plan is changed by the project manager. You can update the status, progress, hours remaining, actual dates and the reason for a block.
+Fecha de baja	Leave date
+(último día en el equipo)	(last day in the team)
+Es el project manager. El cargo se cambia con «Traspasar la dirección del equipo», en esta misma página.	This is the project manager. The role is changed with «Hand over the team lead», on this same page.
+De baja desde el	Left on
+Baja prevista el	Leaving on
+Último día en el equipo	Last day in the team
+: no aparece para entrar ni para asignarle trabajo nuevo, y no cuenta en la carga. Su histórico se conserva. Borra la fecha si vuelve al equipo.	: not offered at sign-in or for new work, and not counted in the load. Their history is kept. Clear the date if they come back.
+El project manager no puede darse de baja: traspasa antes la dirección del equipo.	The project manager cannot leave: hand over the team lead first.
+La fecha de baja es anterior a la de incorporación.	The leave date is earlier than the join date.
+deja el equipo el	leaves the team on
+. Desde el día siguiente no cuenta en la carga ni en las reuniones, y su histórico se conserva.	. From the next day they do not count in the load or meetings, and their history is kept.
+Tareas abiertas (	Open tasks (
+Traspasa cada una a quien vaya a continuarla: lo hecho hasta la fecha queda a nombre de	Hand each one over to whoever will continue it: what was done so far stays under the name of
+y el resto pasa a la otra persona.	and the rest goes to the other person.
+Traspasar…	Hand over…
+=Traspasar	Hand over
+No tiene tareas abiertas.	No open tasks.
+Baja de	Leave of
+Responsable de baja desde el	Owner left on
+: traspasa la tarea	: hand the task over
+Responsable de baja	Owner has left
+Pasar lo que queda de la tarea a otra persona, conservando lo hecho	Pass the rest of the task to someone else, keeping what was done
+⇄ Traspasar…	⇄ Hand over…
+⇄ Traspasada a	⇄ Handed over to
+, con un avance del	, at
+%. Esta ficha recoge la parte hecha hasta esa fecha.	% progress. This form covers the part done up to that date.
+Ver la continuación	See the continuation
+⇄ Continúa la tarea que llevaba	⇄ Continues the task owned by
+Ver la parte anterior	See the previous part
+Lo hecho hasta la fecha de traspaso queda a nombre de	What was done up to the handover date stays under the name of
+como parte terminada. Lo que falta pasa a otra persona como una tarea enlazada, y las tareas que dependían de esta pasan a depender de la continuación.	as a finished part. The rest goes to someone else as a linked task, and the tasks that depended on this one now depend on the continuation.
+Nuevo responsable	New owner
+Último día de	Last day of
+Inicio de la continuación	Start of the continuation
+Horas pendientes que se traspasan	Hours remaining to hand over
+Traspasar la tarea	Hand over the task
+Elige a quién se traspasa.	Choose who it is handed over to.
+El último día no puede ser anterior al inicio de la tarea. Para pasarla entera, cambia el responsable en su ficha.	The last day cannot be earlier than the task start. To pass the whole task, change the owner in its form.
+Revisa las fechas de la continuación.	Check the dates of the continuation.
+Tarea traspasada a	Task handed over to
+días laborables en ese periodo: unas	working days in that period: about
+h con esa dedicación, para	h with that dedication, for
+h pendientes.	h remaining.
+=tiene	has
+No llega al fin planificado: amplía la fecha o la dedicación.	It will not make the planned end: extend the date or the dedication.
+Parte traspasada a otra persona	Part handed over to someone else
+⇄ 1.ª parte	⇄ part 1
+Continúa una tarea traspasada	Continues a handed-over task
+⇄ continuación	⇄ continuation
+Dirección del equipo 🔒	Team lead 🔒
+La contraseña de project manager protege tu papel y cifra las evaluaciones, tus proyectos privados y tu diario. Si vas a dejar la dirección del equipo, traspásala aquí para que otra persona continúe con todo el histórico. Antes, lee los pasos en el documento «Traspasos y copias de seguridad» que acompaña a la herramienta.	The project manager password protects your role and encrypts the evaluations, your private projects and your diary. If you are going to stop leading the team, hand it over here so someone else continues with the whole history. First read the steps in the «Handovers and backups» document that comes with the tool.
+Cambiar la contraseña…	Change the password…
+Traspasar la dirección del equipo…	Hand over the team lead…
+Cambiar la contraseña de project manager	Change the project manager password
+Contraseña actual	Current password
+Contraseña nueva	New password
+Las evaluaciones, tus proyectos privados y tu diario se vuelven a cifrar con la contraseña nueva.	The evaluations, your private projects and your diary are encrypted again with the new password.
+si la pierdes, no se pueden recuperar.	if you lose it, they cannot be recovered.
+La contraseña actual no es correcta.	The current password is not correct.
+Contraseña cambiada.	Password changed.
+Añade antes al equipo a la persona que será el nuevo project manager.	First add to the team the person who will be the new project manager.
+El nuevo project manager recibe todo lo compartido tal como está: proyectos, tareas, planificación, reuniones, festivos, ajustes y evaluaciones. Tu contraseña deja de servir y lo personal tuyo (proyectos privados y diario) no se traspasa.	The new project manager receives everything shared as it is: projects, tasks, planning, meetings, holidays, settings and evaluations. Your password stops working and your personal data (private projects and diary) is not handed over.
+1 · Guarda tu copia personal	1 · Save your personal copy
+Para conservar tu histórico. La copia incluye los proyectos y tareas del equipo y	To keep your history. The copy includes the team's projects and tasks and
+tus proyectos privados	your private projects
+. Para consultarla, pon la herramienta en una carpeta tuya y usa «Restaurar desde copia…».	. To browse it, put the tool in a folder of your own and use «Restore from backup…».
+Incluir las evaluaciones del equipo (sin cifrar)	Include the team's evaluations (unencrypted)
+Descargar mi diario (Word)	Download my diary (Word)
+2 · Nuevo project manager	2 · New project manager
+Su contraseña de project manager	Their project manager password
+Lo mejor es que la escriba la propia persona. Después puede cambiarla en «Cambiar la contraseña».	Ideally that person types it. They can change it later in «Change the password».
+3 · Tú,	3 · You,
+Sigo en el equipo como miembro	I stay in the team as a member
+Dejo el equipo	I am leaving the team
+Mi último día en el equipo	My last day in the team
+4 · Lo personal tuyo	4 · Your personal data
+proyecto(s) privado(s) se eliminan de la carpeta del equipo.	private project(s) are removed from the team folder.
+=Tus	Your
+No tienes proyectos privados.	You have no private projects.
+Tu diario	Your diary
+Conservarlo con una contraseña solo mía	Keep it with a password of my own
+Eliminarlo de la carpeta del equipo	Remove it from the team folder
+Contraseña para tu diario	Password for your diary
+5 · Confirmación	5 · Confirmation
+Tu contraseña actual de project manager	Your current project manager password
+He guardado mi copia personal y entiendo que el traspaso no se puede deshacer.	I have saved my personal copy and understand that the handover cannot be undone.
+Traspasar la dirección del equipo	Hand over the team lead
+Traspasar la dirección	Hand over the lead
+Elige al nuevo project manager.	Choose the new project manager.
+Indica tu último día en el equipo.	Enter your last day in the team.
+La contraseña del diario debe tener 8 caracteres o más.	The diary password must have 8 characters or more.
+Marca la casilla de confirmación.	Tick the confirmation box.
+Tu contraseña actual no es correcta.	Your current password is not correct.
+Traspaso hecho.	Handover done.
+es ahora el project manager y entra con su contraseña.	is now the project manager and signs in with their password.
+Este diario se cifró con una contraseña de project manager que ya no está en uso y no se puede abrir. Si es tuyo y no lo necesitas, pide al project manager que borre el archivo de la carpeta de datos para empezar uno nuevo.	This diary was encrypted with a project manager password that is no longer in use and cannot be opened. If it is yours and you do not need it, ask the project manager to delete the file from the data folder to start a new one.

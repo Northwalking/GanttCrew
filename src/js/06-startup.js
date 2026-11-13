@@ -170,12 +170,12 @@ function showNewTeam() {
   };
 }
 function showWho() {
-  const ms = members();
+  const ms = activeMembers();
   let last = null;
   try {
     last = localStorage.getItem(meKey());
   } catch (e) {}
-  if (last && S.members[last] && !S.members[last].isPM) {
+  if (last && S.members[last] && !S.members[last].isPM && inTeam(S.members[last])) {
     ME.memberId = last;
     ME.owner = false;
     return startApp();
@@ -335,14 +335,14 @@ async function migrateCalendar() {
 }
 
 /* ---------- copia de seguridad (solo PM) ---------- */
-function exportBackup() {
+function exportBackup(o = {}) {
   const out = { app: APPID, kind: 'backup', exportedAt: new Date().toISOString(), tables: {} };
   for (const c of COLSALL)
     out.tables[c] = Object.entries(S[c])
       .filter(([, doc]) => !doc.priv)
       .map(([id, doc]) => ({ id, doc }));
   if (EVKEY) out.private = PRDATA;
-  out.tables.evals = Object.entries(S.evals).map(([id, doc]) => ({ id, doc }));
+  if (o.evals !== false) out.tables.evals = Object.entries(S.evals).map(([id, doc]) => ({ id, doc }));
   const blob = new Blob([JSON.stringify(out, null, 1)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);

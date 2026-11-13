@@ -100,6 +100,8 @@ const I18N = (() => {
     Hoy: 'Today',
     terminada: 'finished',
     Terminada: 'Finished',
+    Terminado: 'Done',
+    Día: 'Day',
     desde: 'since',
     hasta: 'until',
     en: 'in',

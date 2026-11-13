@@ -64,12 +64,38 @@ test('the English interface has no Spanish leftovers', async ({ page }) => {
     alerts: () => openAlerts(),
     member: () => openMember(arr('members')[0].id),
     holiday: () => openHoliday(null),
+    taskHandover: () => {
+      openHandover('t2');
+      document.querySelector('#hM').value = 'm2';
+      document.querySelector('#hM').dispatchEvent(new Event('change'));
+    },
+    changePassword: () => openChangePw(),
+    leadHandover: () => openPmHandover(),
+    leaving: () => {
+      S.members.m1.leftOn = iso(todayN() + 5);
+      openLeaving('m1');
+    },
+    memberLeft: () => openMember('m1'),
+    diaryImport: () => openDiaryImport(),
+    diaryExport: () => {
+      dAdd(todayS(), 'x', { pend: true });
+      dAdd(todayS(), 'y', { pend: true, done: todayS() });
+      openDiaryExport();
+    },
   };
   for (const [name, fn] of Object.entries(dialogs)) {
     await page.evaluate(fn);
     await page.waitForTimeout(300);
     (await leftovers(page)).forEach((t) => found.add(`${name}: ${t}`));
     await page.evaluate(() => document.querySelector('#modal').classList.remove('show'));
+  }
+  for (const mode of ['day', 'month', 'pend']) {
+    await show(page, 'diario');
+    await page.evaluate((m) => {
+      DUI.mode = m;
+      dRender();
+    }, mode);
+    (await leftovers(page)).forEach((t) => found.add(`diary ${mode}: ${t}`));
   }
   expect([...found]).toEqual([]);
   expect(errors).toEqual([]);

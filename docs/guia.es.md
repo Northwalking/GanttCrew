@@ -32,8 +32,9 @@ como aparecen en la interfaz en español.
 - **Dos papeles.**
   - **Project manager (PM)**: entra con contraseña; crea proyectos y miembros, asigna tareas, edita
     cualquier tarea o ausencia, gestiona festivos y es el único que ve las evaluaciones.
-  - **Miembro del equipo**: elige su nombre al entrar; ve todo el plan, crea y edita sus propias tareas y
-    ausencias y registra reuniones.
+  - **Miembro del equipo**: elige su nombre al entrar; ve todo el plan, informa del avance de sus tareas
+    (estado, avance, horas pendientes, fechas reales), registra sus ausencias y reuniones y lleva su
+    diario. La planificación (crear tareas, fechas, dedicación, dependencias) solo la cambia el PM.
 - **Cada persona escribe en su propio archivo** dentro de `datos/`, así que no hay conflictos de
   sincronización. La herramienta vuelve a leer la carpeta cada 20 segundos; el botón ↻ de la cabecera
   fuerza la lectura.
@@ -182,6 +183,47 @@ En la pestaña **Ausencias**:
 - **+ Jornada extra**: alguien trabaja puntualmente un sábado, un domingo, un festivo o un día que no le
   toca. Esas horas cuentan en su carga y adelantan la fecha prevista de la tarea elegida (o de todas sus
   tareas en curso).
+
+## Diario de trabajo
+
+La pestaña **Diario** es un registro personal de lo que haces cada día.
+
+- **Es privado.** Se guarda cifrado en `datos/diario-<persona>.json`. El project manager lo abre con su
+  contraseña de PM. Cada miembro crea, la primera vez, la **contraseña de su diario**; puede marcar
+  *Recordar en este navegador* para no escribirla cada vez. Nadie más puede leerlo, tampoco el project
+  manager. **Si se olvida la contraseña, el diario no se puede recuperar.**
+- **Día:** escribe una línea y pulsa Intro. La herramienta propone las reuniones y tareas que tenías ese
+  día para añadirlas con un clic. Cada línea puede asociarse a un proyecto.
+- **Pendientes:** marca una línea como *Pendiente* y síguela en la vista **Pendientes**; al pulsar
+  *Resolver* queda la fecha en que se cerró.
+- **Formato:** `**negrita**`, `*cursiva*`, y subpuntos con Mayús+Intro y «- ». Lo mismo vale para las notas
+  de las reuniones y la descripción de las tareas.
+- **Mes** y **buscador** para repasar lo anotado.
+- **Importar…** carga un Word (`.docx`) o un texto en el que cada día empiece por «Día 11/06/2026».
+- **Descargar…** guarda un periodo en Word o en texto. El archivo descargado no va cifrado.
+
+## Cambios en el equipo
+
+Resumen. El detalle, paso a paso, está en **[Traspasos y copias de seguridad](traspasos-y-copias.es.md)**.
+
+- **Un miembro deja el equipo.** En su ficha (*Proyectos y equipo*), pon la **Fecha de baja** (su último
+  día). Desde el día siguiente no aparece en «¿Quién eres?» ni para asignarle trabajo, y no cuenta en la
+  carga ni en las reuniones periódicas. Su histórico (tareas, reuniones, ausencias, evaluaciones) se
+  conserva. Al guardar, la herramienta lista sus tareas abiertas para traspasarlas; las que queden sin
+  traspasar aparecen como «Responsable de baja» en los avisos. Si vuelve, borra la fecha.
+- **Traspasar una tarea a medias.** En la ficha de la tarea, **⇄ Traspasar…**: eliges a la otra persona y
+  el último día de quien la llevaba. La parte hecha se cierra a su nombre en esa fecha y se crea la
+  continuación, enlazada, con las horas pendientes. Las tareas que dependían de la original pasan a
+  depender de la continuación. Para pasar una tarea entera, basta con cambiar el responsable.
+- **Reuniones periódicas.** Para cambiar los asistentes desde una fecha, abre la reunión de ese día y
+  elige *Esta y las siguientes*.
+- **Cambiar la contraseña de PM** (*Proyectos y equipo → Dirección del equipo*): vuelve a cifrar las
+  evaluaciones, tus proyectos privados y tu diario.
+- **Traspasar la dirección del equipo.** En el mismo sitio. Antes puedes descargar tu **copia personal**
+  (los datos del equipo y tus proyectos privados; las evaluaciones, si lo marcas) y tu diario en Word.
+  Eliges al nuevo PM, que escribe su contraseña, y si sigues como miembro o dejas el equipo. El nuevo PM
+  continúa con todo lo compartido y las evaluaciones. Tus proyectos privados se eliminan de la carpeta y
+  tu diario se conserva con una contraseña solo tuya o se elimina. **No se puede deshacer.**
 
 ## 9. Pausar, cancelar y reanudar
 

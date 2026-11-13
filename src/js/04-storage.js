@@ -4,7 +4,27 @@
 // aceptan. Las evaluaciones van cifradas con la contraseña del project manager.
 const myMemberId = () => ME.memberId;
 const canEditTask = (t) => ME.owner || (!!ME.memberId && t?.assigneeId === ME.memberId);
-const canCreateTask = () => ME.owner || !!ME.memberId;
+// Planning (creating tasks, planned dates, dedication, dependencies, pauses) is the PM's job;
+// members report on their own tasks: status, progress, hours remaining, actual dates.
+const canPlan = () => ME.owner;
+const canCreateTask = () => canPlan();
+const PLAN_FIELDS = [
+  'name',
+  'projectId',
+  'assigneeId',
+  'origin',
+  'priority',
+  'detectedBy',
+  'detectedOn',
+  'description',
+  'deps',
+  'start',
+  'end',
+  'dedication',
+  'estimatedHours',
+  'forceStart',
+  'hist',
+];
 const canEditMeeting = (m) => ME.owner || (!!ME.memberId && (!m || m.createdBy === ME.memberId));
 function meBox() {
   const b = $('#me');
@@ -45,7 +65,9 @@ let PRDATA = { projects: {}, tasks: {}, settings: {} },
   writeQ = Promise.resolve(),
   badFiles = [];
 const myFileName = () => (ME.owner ? PMFILE : `miembro-${ME.memberId}.json`);
-const writerId = () => (ME.owner ? 'pm' : ME.memberId);
+// 'pm' marks the project manager's file (a role, not a person). A former PM whose member id is
+// literally "pm" writes their member file as "member:pm", so it is never taken for the PM file.
+const writerId = () => (ME.owner ? 'pm' : ME.memberId === 'pm' ? 'member:pm' : ME.memberId);
 const meKey = () => 'gantt.me.' + (dirH?.name || '');
 function newId() {
   return window.crypto && crypto.randomUUID
@@ -163,7 +185,7 @@ function rebuild() {
     const best = { ...pmRec[c] };
     if (!SINGLE.includes(c))
       for (const f of others) {
-        const w = f.owner;
+        const w = String(f.owner).replace(/^member:/, '');
         for (const [id, r] of Object.entries(f.records?.[c] || {})) {
           const k = ownerField[c],
             p = pmRec[c][id];

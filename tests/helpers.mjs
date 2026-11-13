@@ -25,7 +25,16 @@ export async function newTeam(page, { lang = 'es', sample = true } = {}) {
   return errors;
 }
 
-export const VIEWS = ['gantt', 'equipo', 'tareas', 'reuniones', 'cumplimiento', 'ausencias', 'ajustes'];
+export const VIEWS = [
+  'gantt',
+  'equipo',
+  'tareas',
+  'reuniones',
+  'cumplimiento',
+  'ausencias',
+  'diario',
+  'ajustes',
+];
 
 export async function show(page, view) {
   await page.evaluate((v) => {

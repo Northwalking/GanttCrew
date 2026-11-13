@@ -71,12 +71,13 @@ function openTask(id, defs = {}) {
         ...defs,
       };
   const editable = id ? canEditTask(t) : canCreateTask();
+  const planOK = canPlan();
   const ev = S.evals[id] || {};
   let q = ev.quality || 0;
   let deps = [...(t.deps || [])];
   let H = JSON.parse(JSON.stringify(hist(t)));
   let pzForm = null;
-  const ms = members().map((m) => [m.id, m.name]);
+  const ms = pickMembers([t.assigneeId, t.detectedBy]).map((m) => [m.id, m.name]);
   const succ = id ? successors(id) : [];
   const body = `<label class="full">Nombre de la tarea<input type="text" id="tName" value="${esc(t.name)}"></label>
    <label>Proyecto<select id="tProj">${opt(
@@ -142,11 +143,11 @@ function openTask(id, defs = {}) {
     let h = list
       .map(
         (p) =>
-          `<div class="dep">${p.status === 'done' ? '<span class="tag ok">✓ hecha</span>' : '<span class="tag bad">⏳ pendiente</span>'}<span style="flex:1"><b>${esc(p.name)}</b> <span class="mut">· ${esc(S.projects[p.projectId]?.code || '')} · fin ${fmt(p.end)} · ${p.progress || 0}%</span></span>${who(p.assigneeId, true)}${editable ? `<button class="x" data-rm="${p.id}" title="Quitar">×</button>` : ''}</div>`,
+          `<div class="dep">${p.status === 'done' ? '<span class="tag ok">✓ hecha</span>' : '<span class="tag bad">⏳ pendiente</span>'}<span style="flex:1"><b>${esc(p.name)}</b> <span class="mut">· ${esc(S.projects[p.projectId]?.code || '')} · fin ${fmt(p.end)} · ${p.progress || 0}%</span></span>${who(p.assigneeId, true)}${editable && planOK ? `<button class="x" data-rm="${p.id}" title="Quitar">×</button>` : ''}</div>`,
       )
       .join('');
     if (!list.length) h += '<span class="hint">Sin dependencias.</span>';
-    if (editable) {
+    if (editable && planOK) {
       const myPriv = !!S.projects[val('tProj')]?.priv;
       const cand = arr('tasks')
         .filter(
@@ -194,13 +195,16 @@ function openTask(id, defs = {}) {
         ? '<span class="tag ok">Terminada</span>'
         : '<span class="tag ok">Activa</span>';
     const btn =
-      !editable || done
+      !editable || !planOK || done
         ? ''
         : op
           ? op.k === 'pause'
             ? '<button type="button" class="btn sm pri" data-pza="resume">▶ Reanudar</button>'
             : '<button type="button" class="btn sm pri" data-pza="resume">↻ Reactivar</button>'
-          : '<button type="button" class="btn sm" data-pza="pause">⏸ Pausar</button><button type="button" class="btn sm" data-pza="cancel">✕ Cancelar</button>';
+          : '<button type="button" class="btn sm" data-pza="pause">⏸ Pausar</button><button type="button" class="btn sm" data-pza="cancel">✕ Cancelar</button>' +
+            (id && t.assigneeId && !t.priv
+              ? '<button type="button" class="btn sm" id="tHo" title="Pasar lo que queda de la tarea a otra persona, conservando lo hecho">⇄ Traspasar…</button>'
+              : '');
     let f = '';
     if (pzForm === 'pause' || pzForm === 'cancel')
       f = `<div class="pzf"><div style="font-weight:600;margin-bottom:6px">${pzForm === 'pause' ? 'Pausar la tarea' : 'Cancelar la tarea'}</div><div style="display:grid;grid-template-columns:170px 1fr;gap:8px"><label>Fecha de ${pzForm === 'pause' ? 'pausa' : 'cancelación'}<input type="date" id="pzD" value="${todayS()}"></label><label>Motivo<input type="text" id="pzW" placeholder="${pzForm === 'pause' ? 'p. ej. a la espera de datos del cliente' : 'p. ej. el cliente retira el requisito'}"></label></div><div class="hint" style="margin:6px 0">Mientras dure, no cuenta en la carga ni en las fechas previstas y no genera avisos de retraso. En el Gantt se sigue viendo el plan vigente, atenuado desde esa fecha.</div><div style="display:flex;gap:6px;justify-content:flex-end"><button type="button" class="btn sm" data-pzx="close">Cancelar</button><button type="button" class="btn sm pri" data-pzx="ok">Aplicar</button></div></div>`;
@@ -226,6 +230,7 @@ function openTask(id, defs = {}) {
           renderPz();
         }),
     );
+    if ($('#tHo')) $('#tHo').onclick = () => openHandover(id);
     const calc = () => {
       if (!$('#pzE')) return;
       const n = gapWork(aid, op.from, val('pzD'));
@@ -379,7 +384,7 @@ function openTask(id, defs = {}) {
       n += `<div class="note ${blocked ? 'bad' : 'info'}">${blocked ? '⛔ <b>Bloqueada:</b> no se puede avanzar ni completar hasta que terminen ' : 'Avance permitido por el PM aunque siguen pendientes '}${bl.map((p) => `<b>${esc(p.name)}</b> (${esc(mem(p.assigneeId)?.name || 'sin asignar')})`).join(', ')}.${ME.owner ? `<label style="flex-direction:row;align-items:center;gap:6px;margin-top:6px;font-weight:500"><input type="checkbox" id="tForce" ${c.forceStart ? 'checked' : ''} style="width:auto"> Permitir avanzar igualmente (decisión del PM)</label>` : ''}</div>`;
     const cf = dateConflict(c);
     if (cf && c.status !== 'done')
-      n += `<div class="note warn">📅 Empieza antes de que termine aquello de lo que depende. Inicio más temprano coherente: <b>${fmt(cf)}</b>. ${editable ? `<button type="button" class="btn sm" id="tFix">Mover la tarea a esa fecha</button>` : ''}</div>`;
+      n += `<div class="note warn">📅 Empieza antes de que termine aquello de lo que depende. Inicio más temprano coherente: <b>${fmt(cf)}</b>. ${editable && planOK ? `<button type="button" class="btn sm" id="tFix">Mover la tarea a esa fecha</button>` : ''}</div>`;
     {
       const pp = S.projects[val('tProj')];
       const pe = pp && pp.end;
@@ -475,6 +480,8 @@ function openTask(id, defs = {}) {
     body,
     async () => {
       const o = collect();
+      // a member's save never changes the plan: those fields are taken from the current task
+      if (!planOK && id) for (const k of PLAN_FIELDS) if (S.tasks[id][k] !== undefined) o[k] = S.tasks[id][k];
       if (!o.name) {
         toast('Ponle un nombre a la tarea.');
         return false;
@@ -510,9 +517,40 @@ function openTask(id, defs = {}) {
         if (e) await save('evals', nid, e);
       }
     },
-    id && (ME.owner || editable) ? () => delTask(id) : null,
+    id && planOK ? () => delTask(id) : null,
     editable,
   );
+  if (editable && !planOK) {
+    ['tName', 'tProj', 'tOrig', 'tPri', 'tDetBy', 'tDetOn', 'tDesc', 'tS', 'tE', 'tDed', 'tEH'].forEach(
+      (i) => $('#' + i) && ($('#' + i).disabled = true),
+    );
+    $('#dlg .body').insertAdjacentHTML(
+      'afterbegin',
+      '<div class="note info full">La planificación de la tarea la cambia el project manager. Tú puedes actualizar el estado, el avance, las horas pendientes, las fechas reales y el motivo de un bloqueo.</div>',
+    );
+  }
+  if (id && (t.handover || t.contOf)) {
+    const ho = t.handover,
+      prev = t.contOf && S.tasks[t.contOf];
+    const link = (tid, txt) => (S.tasks[tid] ? ` <a href="#" data-goto="${tid}">${txt}</a>` : '');
+    $('#dlg .body').insertAdjacentHTML(
+      'afterbegin',
+      (ho
+        ? `<div class="note info full">⇄ Traspasada a <b>${esc(mem(ho.member)?.name || '—')}</b> el ${fmt(ho.on)}, con un avance del ${ho.progress || 0} %. Esta ficha recoge la parte hecha hasta esa fecha.${link(ho.to, 'Ver la continuación')}</div>`
+        : '') +
+        (prev
+          ? `<div class="note info full">⇄ Continúa la tarea que llevaba <b>${esc(mem(prev.assigneeId)?.name || '—')}</b> hasta el ${fmt(prev.handover?.on || prev.end)}.${link(t.contOf, 'Ver la parte anterior')}</div>`
+          : ''),
+    );
+    document.querySelectorAll('#dlg [data-goto]').forEach(
+      (a) =>
+        (a.onclick = (e) => {
+          e.preventDefault();
+          openTask(a.dataset.goto);
+        }),
+    );
+  }
+  mdField($('#tDesc'));
   renderDeps();
   renderPz();
   $('#tSt').addEventListener('change', renderPz);
@@ -600,7 +638,7 @@ function openMeeting(id, defs = {}) {
         type: 'seguimiento',
         attendees: [
           ...new Set([
-            ...members()
+            ...activeMembers()
               .filter((x) => x.isPM)
               .map((x) => x.id),
             ...(me ? [me] : []),
@@ -643,7 +681,7 @@ function openMeeting(id, defs = {}) {
      <div class="full hint" id="mAmH"></div></div>`
    }
    <div class="full"><div style="font-weight:500;font-size:12px;color:#344054;margin-bottom:6px;display:flex;align-items:center">Asistentes<span class="sp"></span>${editable ? '<button type="button" class="btn sm" id="mAP" title="Marca a todos los participantes del proyecto elegido">+ Participantes del proyecto</button>' : ''}</div><div id="mA" style="display:flex;gap:6px;flex-wrap:wrap">${
-     members()
+     pickMembers([...att], m.date)
        .map(
          (x) =>
            `<span class="chip ${att.has(x.id) ? 'on' : ''}" data-a="${x.id}">${who(x.id)}${x.isPM ? ' <span class="mut">PM</span>' : ''}</span>`,
@@ -788,6 +826,7 @@ function openMeeting(id, defs = {}) {
       : null,
     editable,
   );
+  mdField($('#mN'));
   {
     let len = +m.duration || 60;
     const H = $('#mH'),
@@ -889,7 +928,7 @@ function openProject(id) {
    <label>Código corto <span class="mut" style="font-weight:400">· automático</span><div style="display:flex;gap:4px"><input type="text" id="pC" value="${esc(p.code || '')}" placeholder="se genera con el nombre" style="flex:1"><button type="button" class="btn sm" id="pCa" title="Volver a generarlo a partir del nombre">↻</button></div></label>
    <label>Color<input type="color" id="pCo" value="${esc(p.color || '#2f5bea')}" style="height:34px;width:100%;border:1px solid var(--line);border-radius:7px"></label>
    <label>Responsable<select id="pO">${opt(
-     members().map((m) => [m.id, m.name]),
+     pickMembers([p.ownerId]).map((m) => [m.id, m.name]),
      p.ownerId,
      '—',
    )}</select></label>
@@ -904,7 +943,7 @@ function openProject(id) {
    <label>Inicio<input type="date" id="pSt" value="${esc(p.start || '')}"></label>
    <label>Fin objetivo<input type="date" id="pE" value="${esc(p.end || '')}"></label>
    <div class="full" id="pPaW" style="${p.priv ? 'display:none' : ''}"><div style="font-weight:500;font-size:12px;color:#344054;margin-bottom:6px">Participantes del equipo <span class="mut" style="font-weight:400">(el responsable cuenta siempre como participante)</span></div><div id="pPa" style="display:flex;gap:6px;flex-wrap:wrap">${
-     members()
+     pickMembers([...parts])
        .map((x) => `<span class="chip ${parts.has(x.id) ? 'on' : ''}" data-pa="${x.id}">${who(x.id)}</span>`)
        .join('') || '<span class="hint">Añade miembros del equipo primero.</span>'
    }</div></div>
@@ -1292,4 +1331,128 @@ function openBulkMeetings(ids) {
           sum();
         }),
     );
+}
+
+/* ---------- traspasar una tarea a otra persona ---------- */
+// The part done so far stays with the current owner (closed on the handover date);
+// the rest becomes a linked task for the new owner. Tasks that depended on it follow the new one.
+function openHandover(id, backTo) {
+  const t = tk(id);
+  if (!t || !ME.owner) return;
+  const cur = mem(t.assigneeId),
+    lf = cur?.leftOn,
+    T = todayS();
+  const day0 = lf && lf < t.end ? lf : T > t.end ? t.end : T < t.start ? t.start : T;
+  const rem = Math.round(remHours(t) * 10) / 10;
+  const body = `<div class="full note info">Lo hecho hasta la fecha de traspaso queda a nombre de <b>${esc(cur?.name || '—')}</b> como parte terminada. Lo que falta pasa a otra persona como una tarea enlazada, y las tareas que dependían de esta pasan a depender de la continuación.</div>
+   <div class="full"><b data-notr>${esc(t.name)}</b> <span class="mut">· ${fmt(t.start)}–${fmt(t.end)} · ${t.progress || 0} %</span></div>
+   <label>Nuevo responsable<select id="hM">${opt(
+     activeMembers()
+       .filter((m) => m.id !== t.assigneeId)
+       .map((m) => [m.id, m.name]),
+     '',
+     '—',
+   )}</select></label>
+   <label>Último día de ${esc(cur?.name || '')}<input type="date" id="hD" value="${day0}" min="${esc(t.start)}"></label>
+   <label>Inicio de la continuación<input type="date" id="hS"></label>
+   <label>Fin planificado<input type="date" id="hE" value="${esc(t.end)}"></label>
+   <label>Horas pendientes que se traspasan<input type="number" min="0" step="1" id="hH" value="${rem}"></label>
+   <label>Dedicación prevista (% de su jornada)<input type="number" min="5" max="100" step="5" id="hP" value="${t.dedication ?? 100}"></label>
+   <div class="full hint" id="hI"></div>`;
+  openDlg('Traspasar la tarea', body, async () => {
+    const mid = val('hM'),
+      d = val('hD'),
+      s = val('hS'),
+      e = val('hE'),
+      h = +val('hH') || 0;
+    if (!mid) {
+      toast('Elige a quién se traspasa.');
+      return false;
+    }
+    if (!d || d < t.start) {
+      toast(
+        'El último día no puede ser anterior al inicio de la tarea. Para pasarla entera, cambia el responsable en su ficha.',
+      );
+      return false;
+    }
+    if (!s || s <= d || !e || e < s) {
+      toast('Revisa las fechas de la continuación.');
+      return false;
+    }
+    const nid = newId(),
+      base = { ...t };
+    delete base.id;
+    const total = estHours(t);
+    const first = {
+      ...base,
+      end: d < t.end ? d : t.end,
+      realStart: t.realStart || t.start,
+      realEnd: d,
+      status: 'done',
+      progress: 100,
+      estimatedHours: Math.max(0, Math.round((total - h) * 10) / 10) || undefined,
+      remainingHours: undefined,
+      blockReason: '',
+      handover: { to: nid, member: mid, on: d, progress: t.progress || 0, end: t.end },
+    };
+    const next = {
+      projectId: t.projectId,
+      name: t.name,
+      origin: t.origin || 'plan',
+      priority: t.priority || 'media',
+      description: t.description || '',
+      detectedBy: t.detectedBy,
+      detectedOn: t.detectedOn,
+      assigneeId: mid,
+      start: s,
+      end: e,
+      dedication: +val('hP') || 100,
+      estimatedHours: h || undefined,
+      progress: 0,
+      status: 'pending',
+      deps: [id],
+      contOf: id,
+    };
+    const succ = successors(id);
+    if (!(await save('tasks', id, first))) return false;
+    await save('tasks', nid, next);
+    for (const x of succ) {
+      const o = { ...x, deps: (x.deps || []).map((k) => (k === id ? nid : k)) };
+      delete o.id;
+      await save('tasks', x.id, o);
+    }
+    toast(`Tarea traspasada a ${mem(mid)?.name || ''}.`);
+    if (backTo && leavingTasks(backTo).length) setTimeout(() => openLeaving(backTo), 50);
+  });
+  $('#mSave').textContent = 'Traspasar';
+  const upd = () => {
+    const mid = val('hM'),
+      d = dn(val('hD'));
+    if (d != null && mid && document.activeElement?.id !== 'hS') $('#hS').value = iso(addWork(mid, d, 1));
+    else if (d != null && !val('hS')) $('#hS').value = iso(d + 1);
+    const s = dn(val('hS'));
+    // the original end may already be too close: propose the end the remaining hours need
+    if (
+      mid &&
+      s != null &&
+      (dn(val('hE')) == null || dn(val('hE')) < s) &&
+      document.activeElement?.id !== 'hE'
+    ) {
+      const perDay = (capOf(mid) * (+val('hP') || 100)) / 100;
+      $('#hE').value = iso(addWork(mid, s - 1, Math.max(1, Math.ceil((+val('hH') || 0) / perDay))));
+    }
+    const e = dn(val('hE'));
+    let info = '';
+    if (mid && s != null && e != null && e >= s) {
+      const days = workDays(mid, s, e),
+        cap = (days * capOf(mid) * (+val('hP') || 100)) / 100,
+        h = +val('hH') || 0;
+      info = `${esc(mem(mid).name)} tiene ${days} días laborables en ese periodo: unas ${Math.round(cap)} h con esa dedicación, para ${h} h pendientes.`;
+      if (h > cap + 0.5)
+        info += ' <b style="color:#b42318">No llega al fin planificado: amplía la fecha o la dedicación.</b>';
+    }
+    $('#hI').innerHTML = info;
+  };
+  ['hM', 'hD', 'hS', 'hE', 'hH', 'hP'].forEach((i) => $('#' + i).addEventListener('change', upd));
+  upd();
 }
