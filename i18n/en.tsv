@@ -919,7 +919,7 @@ Quitar de los asistentes	Remove from attendees
 no cambiar	do not change
 =Hora	Time
 Duración (min)	Duration (min)
-Hora y duración vacías = no cambiar.	Empty time and duration = do not change.
+Horas vacías = no cambiar.	Empty times = do not change.
 vienen de Thunderbird (en esas solo cambian asistentes, proyecto y tipo)	come from Thunderbird (only attendees, project and type change in those)
 No se aplican a las de Thunderbird.	Not applied to the Thunderbird ones.
 Modificar	Modify
@@ -1149,3 +1149,13 @@ Otra ·	Other ·
 Disponible ·	Available ·
 Sobrecarga ·	Overload ·
 Libre ·	Free ·
+Hora de inicio	Start time
+Hora de fin	End time
+La hora de fin debe ser posterior a la de inicio.	The end time must be later than the start time.
+Días completos	Whole days
+Por horas	By hours
+Desde las	From
+Hasta las	Until
+Hasta / horario	To / hours
+h de ausencia · quedan	h of absence ·
+h de su jornada	h of their working day left

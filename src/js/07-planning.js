@@ -313,7 +313,22 @@ function absIdx() {
 }
 const absOf = (mid) => absIdx()[mid] || [];
 const absOn = (mid, d) => absOf(mid).find((a) => a.s <= d && a.e >= d);
-const absAvail = (a) => (a ? Math.min(100, Math.max(0, +(a.availability ?? ABS[a.type]?.a ?? 0))) / 100 : 1);
+// absence by hours (one day, fromTime–toTime): the hours away are taken off that person's working day
+const absHours = (a) =>
+  a && a.fromTime && a.toTime ? Math.max(0, hm2min(a.toTime) - hm2min(a.fromTime)) / 60 : 0;
+const absAvail = (a) =>
+  !a
+    ? 1
+    : absHours(a)
+      ? Math.max(0, 1 - absHours(a) / capOf(a.memberId))
+      : Math.min(100, Math.max(0, +(a.availability ?? ABS[a.type]?.a ?? 0))) / 100;
+// when it happens, as text: "13/11/2026 · 10:00–12:00" or "13/11/2026–17/11/2026"
+const absWhen = (a) =>
+  absHours(a)
+    ? `${fmt(a.start)} · ${a.fromTime}–${a.toTime}`
+    : a.start === a.end
+      ? fmt(a.start)
+      : `${fmt(a.start)}–${fmt(a.end)}`;
 const absPrivate = (a) => a.type === 'baja' && !(ME.owner || a.memberId === ME.memberId);
 const absLabel = (a) => (absPrivate(a) ? 'Ausente' : ABS[a.type]?.t || 'Ausencia');
 const absOverlap = (mid, s, e) => absOf(mid).filter((a) => a.s <= e && a.e >= s);

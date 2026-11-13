@@ -388,7 +388,7 @@ function depTags(t) {
       if (ov.length) {
         const n = ov.reduce((a, x) => a + workDays(t.assigneeId, Math.max(x.s, s), Math.min(x.e, e)), 0);
         if (n)
-          h += `<span class="tag mut lock" title="${esc(ov.map((x) => absLabel(x) + ' ' + fmt(x.start) + '–' + fmt(x.end)).join(', '))}">aus. ${n} d</span>`;
+          h += `<span class="tag mut lock" title="${esc(ov.map((x) => absLabel(x) + ' ' + absWhen(x)).join(', '))}">aus. ${n} d</span>`;
       }
     }
   }
@@ -530,7 +530,7 @@ function vGantt_(X) {
         for (const a of absOf(m.id)) {
           const k = clip(R, a.s, a.e);
           if (k)
-            trk += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + fmt(a.start) + '–' + fmt(a.end))}"></div>`;
+            trk += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + absWhen(a))}"></div>`;
         }
         for (const x of arr('meetings')) {
           if (!(x.attendees || []).includes(m.id)) continue;

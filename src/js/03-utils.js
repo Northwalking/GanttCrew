@@ -1,4 +1,9 @@
 /* ---------- utilidades ---------- */
+// "HH:MM" <-> minutes of the day (meetings store start time + duration; the forms show an end time)
+const hm2min = (s) => (/^\d{1,2}:\d{2}/.test(s || '') ? +s.split(':')[0] * 60 + +s.split(':')[1] : null);
+const min2hm = (n) => String(Math.floor(n / 60)).padStart(2, '0') + ':' + String(n % 60).padStart(2, '0');
+const endTime = (time, dur) =>
+  hm2min(time) == null ? '' : min2hm(Math.min(1439, hm2min(time) + (+dur || 60)));
 const $ = (s) => document.querySelector(s);
 const esc = (s) =>
   String(s ?? '').replace(

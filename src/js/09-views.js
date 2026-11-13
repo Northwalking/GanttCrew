@@ -176,7 +176,10 @@ function vCalendario() {
         const di = info(one, d);
         const pills = [];
         if (di.hol.length) pills.push(`<span class="pl hol">${esc(di.hol[0].name)}</span>`);
-        if (di.ab) pills.push(`<span class="pl abs">${esc(absLabel(di.ab))}</span>`);
+        if (di.ab)
+          pills.push(
+            `<span class="pl abs">${esc(absLabel(di.ab) + (absHours(di.ab) ? ' ' + di.ab.fromTime + '–' + di.ab.toTime : ''))}</span>`,
+          );
         if (di.ex) pills.push(`<span class="pl ext">+ Jornada extra ${nf1(di.ex.h)} h</span>`);
         if (di.th > 0)
           pills.push(
@@ -233,7 +236,7 @@ function calTaskItem(t, hh) {
 }
 function calMeetItem(x) {
   const p = S.projects[x.projectId];
-  return `<div class="citem meet" data-meet="${x.id}"><b>${esc(x.time || '')} ${esc(x.title)}</b><small>${esc(MTYPE[x.type] || '')} · ${x.duration || 0} min${p ? ' · ' + esc(p.code || p.name) : ''}</small></div>`;
+  return `<div class="citem meet" data-meet="${x.id}"><b>${esc(x.time ? x.time + '–' + endTime(x.time, x.duration) : '')} ${esc(x.title)}</b><small>${esc(MTYPE[x.type] || '')} · ${x.duration || 0} min${p ? ' · ' + esc(p.code || p.name) : ''}</small></div>`;
 }
 function calPersonCard(mid, di) {
   const m = S.members[mid];
@@ -379,7 +382,7 @@ function vEquipo() {
     for (const a of absOf(m.id)) {
       const k = clip(R, a.s, a.e);
       if (k)
-        h += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + fmt(a.start) + '–' + fmt(a.end) + (a.availability > 0 ? ' · disponible ' + a.availability + '%' : ''))}">${k.w > 60 ? `<span>${esc(absLabel(a))}</span>` : ''}</div>`;
+        h += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + absWhen(a) + (!absHours(a) && a.availability > 0 ? ' · disponible ' + a.availability + '%' : ''))}">${k.w > 60 ? `<span>${esc(absLabel(a))}</span>` : ''}</div>`;
     }
     if (memDays(m.id))
       for (let d = 0; d < R.days; d++) {
@@ -422,7 +425,7 @@ function vEquipo() {
         const d = dn(x.date) - R.s;
         if (d < 0 || d >= R.days) continue;
         const k = (perDay[d] = (perDay[d] || 0) + 1);
-        const tip = `${x.title} · ${fmt(x.date)} ${x.time || ''} · ${x.duration || 0} min${x.source === 'thunderbird' ? ' · Thunderbird' : ''}`;
+        const tip = `${x.title} · ${fmt(x.date)} ${x.time ? x.time + '–' + endTime(x.time, x.duration) : ''} · ${x.duration || 0} min${x.source === 'thunderbird' ? ' · Thunderbird' : ''}`;
         if (UI.ppd >= 18)
           h += `<div class="mpill" data-meet="${x.id}" title="${esc(tip)}" style="left:${d * UI.ppd + 1}px;width:${UI.ppd >= 40 ? UI.ppd * 1 - 2 : UI.ppd - 2}px;top:${H - 8 - k * 15}px">${UI.ppd >= 40 ? esc((x.time || '') + ' ' + x.title) : '●'}</div>`;
         else if (k === 1)
@@ -573,7 +576,7 @@ function vReuniones() {
     const p = S.projects[x.projectId];
     const ce = canEditMeeting(x),
       on_ = sel && UI.meetPick.has(x.id);
-    lt += `<div class="list-row" ${sel ? (ce ? `data-msel="${x.id}"` : 'title="No puedes modificar esta reunión"') : `data-meet="${x.id}"`} style="cursor:pointer;${on_ ? 'background:var(--accs)' : ''}${sel && !ce ? ';opacity:.5' : ''}">${sel ? `<input type="checkbox" ${on_ ? 'checked' : ''} ${ce ? '' : 'disabled'} style="width:16px;height:16px;margin:0 8px 0 0;flex:0 0 auto;pointer-events:none">` : ''}<div style="width:62px"><b>${fmt(x.date).slice(0, 5)}</b><div class="mut">${esc(x.time || '')}</div></div><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(x.title)}${x.seriesId ? ` <span class="tag mut" title="${esc(repeatLbl(SERIES[x.seriesId]?.repeat))}">↻ periódica</span>` : ''}${x.date && !isWork(dn(x.date)) ? ' <span class="tag warn" title="Cae en fin de semana: asistencia opcional; no cuenta en horas, carga ni fechas previstas">fin de semana · opcional</span>' : x.date && holAll(dn(x.date)).length ? ' <span class="tag warn" title="Cae en festivo: asistencia opcional; no cuenta en horas, carga ni fechas previstas">festivo · opcional</span>' : ''}${x.source === 'thunderbird' ? ' <span class="tag mut" title="Registrada desde Thunderbird">Thunderbird</span>' : x.source === 'ics' ? ' <span class="tag mut" title="Importada desde un .ics">.ics</span>' : ''}</div><div class="mut">${MTYPE[x.type] || ''} · ${x.duration || 0} min · ${p ? esc(p.code || p.name) : 'General'}</div></div><div style="display:flex;gap:2px">${(x.attendees || []).map((a) => who(a, true)).join('')}</div></div>`;
+    lt += `<div class="list-row" ${sel ? (ce ? `data-msel="${x.id}"` : 'title="No puedes modificar esta reunión"') : `data-meet="${x.id}"`} style="cursor:pointer;${on_ ? 'background:var(--accs)' : ''}${sel && !ce ? ';opacity:.5' : ''}">${sel ? `<input type="checkbox" ${on_ ? 'checked' : ''} ${ce ? '' : 'disabled'} style="width:16px;height:16px;margin:0 8px 0 0;flex:0 0 auto;pointer-events:none">` : ''}<div style="width:84px"><b>${fmt(x.date).slice(0, 5)}</b><div class="mut">${esc(x.time ? x.time + '–' + endTime(x.time, x.duration) : '')}</div></div><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(x.title)}${x.seriesId ? ` <span class="tag mut" title="${esc(repeatLbl(SERIES[x.seriesId]?.repeat))}">↻ periódica</span>` : ''}${x.date && !isWork(dn(x.date)) ? ' <span class="tag warn" title="Cae en fin de semana: asistencia opcional; no cuenta en horas, carga ni fechas previstas">fin de semana · opcional</span>' : x.date && holAll(dn(x.date)).length ? ' <span class="tag warn" title="Cae en festivo: asistencia opcional; no cuenta en horas, carga ni fechas previstas">festivo · opcional</span>' : ''}${x.source === 'thunderbird' ? ' <span class="tag mut" title="Registrada desde Thunderbird">Thunderbird</span>' : x.source === 'ics' ? ' <span class="tag mut" title="Importada desde un .ics">.ics</span>' : ''}</div><div class="mut">${MTYPE[x.type] || ''} · ${x.duration || 0} min · ${p ? esc(p.code || p.name) : 'General'}</div></div><div style="display:flex;gap:2px">${(x.attendees || []).map((a) => who(a, true)).join('')}</div></div>`;
   }
   {
     const pend = arr('meetings').filter((x) => x.source === 'thunderbird' && !x.projectId && inPer(x)).length;
@@ -714,11 +717,11 @@ function vAusencias() {
     .sort((a, b) => (a.start || '').localeCompare(b.start || ''));
   h += `<div class="grid2"><div class="card" style="overflow:auto"><h3>Ausencias ${y}</h3>${
     list.length
-      ? `<table><thead><tr><th>Persona</th><th>Tipo</th><th>Desde</th><th>Hasta</th><th>Días lab.</th><th>Disponible</th><th>Nota</th></tr></thead><tbody>${list
+      ? `<table><thead><tr><th>Persona</th><th>Tipo</th><th>Desde</th><th>Hasta / horario</th><th>Días lab.</th><th>Disponible</th><th>Nota</th></tr></thead><tbody>${list
           .map((a) => {
             const s = Math.max(dn(a.start), ys),
               e = Math.min(dn(a.end), ye);
-            return `<tr class="click" data-abs="${a.id}"><td>${who(a.memberId)}</td><td><span class="tag mut" style="border-left:3px solid ${ABS[a.type]?.c || '#667085'}">${esc(absLabel(a))}</span></td><td>${fmt(a.start)}</td><td>${fmt(a.end)}</td><td>${workDays(a.memberId, s, e)}</td><td>${absPrivate(a) ? '—' : (+a.availability || 0) + '%'}</td><td class="mut">${absPrivate(a) ? '' : esc(a.note || '')}</td></tr>`;
+            return `<tr class="click" data-abs="${a.id}"><td>${who(a.memberId)}</td><td><span class="tag mut" style="border-left:3px solid ${ABS[a.type]?.c || '#667085'}">${esc(absLabel(a))}</span></td><td>${fmt(a.start)}</td><td>${absHours(a) ? a.fromTime + '–' + a.toTime : fmt(a.end)}</td><td>${absHours(a) ? nf1(absHours(a)) + ' h' : workDays(a.memberId, s, e)}</td><td>${absPrivate(a) ? '—' : Math.round(absAvail(a) * 100) + '%'}</td><td class="mut">${absPrivate(a) ? '' : esc(a.note || '')}</td></tr>`;
           })
           .join('')}</tbody></table>`
       : '<div class="hint">Sin ausencias registradas en este año.</div>'
@@ -737,9 +740,11 @@ function vAusencias() {
           e = Math.min(a.e, ye);
         if (e < s) continue;
         const k = ['vac', 'viaje', 'congreso'].includes(a.type) ? a.type : 'otras';
-        c[k] += workDays(m.id, s, e);
+        // an absence by hours counts as the fraction of the working day it takes
+        c[k] += workDays(m.id, s, e) * (absHours(a) ? Math.min(1, absHours(a) / capOf(m.id)) : 1);
       }
-      const tot = c.vac + c.viaje + c.congreso + c.otras;
+      for (const k in c) c[k] = Math.round(c[k] * 100) / 100;
+      const tot = Math.round((c.vac + c.viaje + c.congreso + c.otras) * 100) / 100;
       return `<tr><td>${who(m.id, true)} ${esc(String(m.name || '').split(' ')[0])}</td>${cols.map((k) => `<td style="text-align:center">${c[k[0]] || '<span class="mut">0</span>'}</td>`).join('')}<td style="text-align:center"><b>${tot}</b></td></tr>`;
     })
     .join(
@@ -877,6 +882,7 @@ function openAbsence(id, defs = {}) {
       };
   const editable = ME.owner || (!!ME.memberId && a.memberId === ME.memberId);
   const priv = id && absPrivate(a);
+  let byH = !!absHours(a);
   const body = `<label>Persona${ME.owner ? '' : ' <span class="mut" style="font-weight:400">(solo puedes registrar las tuyas)</span>'}<select id="aM" ${ME.owner ? '' : 'disabled'}>${opt(
     members().map((m) => [m.id, m.name]),
     a.memberId,
@@ -889,9 +895,11 @@ function openAbsence(id, defs = {}) {
            a.type,
          )
    }</select></label>
-   <label>Desde<input type="date" id="aS" value="${esc(a.start)}"></label>
-   <label>Hasta (incluido)<input type="date" id="aE" value="${esc(a.end)}"></label>
-   <label>Disponibilidad durante la ausencia (%)<input type="number" min="0" max="100" step="10" id="aA" value="${priv ? 0 : +a.availability || 0}"></label>
+   <div class="full"><div class="seg" id="aMode"><button type="button" data-am="days" class="${byH ? '' : 'on'}">Días completos</button><button type="button" data-am="hours" class="${byH ? 'on' : ''}">Por horas</button></div></div>
+   <label><span id="aSl">Desde</span><input type="date" id="aS" value="${esc(a.start)}"></label>
+   <label class="amD">Hasta (incluido)<input type="date" id="aE" value="${esc(a.end)}"></label>
+   <label class="amD">Disponibilidad durante la ausencia (%)<input type="number" min="0" max="100" step="10" id="aA" value="${priv ? 0 : +a.availability || 0}"></label>
+   <div class="amH" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Desde las<input type="time" id="aF" value="${esc(a.fromTime || '10:00')}"></label><label>Hasta las<input type="time" id="aU" value="${esc(a.toTime || '12:00')}"></label></div>
    <div class="hint" id="aInfo" style="align-self:end;padding-bottom:8px"></div>
    <label class="full" id="aNw">Nota (opcional)<input type="text" id="aN" value="${esc(priv ? '' : a.note || '')}" placeholder="Destino, congreso, motivo…"></label>
    <div class="full" id="aWarn" style="display:contents"></div>`;
@@ -912,6 +920,19 @@ function openAbsence(id, defs = {}) {
         toast('Elige la persona.');
         return false;
       }
+      if (byH) {
+        const f = hm2min(val('aF')),
+          u = hm2min(val('aU'));
+        if (f == null || u == null || u <= f) {
+          toast('La hora de fin debe ser posterior a la de inicio.');
+          return false;
+        }
+        o.end = o.start;
+        o.fromTime = val('aF');
+        o.toTime = val('aU');
+        // also stored as a percentage, so older copies of the tool still calculate it right
+        o.availability = Math.round(Math.max(0, 1 - (u - f) / 60 / capOf(o.memberId)) * 100);
+      }
       if (!o.start || !o.end || o.end < o.start) {
         toast('Revisa las fechas.');
         return false;
@@ -927,6 +948,13 @@ function openAbsence(id, defs = {}) {
     id && editable ? () => del('absences', id) : null,
     editable && !priv,
   );
+  const showMode = () => {
+    document.querySelectorAll('.amD').forEach((x) => (x.style.display = byH ? 'none' : ''));
+    document.querySelectorAll('.amH').forEach((x) => (x.style.display = byH ? 'grid' : 'none'));
+    $('#aSl').textContent = byH ? 'Día' : 'Desde';
+    if (byH) $('#aE').value = val('aS');
+  };
+  showMode();
   const upd = () => {
     const t = val('aT'),
       mid = ME.owner ? val('aM') : a.memberId;
@@ -935,7 +963,13 @@ function openAbsence(id, defs = {}) {
       e = dn(val('aE'));
     let info = '',
       w = '';
-    if (s != null && e != null && e >= s) {
+    showMode();
+    const hf = hm2min(val('aF')),
+      hu = hm2min(val('aU'));
+    if (byH && s != null) {
+      if (hf != null && hu > hf)
+        info = `${nf1((hu - hf) / 60)} h de ausencia · quedan ${nf1(Math.max(0, capOf(mid) - (hu - hf) / 60))} h de su jornada`;
+    } else if (s != null && e != null && e >= s) {
       info = `${workDays(mid, s, e)} días laborables`;
       const ts = arr('tasks').filter(
         (x) => x.assigneeId === mid && x.status !== 'done' && dn(x.start) <= e && dn(x.end) >= s,
@@ -957,7 +991,16 @@ function openAbsence(id, defs = {}) {
       $('#aA').value = ABS[val('aT')]?.a ?? 0;
       upd();
     };
-    ['aS', 'aE', 'aM'].forEach((i) => $('#' + i).addEventListener('change', upd));
+    ['aS', 'aE', 'aM', 'aF', 'aU'].forEach((i) => $('#' + i).addEventListener('change', upd));
+    $('#aMode').onclick = (ev) => {
+      const b = ev.target.closest('[data-am]');
+      if (!b) return;
+      byH = b.dataset.am === 'hours';
+      $('#aMode')
+        .querySelectorAll('button')
+        .forEach((x) => x.classList.toggle('on', x === b));
+      upd();
+    };
     upd();
   }
 }

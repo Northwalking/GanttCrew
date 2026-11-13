@@ -433,7 +433,7 @@ function openTask(id, defs = {}) {
           e = dn(o.end);
         const ov = absOverlap(aid, s, e);
         if (ov.length)
-          ln += `<div class="note warn">🗓 ${esc(mem(aid)?.name)} estará ausente durante la tarea: ${ov.map((x) => `<b>${esc(absLabel(x))}</b> ${fmt(x.start)}–${fmt(x.end)}${x.availability > 0 ? ` (disponible ${x.availability}%)` : ''}`).join(', ')}.</div>`;
+          ln += `<div class="note warn">🗓 ${esc(mem(aid)?.name)} estará ausente durante la tarea: ${ov.map((x) => `<b>${esc(absLabel(x))}</b> ${absWhen(x)}${!absHours(x) && x.availability > 0 ? ` (disponible ${x.availability}%)` : ''}`).join(', ')}.</div>`;
         const hs = holOn(aid, s),
           he = holOn(aid, e);
         if (hs.length || he.length || !isWork(s) || !isWork(e))
@@ -630,7 +630,7 @@ function openMeeting(id, defs = {}) {
      'General (varios proyectos)',
    )}</select></label>
    <label>Fecha<input type="date" id="mD" value="${esc(m.date)}"></label>
-   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Hora<input type="time" id="mH" value="${esc(m.time || '')}"></label><label>Duración (min)<input type="number" min="5" step="5" id="mDu" value="${m.duration || 60}"></label></div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Hora de inicio<input type="time" id="mH" value="${esc(m.time || '')}"></label><label>Hora de fin<input type="time" id="mF" value="${endTime(m.time, m.duration)}"></label></div>
    ${
      tbm
        ? ''
@@ -670,9 +670,18 @@ function openMeeting(id, defs = {}) {
         projectId: val('mP'),
         date: val('mD'),
         time: val('mH'),
-        duration: +val('mDu') || 0,
+        duration: m.duration || 60,
         notes: $('#mN').value,
       };
+      const h0 = hm2min(o.time),
+        h1 = hm2min(val('mF'));
+      if (!tbm && h0 != null && h1 != null) {
+        if (h1 <= h0) {
+          toast('La hora de fin debe ser posterior a la de inicio.');
+          return false;
+        }
+        o.duration = h1 - h0;
+      }
       if (!o.title || !o.date) {
         toast('Indica título y fecha.');
         return false;
@@ -779,8 +788,23 @@ function openMeeting(id, defs = {}) {
       : null,
     editable,
   );
+  {
+    let len = +m.duration || 60;
+    const H = $('#mH'),
+      F = $('#mF');
+    if (H && F) {
+      H.onchange = () => {
+        if (hm2min(H.value) != null) F.value = min2hm(Math.min(1439, hm2min(H.value) + len));
+      };
+      F.onchange = () => {
+        const a = hm2min(H.value),
+          b = hm2min(F.value);
+        if (a != null && b != null && b > a) len = b - a;
+      };
+    }
+  }
   if (tbm) {
-    ['mT', 'mD', 'mH', 'mDu'].forEach((i) => ($('#' + i).disabled = true));
+    ['mT', 'mD', 'mH', 'mF'].forEach((i) => ($('#' + i).disabled = true));
     const d = $('#mDel');
     if (d) d.textContent = 'Ocultar en la herramienta';
   }
@@ -1149,18 +1173,28 @@ function openBulkMeetings(ids) {
    <label>Tipo<select id="bT"><option value="__keep">— No cambiar —</option>${Object.entries(MTYPE)
      .map(([k, v]) => `<option value="${k}">${esc(v)}</option>`)
      .join('')}</select></label>
-   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Hora<input type="time" id="bH" placeholder="no cambiar"></label><label>Duración (min)<input type="number" min="5" step="5" id="bD" placeholder="no cambiar"></label></div>
-   <div class="hint" style="align-self:end">Hora y duración vacías = no cambiar.${tb ? ' No se aplican a las de Thunderbird.' : ''}</div>
+   <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><label>Hora de inicio<input type="time" id="bH"></label><label>Hora de fin<input type="time" id="bF"></label></div>
+   <div class="hint" style="align-self:end">Horas vacías = no cambiar.${tb ? ' No se aplican a las de Thunderbird.' : ''}</div>
    <div class="full hint" id="bSum"></div>`;
   openDlg('Modificar ' + ms.length + ' reunión(es)', body, async () => {
     const P = val('bP'),
       T = val('bT'),
       H = val('bH'),
-      D = +val('bD') || 0;
-    if (!add.size && !rem.size && P === '__keep' && T === '__keep' && !H && !D) {
+      F = val('bF');
+    if (!add.size && !rem.size && P === '__keep' && T === '__keep' && !H && !F) {
       toast('No has cambiado nada.');
       return false;
     }
+    if (H && F && hm2min(F) <= hm2min(H)) {
+      toast('La hora de fin debe ser posterior a la de inicio.');
+      return false;
+    }
+    // new length of a meeting: from its (new) start time to the end time given
+    const durOf = (x) => {
+      const a = hm2min(H || x.time),
+        b = hm2min(F);
+      return F && a != null && b > a ? b - a : 0;
+    };
     const items = [];
     let empty = 0;
     for (const x of ms) {
@@ -1182,7 +1216,7 @@ function openBulkMeetings(ids) {
         if (P !== '__keep') ov.projectId = P;
         if (T !== '__keep') ov.type = T;
         if (H) ov.time = H;
-        if (D) ov.duration = D;
+        if (durOf(x)) ov.duration = durOf(x);
         items.push([id, ov]);
         continue;
       }
@@ -1200,7 +1234,7 @@ function openBulkMeetings(ids) {
         ]);
       else {
         if (H) ch.time = H;
-        if (D) ch.duration = D;
+        if (durOf(x)) ch.duration = durOf(x);
         items.push([
           id,
           { ...cur, ...ch, createdBy: x.createdBy || ME.memberId, updatedAt: new Date().toISOString() },

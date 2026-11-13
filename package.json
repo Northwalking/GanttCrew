@@ -1,6 +1,6 @@
 {
   "name": "ganttcrew",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A single-file Gantt & project planner for small teams, shared through a cloud folder (Spanish / English).",
   "license": "MIT",
   "private": true,

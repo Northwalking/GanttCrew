@@ -169,8 +169,10 @@ Puedes arrastrar las barras para cambiar las fechas (si tienes permiso sobre la 
 En la pestaña **Ausencias**:
 
 - **+ Ausencia**: vacaciones, ausencia con permiso, baja médica, viaje de proyecto (con disponibilidad
-  parcial), congreso o formación, u otra. El resto del equipo solo ve «Ausente», sin el tipo ni la nota.
-  No escribas datos médicos.
+  parcial), congreso o formación, u otra. Puede ser de **días completos** (desde y hasta qué día) o **por
+  horas** (un día, desde y hasta qué hora; esas horas se descuentan de la jornada). El equipo ve los días o
+  el horario de la ausencia. En una **baja médica**, el resto del equipo solo ve «Ausente», sin el tipo ni
+  la nota. No escribas datos médicos.
 - **Festivos** en tres niveles: **nacionales** (todo el equipo), **autonómicos** y **locales** (según el
   municipio del centro de cada persona), además de los de **empresa o centro**. Los festivos no cuentan
   como días laborables.

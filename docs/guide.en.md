@@ -164,8 +164,10 @@ You can drag bars to change dates (if you have permission on the task).
 In the **Absences** tab:
 
 - **+ Absence**: vacation, leave with permission, sick leave, project trip (with partial availability),
-  conference or training, or other. The rest of the team only sees «Absent», without the type or the note.
-  Do not write medical details.
+  conference or training, or other. It can be for **whole days** (from and to which day) or **by hours**
+  (one day, from and to what time; those hours are taken off the working day). The team sees the days or
+  the time range of the absence. For a **sick leave**, the rest of the team only sees «Absent», without the
+  type or the note. Do not write medical details.
 - **Holidays** in three levels: **national** (whole team), **regional** and **local** (by the municipality of
   each person's office), plus **company or office** holidays. Holidays do not count as working days.
 - **Import holidays (BOCM)**: reads the yearly holidays decree of the Community of Madrid (Spain) or the

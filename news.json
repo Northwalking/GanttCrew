@@ -1,6 +1,14 @@
 [
   {
-    "es": "Primera versión pública de GanttCrew: interfaz en español e inglés, datos de ejemplo de la empresa ficticia Astrorel y demo en línea.",
-    "en": "First public release of GanttCrew: Spanish and English interface, sample data of the fictitious company Astrorel and an online demo."
+    "es": "Reuniones: en lugar de la duración en minutos se indica la hora de fin, como en Outlook. Al cambiar la hora de inicio, la de fin se mueve sola para mantener la duración. Las listas y el Calendario muestran el horario completo (10:00–11:30).",
+    "en": "Meetings: instead of a duration in minutes you now enter an end time, as in Outlook. Changing the start time moves the end time to keep the length. Lists and the Calendar show the full time range (10:00–11:30)."
+  },
+  {
+    "es": "Ausencias por horas: al registrar una ausencia puedes elegir «Días completos» (desde/hasta qué día) o «Por horas» (un día, desde qué hora hasta qué hora). Las horas se descuentan de la jornada de ese día y el equipo ve el horario de la ausencia.",
+    "en": "Absences by hours: when registering an absence you can choose «Whole days» (from/to which day) or «By hours» (one day, from what time to what time). The hours are taken off that day's working time and the team sees the time range of the absence."
+  },
+  {
+    "es": "Corregidos tres textos que salían en español con la interfaz en inglés.",
+    "en": "Fixed three texts that were shown in Spanish with the English interface."
   }
 ]

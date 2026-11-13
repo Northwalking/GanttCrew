@@ -5,6 +5,18 @@ title and in *Projects & team → Tool version*.
 Los cambios relevantes se recogen aquí. La herramienta muestra además su fecha y hora de publicación
 (hora de Madrid) bajo el título y en *Proyectos y equipo → Versión de la herramienta*.
 
+## [1.0.1] — 2026-11-13
+
+- Meetings: an **end time** replaces the duration in minutes; changing the start time keeps the length;
+  lists and the Calendar show the time range · Reuniones: la **hora de fin** sustituye a la duración en
+  minutos; al cambiar la hora de inicio se mantiene la duración; las listas y el Calendario muestran el
+  horario.
+- Absences **by hours** (one day, from/to a time) besides whole days; the hours are taken off that day's
+  working time and the team sees the time range · Ausencias **por horas** (un día, desde/hasta una hora)
+  además de por días completos; las horas se descuentan de la jornada y el equipo ve el horario.
+- Fixed three texts shown in Spanish in the English interface · Corregidos tres textos que salían en
+  español con la interfaz en inglés.
+
 ## [1.0.0] — 2026-11-09
 
 First public release · Primera versión pública.
