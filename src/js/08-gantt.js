@@ -368,14 +368,18 @@ function taskBar(R, t, top, extraTitle = '') {
         h += `<div class="fcstk" style="left:${k.x + k.w / 2 - 1}px"></div><div class="fcdia" style="left:${k.x + k.w / 2 - 5}px" title="${esc('Fin previsto ' + fmt(iso(f.end)) + (f.slip ? ' (' + (f.slip > 0 ? '+' : '') + f.slip + ' días lab. respecto al plan)' : ' (en plazo)'))}"></div>`;
     }
     if (top == null && GBT < 17)
-      h += `<span class="btxt" style="left:${tx + 5}px">${esc(mem(t.assigneeId)?.name || '')} · ${t.progress || 0}%${t.status === 'done' ? ' ✓' : ''}${inact(t) === 'paused' ? ' · <i>en pausa</i>' : inact(t) === 'cancelled' ? ' · <i>cancelada</i>' : ''}${f.slip > 0 ? ` · <b style="color:var(--bad)">prevista ${fmt(iso(f.end)).slice(0, 5)}</b>` : ''}</span>`;
+      h += `<span class="btxt" style="left:${tx + 5}px">${esc(teamNames(t))} · ${t.progress || 0}%${t.status === 'done' ? ' ✓' : ''}${inact(t) === 'paused' ? ' · <i>en pausa</i>' : inact(t) === 'cancelled' ? ' · <i>cancelada</i>' : ''}${f.slip > 0 ? ` · <b style="color:var(--bad)">prevista ${fmt(iso(f.end)).slice(0, 5)}</b>` : ''}</span>`;
   }
   if (t.realStart && top == null) {
     const rs = dn(t.realStart),
-      re = t.realEnd ? dn(t.realEnd) : Math.max(rs, todayN());
+      re = t.realEnd
+        ? dn(t.realEnd)
+        : t.status === 'done'
+          ? Math.max(rs, dn(t.end) ?? rs) // finished without a real end date: up to the planned end
+          : Math.max(rs, todayN());
     const r = clip(R, rs, re);
     if (r)
-      h += `<div class="real" style="left:${r.x}px;width:${r.w}px" title="Real: ${fmt(t.realStart)}–${t.realEnd ? fmt(t.realEnd) : 'en curso'}"></div>`;
+      h += `<div class="real" style="left:${r.x}px;width:${r.w}px" title="Real: ${fmt(t.realStart)}–${t.realEnd ? fmt(t.realEnd) : t.status === 'done' ? 'terminada, sin fecha real de fin' : 'en curso'}"></div>`;
   }
   return h;
 }
@@ -505,7 +509,7 @@ function vGantt_(X) {
     );
     const groups = ms.map((m) => ({
       m,
-      ts: tasks.filter((t) => t.assigneeId === m.id && (!UI.proj.size || UI.proj.has(t.projectId))),
+      ts: tasks.filter((t) => inTask(t, m.id) && (!UI.proj.size || UI.proj.has(t.projectId))),
     }));
     const un = tasks.filter((t) => !S.members[t.assigneeId] && (!UI.proj.size || UI.proj.has(t.projectId)));
     if (un.length && !UI.member) groups.push({ m: null, ts: un });

@@ -314,3 +314,18 @@ function mdField(ta, opt = {}) {
   ta.addEventListener('blur', show);
   show();
 }
+
+/* ---------- colaboradores de una tarea ----------
+   Besides its owner (assigneeId), a task can have collaborators who help on it, each with their own
+   dedication (% of their own working day): t.collab = [{ id, ded }]. Their hours count in their load and
+   help the task finish sooner; progress is still reported by the owner. */
+const collabOf = (t) =>
+  (t?.collab || []).filter((c) => c && c.id && c.id !== t.assigneeId && S.members[c.id] && +c.ded > 0);
+const inTask = (t, mid) => !!mid && (t.assigneeId === mid || collabOf(t).some((c) => c.id === mid));
+const dedFor = (t, mid) =>
+  mid === t.assigneeId ? (t.dedication ?? 100) : +(collabOf(t).find((c) => c.id === mid)?.ded || 0);
+// "Carlos + Lucía" (names of the owner and collaborators)
+const teamNames = (t) =>
+  [mem(t.assigneeId)?.name || '', ...collabOf(t).map((c) => mem(c.id)?.name || '')]
+    .filter(Boolean)
+    .join(' + ');

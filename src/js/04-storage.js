@@ -25,6 +25,8 @@ const PLAN_FIELDS = [
   'forceStart',
   'hist',
   'asg',
+  'collab',
+  'colOn',
 ];
 // Meetings are private to the people in them: their attendees and whoever created them. Everyone else,
 // the PM included, only sees that those people are in a meeting (date, time, who), without title, type,
@@ -342,6 +344,10 @@ async function save(col, id, data) {
       now = data.assigneeId || '';
     if (was !== now) data = { ...data, asg: { on: todayS(), ...(was ? { from: was } : {}) } };
     else if (prev?.asg && !data.asg) data = { ...data, asg: prev.asg };
+    // when each collaborator joined, so that they are told
+    const colOn = {};
+    for (const c of data.collab || []) colOn[c.id] = prev?.colOn?.[c.id] || todayS();
+    data = { ...data, colOn };
   }
   if (await savePrivRoute(col, id, data || {})) return id;
   if (col === 'evals') {

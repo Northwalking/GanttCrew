@@ -75,6 +75,7 @@ function openTask(id, defs = {}) {
   const ev = S.evals[id] || {};
   let q = ev.quality || 0;
   let deps = [...(t.deps || [])];
+  let col = (t.collab || []).map((c) => ({ id: c.id, ded: +c.ded || 20 }));
   let H = JSON.parse(JSON.stringify(hist(t)));
   let pzForm = null;
   const ms = pickMembers([t.assigneeId, t.detectedBy]).map((m) => [m.id, m.name]);
@@ -112,6 +113,7 @@ function openTask(id, defs = {}) {
    ${id ? '<div class="full" id="tPz"></div>' : ''}
    <label>Dedicación prevista (% de su jornada)<input type="number" min="5" max="100" step="5" id="tDed" value="${t.dedication ?? 100}"></label>
    <div class="hint" style="align-self:end;padding-bottom:8px" id="tDedH"></div>
+   <div class="full" id="tCol"></div>
    <label>Horas estimadas (total)<input type="number" min="0" step="1" id="tEH" value="${esc(t.estimatedHours ?? '')}" placeholder="${Math.round(estHours(t)) || ''}"></label>
    <label>Horas pendientes <span class="mut" style="font-weight:400">(vacío = según avance)</span><input type="number" min="0" step="1" id="tRH" value="${esc(t.remainingHours ?? '')}"></label>
    <div id="tFc" class="full" style="display:contents"></div>
@@ -179,6 +181,58 @@ function openTask(id, defs = {}) {
           renderDeps();
           upd();
         }
+      };
+  };
+  // collaborators: other people helping on the task, each with their own dedication
+  const renderCol = () => {
+    const box = $('#tCol');
+    if (!box) return;
+    const aid = ME.owner ? val('tAs') : t.assigneeId;
+    col = col.filter((c) => c.id !== aid);
+    const canE = editable && planOK && !S.projects[val('tProj')]?.priv;
+    let h = `<div style="font-weight:500;font-size:12px;color:#344054;margin-bottom:6px">Colaboradores <span class="mut" style="font-weight:400">· ayudan al responsable; su dedicación cuenta en su carga y acorta la tarea</span></div>`;
+    h += col
+      .map(
+        (c) =>
+          `<div class="dep" style="align-items:center"><span style="flex:1">${who(c.id)}</span>${
+            canE
+              ? `<input type="number" min="5" max="100" step="5" data-cd="${c.id}" value="${c.ded}" style="width:70px"> <span class="mut">% de su jornada</span> <button type="button" class="btn sm" data-cx="${c.id}" title="Quitar">✕</button>`
+              : `<span class="mut">${c.ded} % de su jornada</span>`
+          }</div>`,
+      )
+      .join('');
+    if (!col.length) h += '<span class="hint">Sin colaboradores.</span>';
+    if (canE) {
+      const cand = pickMembers(col.map((c) => c.id)).filter(
+        (m) => m.id !== aid && !col.some((c) => c.id === m.id),
+      );
+      if (cand.length)
+        h += `<select id="tAddCol" style="margin-top:6px"><option value="">+ Añadir colaborador…</option>${cand.map((m) => `<option value="${m.id}">${esc(m.name)}</option>`).join('')}</select>`;
+    }
+    box.innerHTML = h;
+    box.querySelectorAll('[data-cd]').forEach(
+      (i) =>
+        (i.oninput = () => {
+          const c = col.find((x) => x.id === i.dataset.cd);
+          if (c) c.ded = Math.min(100, Math.max(5, +i.value || 5));
+          upd();
+        }),
+    );
+    box.querySelectorAll('[data-cx]').forEach(
+      (b) =>
+        (b.onclick = () => {
+          col = col.filter((c) => c.id !== b.dataset.cx);
+          renderCol();
+          upd();
+        }),
+    );
+    const ac = $('#tAddCol');
+    if (ac)
+      ac.onchange = () => {
+        if (!ac.value) return;
+        col.push({ id: ac.value, ded: 20 });
+        renderCol();
+        upd();
       };
   };
   const renderPz = () => {
@@ -328,11 +382,11 @@ function openTask(id, defs = {}) {
   const collect = () => {
     const status = val('tSt');
     let progress = +$('#tP').value;
-    let realEnd = val('tRE');
-    if (status === 'done') {
-      progress = 100;
-      if (!realEnd) realEnd = todayS();
-    }
+    // Las fechas reales se guardan tal como están en el formulario, también
+    // vacías: si se cumplió lo planificado o no se recuerda la fecha real, se
+    // dejan en blanco. Solo se proponen al cambiar el estado (tSt.onchange).
+    const realEnd = val('tRE');
+    if (status === 'done') progress = 100;
     const o = {
       projectId: val('tProj'),
       name: val('tName'),
@@ -344,7 +398,7 @@ function openTask(id, defs = {}) {
       description: $('#tDesc').value,
       start: val('tS'),
       end: val('tE'),
-      realStart: val('tRS') || (status !== 'pending' && status !== 'blocked' ? t.realStart || todayS() : ''),
+      realStart: val('tRS'),
       realEnd,
       status,
       progress,
@@ -352,6 +406,7 @@ function openTask(id, defs = {}) {
       forceStart: ME.owner && $('#tForce') ? $('#tForce').checked : !!t.forceStart,
       blockReason: status === 'blocked' ? val('tBR') : '',
       dedication: Math.min(100, Math.max(5, +$('#tDed').value || 100)),
+      collab: col.filter((c) => c.id && c.id !== (ME.owner ? val('tAs') : t.assigneeId)),
       estimatedHours: $('#tEH').value === '' ? null : Math.max(0, +$('#tEH').value),
       remainingHours: $('#tRH').value === '' ? null : Math.max(0, +$('#tRH').value),
       createdAt: t.createdAt || new Date().toISOString(),
@@ -418,20 +473,23 @@ function openTask(id, defs = {}) {
         ? `≈ ${((cap * o.dedication) / 100).toFixed(1)} h/día de ${cap} h disponibles`
         : '';
       let ln = '';
-      if (aid && o.start && o.end && o.status !== 'done') {
+      if (o.start && o.end && o.status !== 'done') {
         const s = dn(o.start),
           e = dn(o.end);
-        const wk = weekLoads(
-          aid,
-          Math.max(s, todayN() - 7),
-          Math.max(1, Math.min(26, Math.ceil((e - Math.max(s, todayN() - 7) + 1) / 7) + 1)),
-          { exclude: id, extra: { ...o, id: '__new' } },
-        ).filter((w) => w.start + 4 >= s && w.start <= e);
-        const pk = wk.reduce((a, w) => (w.avg > a.avg ? w : a), { avg: 0 });
-        if (pk.avg > 100)
-          ln = `<div class="note bad">⚠ Con esta tarea, <b>${esc(mem(aid)?.name)}</b> queda en <b>sobrecarga</b>: ${fmtPct(pk.avg)} de sus horas disponibles la semana del ${fmt(iso(pk.start))}. Reduce la dedicación, mueve fechas o reasigna.</div>`;
-        else if (pk.avg >= 85)
-          ln = `<div class="note warn">Con esta tarea, ${esc(mem(aid)?.name)} queda al límite (${fmtPct(pk.avg)} la semana del ${fmt(iso(pk.start))}).</div>`;
+        const ex = { ...o, id: '__new' };
+        for (const pid of [aid, ...collabOf(ex).map((c) => c.id)].filter(Boolean)) {
+          const wk = weekLoads(
+            pid,
+            Math.max(s, todayN() - 7),
+            Math.max(1, Math.min(26, Math.ceil((e - Math.max(s, todayN() - 7) + 1) / 7) + 1)),
+            { exclude: id, extra: ex },
+          ).filter((w) => w.start + 4 >= s && w.start <= e);
+          const pk = wk.reduce((a, w) => (w.avg > a.avg ? w : a), { avg: 0 });
+          if (pk.avg > 100)
+            ln += `<div class="note bad">⚠ Con esta tarea, <b>${esc(mem(pid)?.name)}</b> queda en <b>sobrecarga</b>: ${fmtPct(pk.avg)} de sus horas disponibles la semana del ${fmt(iso(pk.start))}. Reduce la dedicación, mueve fechas, reasigna o reparte con colaboradores.</div>`;
+          else if (pk.avg >= 85)
+            ln += `<div class="note warn">Con esta tarea, ${esc(mem(pid)?.name)} queda al límite (${fmtPct(pk.avg)} la semana del ${fmt(iso(pk.start))}).</div>`;
+        }
       }
       if (aid && o.start && o.end && o.status !== 'done') {
         const s = dn(o.start),
@@ -553,6 +611,7 @@ function openTask(id, defs = {}) {
   }
   mdField($('#tDesc'));
   renderDeps();
+  renderCol();
   renderPz();
   $('#tSt').addEventListener('change', renderPz);
   const detToggle = () => {
@@ -562,7 +621,10 @@ function openTask(id, defs = {}) {
   };
   $('#tOrig').onchange = detToggle;
   detToggle();
-  $('#tAs').addEventListener('change', () => upd());
+  $('#tAs').addEventListener('change', () => {
+    renderCol();
+    upd();
+  });
   {
     const pvS = () => {
       const pv = !!S.projects[val('tProj')]?.priv;
@@ -621,6 +683,9 @@ function openTask(id, defs = {}) {
       });
   }
   $('#tSt').onchange = () => {
+    // Al empezar o terminar la tarea se propone hoy como fecha real; se puede borrar antes de guardar.
+    if (val('tSt') !== 'pending' && val('tSt') !== 'blocked' && !val('tRS'))
+      $('#tRS').value = t.realStart || todayS();
     if (val('tSt') === 'done') {
       $('#tP').value = 100;
       $('#tPv').textContent = '100%';

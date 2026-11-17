@@ -1,5 +1,13 @@
 [
   {
+    "es": "Colaboradores en las tareas: además del responsable, el PM puede añadir personas que le ayudan, cada una con su dedicación. Sus horas cuentan en su carga y en el aviso de sobrecarga, adelantan la fecha prevista y la tarea aparece también en su Gantt y su calendario. El Excel muestra los colaboradores.",
+    "en": "Task collaborators: besides the owner, the PM can add people who help, each with their own dedication. Their hours count in their load and in the overload warning, bring the forecast date forward, and the task also shows in their Gantt and calendar. The Excel export lists the collaborators."
+  },
+  {
+    "es": "Fechas reales en blanco: «Inicio real» y «Fin real» se pueden dejar vacíos también en una tarea terminada, por ejemplo si se cumplió lo planificado o no se recuerda la fecha. Al cambiar el estado a «en curso» o «terminada», la herramienta propone la fecha de hoy, pero se puede borrar antes de guardar. En el Gantt, una tarea terminada sin fin real se dibuja hasta su fin planificado; en el indicador de puntualidad no cuenta.",
+    "en": "Blank actual dates: «Actual start» and «Actual end» can be left empty, also in a finished task, for example if the plan was met or the date is not remembered. When the status changes to «in progress» or «finished», the tool proposes today's date, but it can be cleared before saving. In the Gantt, a finished task without an actual end is drawn up to its planned end; it does not count in the punctuality indicator."
+  },
+  {
     "es": "Reuniones privadas: los detalles de una reunión solo los ven sus asistentes y quien la creó. El resto del equipo, también el PM, solo ve que esas personas están reunidas (🔒), y la reunión sigue restando horas en la planificación.",
     "en": "Private meetings: a meeting's details are only seen by its attendees and by whoever created it. The rest of the team, the PM included, only sees that those people are in a meeting (🔒), and the meeting still takes hours in the planning."
   },

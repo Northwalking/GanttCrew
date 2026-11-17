@@ -31,14 +31,13 @@ const MESL2 = LA(
 );
 const DWL = LA(['D', 'L', 'M', 'X', 'J', 'V', 'S'], ['S', 'M', 'T', 'W', 'T', 'F', 'S']);
 const nf1 = (v) => (Math.round(v * 10) / 10).toLocaleString(LOC(), { maximumFractionDigits: 1 });
-function taskHoursOn(t, d) {
+function taskHoursOn(t, d, mid = t.assigneeId) {
   if (t.status === 'done' || inact(t) || t.priv || S.projects[t.projectId]?.priv) return 0;
   const a = dn(t.start),
     b = dn(t.end);
   if (a == null || b == null || d < a || d > b) return 0;
   if (hist(t).length && inGap(t, d)) return 0;
-  const mid = t.assigneeId,
-    ded = (t.dedication ?? 100) / 100;
+  const ded = dedFor(t, mid) / 100;
   let h = 0;
   if (isRegM(mid, d)) h += capOf(mid) * ded;
   const ex = extraAt(mid, d);
@@ -52,8 +51,8 @@ function dayInfo(mid, d) {
     hol = holOn(mid, d);
   const cap = (reg ? capOf(mid) * absAvail(ab) : 0) + (ex ? ex.h : 0);
   const ts = arr('tasks')
-    .filter((t) => t.assigneeId === mid)
-    .map((t) => ({ t, h: taskHoursOn(t, d) }))
+    .filter((t) => inTask(t, mid))
+    .map((t) => ({ t, h: taskHoursOn(t, d, mid) }))
     .filter((x) => x.h > 0);
   const ms = arr('meetings')
     .filter((x) => (x.attendees || []).includes(mid) && dn(x.date) === d)
@@ -339,7 +338,7 @@ function vEquipo() {
   for (const m of ms) {
     if (UI.member && (UI.member === '__me' ? me !== m.id : UI.member !== m.id)) continue;
     const mt = tasks
-      .filter((t) => t.assigneeId === m.id)
+      .filter((t) => inTask(t, m.id))
       .sort((a, b) => (a.start || '').localeCompare(b.start || ''));
     const lanes = [];
     const placed = mt.map((t) => {
@@ -509,7 +508,15 @@ function vTareas() {
           `<div style="white-space:nowrap">${x.status === 'done' ? '✓' : '⏳'} ${esc(x.name.length > 28 ? x.name.slice(0, 27) + '…' : x.name)} ${who(x.assigneeId, true)}</div>`,
       )
       .join('');
-    h += `<tr class="click" data-task="${t.id}"><td><span class="who"><span class="dot" style="background:${esc(p?.color || '#98a2b3')}"></span>${esc(p?.code || p?.name || '—')}</span></td><td><b style="font-weight:500">${esc(t.name)}</b>${t.priority === 'alta' ? ' <span class="tag bad">alta</span>' : ''} ${depTags(t)}${projEndRisk(t) ? ` <span class="tag bad" title="Acaba o está prevista después del fin objetivo del proyecto">Fuera del plazo del proyecto</span>` : ''}</td><td><span class="tag ${o.c}">${o.t}</span></td><td>${who(t.assigneeId)}</td><td>${fmt(t.start)}</td><td>${fmt(t.end)}</td><td>${fcTag(t)}</td><td>${fmt(t.realEnd)}</td><td><div style="display:flex;gap:6px;align-items:center"><div class="pbar"><i style="width:${t.progress || 0}%"></i></div>${t.progress || 0}%</div></td><td style="font-size:12px">${dp || '<span class="mut">—</span>'}</td><td>${STAT[t.status] || 'Pendiente'}</td><td>${statusCell(t)}</td></tr>`;
+    h += `<tr class="click" data-task="${t.id}"><td><span class="who"><span class="dot" style="background:${esc(p?.color || '#98a2b3')}"></span>${esc(p?.code || p?.name || '—')}</span></td><td><b style="font-weight:500">${esc(t.name)}</b>${t.priority === 'alta' ? ' <span class="tag bad">alta</span>' : ''} ${depTags(t)}${projEndRisk(t) ? ` <span class="tag bad" title="Acaba o está prevista después del fin objetivo del proyecto">Fuera del plazo del proyecto</span>` : ''}</td><td><span class="tag ${o.c}">${o.t}</span></td><td>${who(t.assigneeId)}${
+      collabOf(t).length
+        ? ` <span class="mut" title="Colaboradores: ${esc(
+            collabOf(t)
+              .map((c) => mem(c.id)?.name)
+              .join(', '),
+          )}">+${collabOf(t).length}</span>`
+        : ''
+    }</td><td>${fmt(t.start)}</td><td>${fmt(t.end)}</td><td>${fcTag(t)}</td><td>${fmt(t.realEnd)}</td><td><div style="display:flex;gap:6px;align-items:center"><div class="pbar"><i style="width:${t.progress || 0}%"></i></div>${t.progress || 0}%</div></td><td style="font-size:12px">${dp || '<span class="mut">—</span>'}</td><td>${STAT[t.status] || 'Pendiente'}</td><td>${statusCell(t)}</td></tr>`;
   }
   return h + `</tbody></table></div>`;
 }
@@ -593,7 +600,7 @@ function vReuniones() {
   }
   if (sel) {
     const vis = list.filter(canEditMeeting);
-    h += `<div class="note info" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>${UI.meetPick.size}</b> reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o usa el buscador y el periodo para filtrar (por ejemplo, «briefing» + «Desde hoy»).</span><span class="sp"></span><button class="btn sm" id="mSelAll">Marcar las ${vis.length} visibles</button><button class="btn sm" id="mSelNone">Desmarcar todas</button><button class="btn sm pri" id="mSelEdit" ${UI.meetPick.size ? '' : 'disabled'}>Modificar las seleccionadas</button><button class="btn sm" id="mSelDel" style="color:var(--bad)" ${UI.meetPick.size ? '' : 'disabled'} title="Borra las reuniones seleccionadas. Las de una serie periódica o de Thunderbird se ocultan solo en la herramienta.">Eliminar las seleccionadas</button></div>`;
+    h += `<div class="note info" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>${UI.meetPick.size}</b> reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o filtra: en el buscador escribe solo una palabra del título (por ejemplo, briefing) y en el periodo elige «Desde hoy (todas las futuras)».</span><span class="sp"></span><button class="btn sm" id="mSelAll">Marcar las ${vis.length} visibles</button><button class="btn sm" id="mSelNone">Desmarcar todas</button><button class="btn sm pri" id="mSelEdit" ${UI.meetPick.size ? '' : 'disabled'}>Modificar las seleccionadas</button><button class="btn sm" id="mSelDel" style="color:var(--bad)" ${UI.meetPick.size ? '' : 'disabled'} title="Borra las reuniones seleccionadas. Las de una serie periódica o de Thunderbird se ocultan solo en la herramienta.">Eliminar las seleccionadas</button></div>`;
   }
   h += `<div class="grid2"><div class="card"><h3>Reuniones${q ? ` <span class="mut" style="font-weight:400">· «${esc(UI.meetQ)}»: ${list.length}</span>` : ''}${
     UI.meetMember && S.members[UI.meetMember]
@@ -823,7 +830,7 @@ function openExtra(id) {
   const editable = ME.owner || (!!ME.memberId && x.memberId === ME.memberId);
   const tasksOf = (mid) =>
     arr('tasks')
-      .filter((t) => t.assigneeId === mid && t.status !== 'done' && !inact(t) && !t.priv)
+      .filter((t) => inTask(t, mid) && t.status !== 'done' && !inact(t) && !t.priv)
       .sort((a, b) => String(a.name).localeCompare(b.name));
   const body = `<label>Persona<select id="xM" ${ME.owner ? '' : 'disabled'}>${opt(
     pickMembers([x.memberId]).map((m) => [m.id, m.name]),
@@ -989,7 +996,7 @@ function openAbsence(id, defs = {}) {
     } else if (s != null && e != null && e >= s) {
       info = `${workDays(mid, s, e)} días laborables`;
       const ts = arr('tasks').filter(
-        (x) => x.assigneeId === mid && x.status !== 'done' && dn(x.start) <= e && dn(x.end) >= s,
+        (x) => inTask(x, mid) && x.status !== 'done' && dn(x.start) <= e && dn(x.end) >= s,
       );
       if (ts.length)
         w += `<div class="note warn">En esas fechas tiene ${ts.length} tarea${ts.length > 1 ? 's' : ''} prevista${ts.length > 1 ? 's' : ''}: ${ts

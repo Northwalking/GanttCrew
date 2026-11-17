@@ -144,3 +144,23 @@ test('a quality rating can be removed, which deletes the evaluation', async ({ p
   await page.waitForTimeout(500);
   expect(await page.evaluate(() => S.evals.t1.quality)).toBe(5);
 });
+
+test('actual dates can be left blank, also in a finished task', async ({ page }) => {
+  const errors = await newTeam(page);
+  const r = await page.evaluate(async () => {
+    const t = arr('tasks').find((x) => x.status !== 'done');
+    openTask(t.id);
+    $('#tSt').value = 'done';
+    $('#tSt').onchange();
+    const proposed = [$('#tRS').value, $('#tRE').value];
+    $('#tRS').value = '';
+    $('#tRE').value = '';
+    await $('#mSave').onclick();
+    const s = S.tasks[t.id];
+    return { proposed, status: s.status, rs: s.realStart || '', re: s.realEnd || '', progress: s.progress };
+  });
+  expect(r.proposed[0]).not.toBe('');
+  expect(r.proposed[1]).not.toBe('');
+  expect(r).toMatchObject({ status: 'done', rs: '', re: '', progress: 100 });
+  expect(errors).toEqual([]);
+});

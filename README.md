@@ -62,7 +62,9 @@ The interface is in **Spanish and English** (switch `ES | EN` next to the versio
    Everyone else just opens the same file and picks their name.
 
 The full user guide is in [docs/guide.en.md](docs/guide.en.md); backups, people leaving and handing over
-the team lead are covered step by step in [docs/handovers-and-backups.en.md](docs/handovers-and-backups.en.md).
+the team lead are covered step by step in [docs/handovers-and-backups.en.md](docs/handovers-and-backups.en.md),
+and how the workload and forecast dates are calculated, with formulas, in
+[docs/workload-and-forecast.en.md](docs/workload-and-forecast.en.md).
 Try it first in the [online demo](https://northwalking.github.io/GanttCrew/): it runs with the sample
 company **Astrorel** and stores data only in your browser (PM password `demo-1234`).
 
@@ -175,7 +177,8 @@ La interfaz está en **español e inglés** (selector `ES | EN` junto a la versi
 
 La guía completa está en [docs/guia.es.md](docs/guia.es.md); las copias de seguridad, las bajas y el
 traspaso de la dirección del equipo se explican paso a paso en
-[docs/traspasos-y-copias.es.md](docs/traspasos-y-copias.es.md).
+[docs/traspasos-y-copias.es.md](docs/traspasos-y-copias.es.md), y cómo se calculan la carga de trabajo y
+las fechas previstas, con sus fórmulas, en [docs/carga-y-prevision.es.md](docs/carga-y-prevision.es.md).
 Pruébala antes en la [demo en línea](https://northwalking.github.io/GanttCrew/): usa la empresa ficticia
 **Astrorel** y guarda los datos solo en tu navegador (contraseña de PM `demo-1234`).
 

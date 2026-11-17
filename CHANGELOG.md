@@ -7,6 +7,20 @@ Los cambios relevantes se recogen aquí. La herramienta muestra además su fecha
 
 ## [Unreleased]
 
+## [1.3.0] — 2026-11-17
+
+- New document with the workload and forecast formulas · Documento nuevo con las fórmulas de la carga y
+  de la fecha prevista (`docs/carga-y-prevision.es.md`, `docs/workload-and-forecast.en.md`).
+- **Task collaborators** with their own dedication: counted in their load, the overload warning and the
+  forecast · **Colaboradores en las tareas** con su propia dedicación: cuentan en su carga, en el aviso de
+  sobrecarga y en la previsión.
+- Actual start and end dates can be left blank, also in a finished task; in the Gantt, a finished task
+  without an actual end is drawn up to its planned end · Las fechas reales de inicio y fin se pueden dejar
+  en blanco, también en una tarea terminada; en el Gantt, una tarea terminada sin fin real se dibuja hasta
+  su fin planificado.
+- Clearer hint when selecting several meetings (type just one word of the title) · Indicación más clara al
+  seleccionar varias reuniones (escribir solo una palabra del título).
+
 ## [1.2.0] — 2026-11-17
 
 - **Private meetings**: details only for attendees and creator; others see a 🔒 busy slot · **Reuniones

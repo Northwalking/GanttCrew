@@ -138,6 +138,25 @@ function alerts() {
             (t.assigneeId ? `: ahora la lleva ${mem(t.assigneeId)?.name || '—'}` : ': queda sin asignar'),
         });
     }
+  // added as a collaborator by the PM
+  if (!ME.owner && me)
+    for (const t of arr('tasks')) {
+      const on = t.colOn?.[me],
+        d = dn(on);
+      if (d == null || T - d > AL_A || T < d || t.status === 'done' || !inTask(t, me) || t.assigneeId === me)
+        continue;
+      const p = S.projects[t.projectId];
+      if (p && (p.status === 'closed' || p.status === 'cancelled')) continue;
+      out.push({
+        kind: 'task',
+        id: t.id,
+        name: t.name,
+        proj: p?.code || p?.name || '',
+        sev: 'info',
+        key: 'co:' + t.id + ':' + on + ':' + me,
+        txt: `Colaboras en esta tarea desde el ${fmt(on)} (responsable: ${mem(t.assigneeId)?.name || '—'})`,
+      });
+    }
   const rank = { bad: 0, warn: 1, info: 2 };
   return out.sort(
     (a, b) => rank[a.sev] - rank[b.sev] || (a.kind === b.kind ? 0 : a.kind === 'proj' ? -1 : 1),

@@ -89,16 +89,24 @@ Create them with **+ Task** / **+ Add task** (Gantt), or with the **+** button o
   start date.
 - **Planned dedication (% of their working time)** and **estimated hours**: they drive the load and the
   forecast. Without estimated hours, the dedication over the planned dates is used.
+- **Collaborators**: other people helping the owner, each with their own dedication (% of their working
+  time). Their hours count in their load and in the overload warning, and bring the task's forecast date
+  forward. Progress is still reported by the owner. Collaborators see the task in their Gantt, their
+  calendar and their list (filtering by their name), and get an alert in the bell when added. In the task
+  list they show as «+1», «+2»… next to the owner.
 - **Progress** and **hours remaining**: if you leave hours remaining empty, they are derived from progress.
 - **Status**: To do, In progress, Blocked or Done, with actual start and end dates.
 
 The form warns about problems before saving:
-- the owner is overloaded;
+- the owner or a collaborator is overloaded;
 - the owner has absences during the task;
 - the task starts or ends on a non-working day;
 - the end is later than the project's target end.
 
 You can still save with these warnings.
+
+The full calculation of the load and the forecast end, with its formulas and an example, is in
+[Workload and forecast date](workload-and-forecast.en.md).
 
 **How is the forecast end calculated?** The tool simulates each of the owner's working days from today:
 - it removes holidays, absences and meetings;

@@ -751,7 +751,7 @@ function buildICS(mid) {
   }
   for (const t of arr('tasks')) {
     if (t.priv || t.status === 'done' || !t.end || inact(t)) continue;
-    if (mid && t.assigneeId !== mid) continue;
+    if (mid && !inTask(t, mid)) continue;
     const p = S.projects[t.projectId];
     ev(
       'task-' + t.id,

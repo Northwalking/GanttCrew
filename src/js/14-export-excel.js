@@ -234,7 +234,7 @@ function ganttWorkbook(o) {
       let k = 0;
       const row = [
         { v: '    ' + t.name, s: sEmpty },
-        { v: name(t.assigneeId) || T('sin asignar'), s: sEmpty },
+        { v: teamNames(t) || T('sin asignar'), s: sEmpty },
         { v: xlDate(t.start), s: S_({ fmt: 'date', al: 'center', bd: 1 }) },
         { v: xlDate(t.end), s: S_({ fmt: 'date', al: 'center', bd: 1 }) },
         { v: prog, s: S_({ fmt: 'pct', al: 'center', bd: 1 }) },
@@ -290,6 +290,7 @@ function ganttWorkbook(o) {
       'Código corto',
       'Tarea',
       'Responsable',
+      'Colaboradores',
       'Origen',
       'Prioridad',
       'Inicio planificado',
@@ -311,6 +312,9 @@ function ganttWorkbook(o) {
       p.code || '',
       t.name,
       name(t.assigneeId),
+      collabOf(t)
+        .map((c) => `${name(c.id)} (${c.ded} %)`)
+        .join(', '),
       T(ORIG[t.origin || 'plan']?.t || ''),
       T(PR[t.priority || 'media']),
       { v: xlDate(t.start), s: sD },
@@ -336,12 +340,13 @@ function ganttWorkbook(o) {
       [1, 1, 12],
       [2, 2, 44],
       [3, 3, 18],
-      [4, 5, 16],
-      [6, 10, 13],
-      [11, 11, 9],
-      [12, 12, 18],
-      [13, 14, 12],
-      [15, 15, 40],
+      [4, 4, 26],
+      [5, 6, 16],
+      [7, 11, 13],
+      [12, 12, 9],
+      [13, 13, 18],
+      [14, 15, 12],
+      [16, 16, 40],
     ],
   });
   return {

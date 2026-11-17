@@ -31,7 +31,13 @@ function estHours(t) {
   if (s == null || e == null || !t.assigneeId) return 0;
   let n = 0;
   for (let d = s; d <= e; d++) if (isRegM(t.assigneeId, d)) n++;
-  return ((capOf(t.assigneeId) * (t.dedication ?? 100)) / 100) * Math.max(1, n);
+  let h = ((capOf(t.assigneeId) * (t.dedication ?? 100)) / 100) * Math.max(1, n);
+  for (const c of collabOf(t)) {
+    let k = 0;
+    for (let d = s; d <= e; d++) if (isRegM(c.id, d)) k++;
+    h += ((capOf(c.id) * c.ded) / 100) * k;
+  }
+  return h;
 }
 function remHours(t) {
   if (t.status === 'done') return 0;
@@ -95,6 +101,23 @@ function forecasts(override) {
       meetH[k] = (meetH[k] || 0) + +m.duration / 60;
     }
   }
+  // collaborators' hours: reserved in their own days between the task's start and planned end, and
+  // credited to the task on the days it can advance
+  const helpH = {};
+  for (const x of Object.values(st)) {
+    if (res[x.t.id] || x.mid === '__priv') continue;
+    const cs = collabOf(x.t);
+    if (!cs.length) continue;
+    x.help = {};
+    for (const c of cs)
+      for (let d = Math.max(x.ps, T); d <= Math.min(dn(x.t.end), HZ); d++) {
+        if (!isRegM(c.id, d)) continue;
+        const hh = ((capOf(c.id) * c.ded) / 100) * absAvail(absOn(c.id, d));
+        if (hh <= 0) continue;
+        helpH[c.id + '|' + d] = (helpH[c.id + '|' + d] || 0) + hh;
+        x.help[d] = (x.help[d] || 0) + hh;
+      }
+  }
   const byMid = {};
   for (const x of Object.values(st)) if (!res[x.t.id]) (byMid[x.mid] = byMid[x.mid] || []).push(x);
   let pending = Object.values(byMid).reduce((a, l) => a + l.length, 0);
@@ -119,7 +142,7 @@ function forecasts(override) {
         reg = PV ? true : isRegM(mid, d),
         work = reg || !!EX,
         av = PV ? cap : (reg ? cap * absAvail(absOn(mid, d)) : 0) + (EX ? EX.free : 0);
-      let avail = Math.max(0, av - (meetH[mid + '|' + d] || 0));
+      let avail = Math.max(0, av - (meetH[mid + '|' + d] || 0) - (helpH[mid + '|' + d] || 0));
       const act = [];
       for (const x of list) {
         if (res[x.t.id] || x.t.status === 'blocked' || d < x.ps) continue;
@@ -134,6 +157,13 @@ function forecasts(override) {
           else if ((meetH[mid + '|' + d] || 0) > 0 && avail < x.pace) x.meet++;
         }
         act.push(x);
+        if (x.help?.[d]) {
+          x.rem -= x.help[d];
+          if (x.rem <= 1e-6) {
+            res[x.t.id] = { end: d };
+            pending--;
+          }
+        }
       }
       if (EX)
         for (const x of list) {
@@ -376,18 +406,18 @@ function workDays(mid, s, e) {
 /* ---------- carga de trabajo ---------- */
 // Horas previstas (tareas en días laborables del responsable + reuniones) frente a horas disponibles
 // (jornada × disponibilidad: 0 en festivos, reducida en ausencias).
-function addTaskLoad(h, s, e, t, cap) {
+function addTaskLoad(h, s, e, t, cap, mid = t.assigneeId) {
   if (inact(t) || t.priv || S.projects[t.projectId]?.priv) return;
   const a = dn(t.start),
     b = t.status === 'done' ? (dn(t.realEnd) ?? dn(t.end)) : dn(t.end);
   if (a == null || b == null) return;
-  const ded = (t.dedication ?? 100) / 100;
+  const ded = dedFor(t, mid) / 100;
   const gp = hist(t).length;
   for (let d = Math.max(a, s); d <= Math.min(b, e); d++) {
     if (gp && inGap(t, d)) continue;
-    if (isRegM(t.assigneeId, d)) h[d - s] += cap * ded;
-    const ex = extraAt(t.assigneeId, d);
-    if (ex) h[d - s] += (ex.byTask[t.id] || 0) + (isRegM(t.assigneeId, d) ? 0 : ex.free * ded);
+    if (isRegM(mid, d)) h[d - s] += cap * ded;
+    const ex = extraAt(mid, d);
+    if (ex) h[d - s] += (ex.byTask[t.id] || 0) + (isRegM(mid, d) ? 0 : ex.free * ded);
   }
 }
 function loadDays(mid, s, e, o = {}) {
@@ -399,8 +429,8 @@ function loadDays(mid, s, e, o = {}) {
     const ex = extraAt(mid, d);
     c[d - s] = (isRegM(mid, d) ? cap * absAvail(absOn(mid, d)) : 0) + (ex ? ex.h : 0);
   }
-  for (const t of arr('tasks')) if (t.assigneeId === mid && t.id !== o.exclude) addTaskLoad(h, s, e, t, cap);
-  if (o.extra && o.extra.assigneeId === mid) addTaskLoad(h, s, e, o.extra, cap);
+  for (const t of arr('tasks')) if (inTask(t, mid) && t.id !== o.exclude) addTaskLoad(h, s, e, t, cap, mid);
+  if (o.extra && inTask(o.extra, mid)) addTaskLoad(h, s, e, o.extra, cap, mid);
   for (const m of arr('meetings'))
     if ((m.attendees || []).includes(mid)) {
       const d = dn(m.date);
@@ -545,7 +575,7 @@ function filtered() {
   return arr('tasks').filter(
     (t) =>
       (UI.proj.size === 0 || UI.proj.has(t.projectId)) &&
-      (!UI.member || (UI.member === '__me' ? t.assigneeId === me : t.assigneeId === UI.member)) &&
+      (!UI.member || inTask(t, UI.member === '__me' ? me : UI.member)) &&
       (!UI.origin || t.origin === UI.origin) &&
       (UI.showDone || t.status !== 'done'),
   );

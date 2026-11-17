@@ -69,8 +69,12 @@ Encryption: PBKDF2 (SHA-256) derives an AES-GCM key from the PM password with a 
 
 `forecasts()` simulates each person day by day from today: capacity = hours per day on their working days
 (minus holidays, absences and meetings; plus extra days); open tasks get hours in proportion to their
-dedication, high priority first, respecting dependencies. Paused or cancelled tasks are skipped. Private
-tasks use a virtual resource with the PM's private calendar (N hours, every day).
+dedication, high priority first, respecting dependencies. Collaborators' hours (`t.collab`) are reserved
+in their own days between the task's start and planned end and credited to the task while it is active.
+Paused or cancelled tasks are skipped. Private tasks use a virtual resource with the PM's private calendar
+(N hours, every day). The load (`loadDays`, `weekLoads`, `dayInfo`) adds each task's dedication for its
+owner and collaborators plus meeting hours, over the available hours. Every formula is written out in
+[workload-and-forecast.en.md](workload-and-forecast.en.md).
 
 ## Translations
 

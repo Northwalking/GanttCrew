@@ -93,16 +93,24 @@ Se crean con **+ Tarea** (Gantt) o **+ Añadir tarea**, o con el botón **+** de
   ficha propone la fecha de inicio coherente.
 - **Dedicación prevista (% de su jornada)** y **horas estimadas**: con ellas se calcula la carga y la fecha
   prevista. Si no hay horas estimadas, cuenta la dedicación durante las fechas planificadas.
+- **Colaboradores**: otras personas que ayudan al responsable, cada una con su dedicación (% de su
+  jornada). Sus horas cuentan en su carga y en el aviso de sobrecarga, y adelantan la fecha prevista de la
+  tarea. El avance lo sigue informando el responsable. Los colaboradores ven la tarea en su Gantt, su
+  calendario y su lista (filtrando por su nombre), y reciben un aviso en la campana al añadirlos. En la
+  lista de tareas aparecen como «+1», «+2»… junto al responsable.
 - **Avance** y **horas pendientes**: si dejas las horas pendientes vacías, se calculan a partir del avance.
 - **Estado**: Pendiente, En curso, Bloqueada o Completada, con fechas reales de inicio y fin.
 
 La ficha avisa de los problemas antes de guardar:
-- sobrecarga del responsable;
+- sobrecarga del responsable o de algún colaborador;
 - ausencias durante la tarea;
 - inicio o fin en un día no laborable;
 - fin posterior al fin objetivo del proyecto.
 
 Con estos avisos se puede guardar igualmente.
+
+El cálculo completo de la carga y del fin previsto, con sus fórmulas y un ejemplo, está en
+[Carga de trabajo y fecha prevista](carga-y-prevision.es.md).
 
 **¿Cómo se calcula el fin previsto?** La herramienta simula cada día laborable del responsable desde hoy:
 - descuenta festivos, ausencias y reuniones;

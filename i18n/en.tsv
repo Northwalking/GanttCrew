@@ -442,7 +442,7 @@ Registrada desde Thunderbird	Registered from Thunderbird
 Importada desde un .ics	Imported from an .ics
 📅 Hay	📅 There are
 convocatoria(s) de Thunderbird en este periodo sin proyecto asignado (etiqueta «Thunderbird» en la lista). Haz clic en cada una para asignarle proyecto y tipo.	Thunderbird invitation(s) in this period with no project (label «Thunderbird» in the list). Click each one to assign a project and type.
-reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o usa el buscador y el periodo para filtrar (por ejemplo, «briefing» + «Desde hoy»).	meeting(s) selected. Click the meetings to select them, or use the search box and the period to filter (for example, «briefing» + «From today»).
+reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o filtra: en el buscador escribe solo una palabra del título (por ejemplo, briefing) y en el periodo elige «Desde hoy (todas las futuras)».	meeting(s) selected. Click the meetings to select them, or filter: type just one word of the title in the search box (for example, briefing) and choose «From today (all future ones)» as the period.
 Marcar las	Select the
 Desmarcar todas	Unselect all
 Modificar las seleccionadas	Modify the selected ones
@@ -1412,3 +1412,14 @@ nuevo; el anterior deja de servir.	; the previous one stops working.
 🔒 Reunión	🔒 Meeting
 Reunión privada: solo sus participantes ven el título, el proyecto y las notas.	Private meeting: only its participants see the title, the project and the notes.
 Solo los participantes ven los detalles	Only the participants see the details
+terminada, sin fecha real de fin	finished, no actual end date
+Colaboradores	Collaborators
+· ayudan al responsable; su dedicación cuenta en su carga y acorta la tarea	· they help the owner; their dedication counts in their load and shortens the task
+% de su jornada	% of their working day
+Sin colaboradores.	No collaborators.
++ Añadir colaborador…	+ Add collaborator…
+Reduce la dedicación, mueve fechas, reasigna o reparte con colaboradores.	Reduce the dedication, move dates, reassign or share with collaborators.
+Colaboras en esta tarea desde el	You collaborate on this task since
+(responsable:	(owner:
+Colaboradores:	Collaborators:
+# % de su jornada	# % of their working day
