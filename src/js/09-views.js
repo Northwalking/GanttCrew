@@ -57,6 +57,7 @@ function dayInfo(mid, d) {
     .filter((x) => x.h > 0);
   const ms = arr('meetings')
     .filter((x) => (x.attendees || []).includes(mid) && dn(x.date) === d)
+    .map(mtgV)
     .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
   const mh = ms.filter(() => isWorkM(mid, d)).reduce((a, x) => a + (+x.duration || 0) / 60, 0);
   const th = ts.reduce((a, x) => a + x.h, 0),
@@ -375,7 +376,9 @@ function vEquipo() {
       .flatMap((t) => blocking(t))
       .filter((s) => s.assigneeId !== m.id);
     const waits = arr('tasks').filter((t) => t.assigneeId === m.id && depBlocked(t)).length;
-    const meets = arr('meetings').filter((x) => (x.attendees || []).includes(m.id));
+    const meets = arr('meetings')
+      .filter((x) => (x.attendees || []).includes(m.id))
+      .map(mtgV);
     const ym = new Date().toISOString().slice(0, 7);
     const mh =
       meets.filter((x) => (x.date || '').startsWith(ym)).reduce((a, x) => a + (+x.duration || 0), 0) / 60;
@@ -527,6 +530,7 @@ function vReuniones() {
   for (let m = 0; m < 12; m++) months.push(`${UI.year}-${String(m + 1).padStart(2, '0')}`);
   let h = `<div class="bar-tools"><button class="btn" id="yPrev">‹</button><b style="font-size:14px">${UI.year}</b><button class="btn" id="yNext">›</button><select id="perSel"><option value="future" ${per === 'future' ? 'selected' : ''}>Desde hoy (todas las futuras)</option><option value="all" ${per === 'all' ? 'selected' : ''}>Todo el año</option>${months.map((m, i) => `<option value="${m}" ${per === m ? 'selected' : ''}>${MESL[i]}</option>`).join('')}</select><select id="mmSel"><option value="">Todos los asistentes</option>${ms.map((m) => `<option value="${m.id}" ${UI.meetMember === m.id ? 'selected' : ''}>${esc(m.name)}</option>`).join('')}</select><input type="search" id="mQ" placeholder="🔍 Buscar por título…" title="Escribe parte del título (p. ej. «briefing») para ver solo esas reuniones; útil junto con «Seleccionar varias»" value="${esc(UI.meetQ || '')}" style="width:190px"><span class="sp"></span>${ME.memberId ? `<button class="btn ${sel ? 'pri' : ''}" id="mSelT">${sel ? 'Terminar selección' : 'Seleccionar varias'}</button>` : ''}${ME.memberId ? '<button class="btn" id="impIcs">Importar .ics</button><button class="btn pri" id="addMeet2">+ Reunión</button>' : ''}</div>`;
   const list = arr('meetings')
+    .map(mtgV)
     .filter(inPer)
     .filter((x) => !UI.meetMember || (x.attendees || []).includes(UI.meetMember))
     .filter((x) => !q || norm(x.title).includes(q))
@@ -555,6 +559,7 @@ function vReuniones() {
   })();
   for (const m of ms) {
     const all_ = arr('meetings')
+      .map(mtgV)
       .filter(inPer)
       .filter((x) => !q || norm(x.title).includes(q))
       .filter((x) => (x.attendees || []).includes(m.id));
@@ -577,18 +582,29 @@ function vReuniones() {
     const p = S.projects[x.projectId];
     const ce = canEditMeeting(x),
       on_ = sel && UI.meetPick.has(x.id);
-    lt += `<div class="list-row" ${sel ? (ce ? `data-msel="${x.id}"` : 'title="No puedes modificar esta reunión"') : `data-meet="${x.id}"`} style="cursor:pointer;${on_ ? 'background:var(--accs)' : ''}${sel && !ce ? ';opacity:.5' : ''}">${sel ? `<input type="checkbox" ${on_ ? 'checked' : ''} ${ce ? '' : 'disabled'} style="width:16px;height:16px;margin:0 8px 0 0;flex:0 0 auto;pointer-events:none">` : ''}<div style="width:84px"><b>${fmt(x.date).slice(0, 5)}</b><div class="mut">${esc(x.time ? x.time + '–' + endTime(x.time, x.duration) : '')}</div></div><div style="flex:1;min-width:0"><div style="font-weight:600">${esc(x.title)}${x.seriesId ? ` <span class="tag mut" title="${esc(repeatLbl(SERIES[x.seriesId]?.repeat))}">↻ periódica</span>` : ''}${x.date && !isWork(dn(x.date)) ? ' <span class="tag warn" title="Cae en fin de semana: asistencia opcional; no cuenta en horas, carga ni fechas previstas">fin de semana · opcional</span>' : x.date && holAll(dn(x.date)).length ? ' <span class="tag warn" title="Cae en festivo: asistencia opcional; no cuenta en horas, carga ni fechas previstas">festivo · opcional</span>' : ''}${x.source === 'thunderbird' ? ' <span class="tag mut" title="Registrada desde Thunderbird">Thunderbird</span>' : x.source === 'ics' ? ' <span class="tag mut" title="Importada desde un .ics">.ics</span>' : ''}</div><div class="mut">${MTYPE[x.type] || ''} · ${x.duration || 0} min · ${p ? esc(p.code || p.name) : 'General'}</div></div><div style="display:flex;gap:2px">${(x.attendees || []).map((a) => who(a, true)).join('')}</div></div>`;
+    lt += `<div class="list-row" ${sel ? (ce ? `data-msel="${x.id}"` : 'title="No puedes modificar esta reunión"') : `data-meet="${x.id}"`} style="cursor:pointer;${on_ ? 'background:var(--accs)' : ''}${sel && !ce ? ';opacity:.5' : ''}">${sel ? `<input type="checkbox" ${on_ ? 'checked' : ''} ${ce ? '' : 'disabled'} style="width:16px;height:16px;margin:0 8px 0 0;flex:0 0 auto;pointer-events:none">` : ''}<div style="width:84px"><b>${fmt(x.date).slice(0, 5)}</b><div class="mut">${esc(x.time ? x.time + '–' + endTime(x.time, x.duration) : '')}</div></div><div style="flex:1;min-width:0"><div style="font-weight:600">${x.masked ? '<span title="Solo los participantes ven los detalles">🔒</span> ' : ''}${esc(x.title)}${x.seriesId ? ` <span class="tag mut" title="${esc(repeatLbl(SERIES[x.seriesId]?.repeat))}">↻ periódica</span>` : ''}${x.date && !isWork(dn(x.date)) ? ' <span class="tag warn" title="Cae en fin de semana: asistencia opcional; no cuenta en horas, carga ni fechas previstas">fin de semana · opcional</span>' : x.date && holAll(dn(x.date)).length ? ' <span class="tag warn" title="Cae en festivo: asistencia opcional; no cuenta en horas, carga ni fechas previstas">festivo · opcional</span>' : ''}${x.source === 'thunderbird' ? ' <span class="tag mut" title="Registrada desde Thunderbird">Thunderbird</span>' : x.source === 'ics' ? ' <span class="tag mut" title="Importada desde un .ics">.ics</span>' : ''}</div><div class="mut">${MTYPE[x.type] || ''} · ${x.duration || 0} min · ${p ? esc(p.code || p.name) : 'General'}</div></div><div style="display:flex;gap:2px">${(x.attendees || []).map((a) => who(a, true)).join('')}</div></div>`;
   }
   {
-    const pend = arr('meetings').filter((x) => x.source === 'thunderbird' && !x.projectId && inPer(x)).length;
+    const pend = arr('meetings').filter(
+      (x) => mtgMine(x) && x.source === 'thunderbird' && !x.projectId && inPer(x),
+    ).length;
     if (pend)
       h += `<div class="note warn" style="margin-bottom:12px">📅 Hay <b>${pend}</b> convocatoria(s) de Thunderbird en este periodo sin proyecto asignado (etiqueta «Thunderbird» en la lista). Haz clic en cada una para asignarle proyecto y tipo.</div>`;
   }
   if (sel) {
     const vis = list.filter(canEditMeeting);
-    h += `<div class="note info" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>${UI.meetPick.size}</b> reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o usa el buscador y el periodo para filtrar (por ejemplo, «briefing» + «Desde hoy»).</span><span class="sp"></span><button class="btn sm" id="mSelAll">Marcar las ${vis.length} visibles</button><button class="btn sm" id="mSelNone">Desmarcar todas</button><button class="btn sm pri" id="mSelEdit" ${UI.meetPick.size ? '' : 'disabled'}>Modificar las seleccionadas</button></div>`;
+    h += `<div class="note info" style="margin-bottom:12px;display:flex;gap:10px;align-items:center;flex-wrap:wrap"><span><b>${UI.meetPick.size}</b> reunión(es) seleccionada(s). Pulsa sobre las reuniones para marcarlas, o usa el buscador y el periodo para filtrar (por ejemplo, «briefing» + «Desde hoy»).</span><span class="sp"></span><button class="btn sm" id="mSelAll">Marcar las ${vis.length} visibles</button><button class="btn sm" id="mSelNone">Desmarcar todas</button><button class="btn sm pri" id="mSelEdit" ${UI.meetPick.size ? '' : 'disabled'}>Modificar las seleccionadas</button><button class="btn sm" id="mSelDel" style="color:var(--bad)" ${UI.meetPick.size ? '' : 'disabled'} title="Borra las reuniones seleccionadas. Las de una serie periódica o de Thunderbird se ocultan solo en la herramienta.">Eliminar las seleccionadas</button></div>`;
   }
-  h += `<div class="grid2"><div class="card"><h3>Reuniones${q ? ` <span class="mut" style="font-weight:400">· «${esc(UI.meetQ)}»: ${list.length}</span>` : ''}</h3>${lt}</div><div class="card"><h3>Tiempo en reuniones por persona</h3>${sumT}</div></div>`;
+  h += `<div class="grid2"><div class="card"><h3>Reuniones${q ? ` <span class="mut" style="font-weight:400">· «${esc(UI.meetQ)}»: ${list.length}</span>` : ''}${
+    UI.meetMember && S.members[UI.meetMember]
+      ? ` <span class="mut" style="font-weight:400">· asiste <span data-notr>${esc(S.members[UI.meetMember].name)}</span>: ${list.length} de ${
+          arr('meetings')
+            .map(mtgV)
+            .filter(inPer)
+            .filter((x) => !q || norm(x.title).includes(q)).length
+        }</span>`
+      : ''
+  }</h3>${lt}</div><div class="card"><h3>Tiempo en reuniones por persona</h3>${sumT}</div></div>`;
   return h;
 }
 

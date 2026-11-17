@@ -26,9 +26,9 @@ Todo está en la carpeta `datos`, junto al archivo de la herramienta:
 
 Dos consecuencias importantes:
 
-- **Lo cifrado depende de una contraseña que nadie puede restablecer.** Si se pierde la contraseña de PM, se
-  pierden las evaluaciones y los proyectos privados. Si alguien olvida la contraseña de su diario, se pierde
-  ese diario.
+- **Lo cifrado depende de una contraseña que nadie puede restablecer**, salvo con su **código de
+  recuperación** (apartado 6.1). Sin contraseña ni código, si se pierde la de PM se pierden las evaluaciones,
+  los proyectos privados y el diario del PM; si alguien olvida la de su diario, se pierde ese diario.
 - **El diario del PM** se cifra con la contraseña de PM. El de cada miembro, con la contraseña de su diario.
 
 ---
@@ -216,7 +216,25 @@ planificado original y quita la fecha de fin real.
 4. Espera el aviso «Contraseña cambiada».
 
 Las evaluaciones, tus proyectos privados y tu diario se vuelven a cifrar con la nueva. Los miembros no
-notan nada. **Apunta la contraseña nueva en un sitio seguro**: nadie puede restablecerla.
+notan nada. Al terminar, la herramienta te da un **código de recuperación nuevo** (el anterior deja de
+servir): guárdalo como se explica en 6.1.
+
+### 6.1 Si olvidas una contraseña: el código de recuperación
+
+Al crear la contraseña de PM (al crear el equipo o al cambiarla) y al crear la contraseña de un diario, la
+herramienta muestra **una sola vez** un código de 20 caracteres, por ejemplo `7KQ2M-X9D4T-...`. No se guarda
+en ningún sitio: guárdalo tú fuera de la carpeta compartida (gestor de contraseñas, papel en un cajón o un
+archivo personal). Con él se pone una contraseña nueva sin perder nada.
+
+- **PM:** en «¿Quién eres?», elige tu nombre, pulsa **¿Has olvidado la contraseña?**, escribe el código y la
+  contraseña nueva dos veces. Entras como PM y recibes un código nuevo.
+- **Miembro, su diario:** en la pestaña **Diario**, pulsa **¿Has olvidado la contraseña?**, escribe el código
+  y la contraseña nueva. El código del diario solo lo ve su dueño; el del PM no abre los diarios de los demás.
+- **Sin código.** En **Proyectos y equipo → Dirección del equipo 🔒**, el PM ve si ya tiene código y puede
+  crear uno nuevo con su contraseña. En el **Diario**, el botón 🔑 hace lo mismo. Los equipos y diarios
+  creados antes de esta versión no tienen código: créalo cuanto antes.
+- **Cuidado:** quien tenga el código de PM puede hacerse con el papel de PM; quien tenga el de un diario,
+  leerlo. Si crees que alguien lo ha visto, crea uno nuevo: el anterior deja de servir.
 
 ---
 
@@ -280,13 +298,15 @@ dirección**. La página se recarga sola y pregunta «¿Quién eres?».
 1. En «¿Quién eres?», elige su nombre y entra con su contraseña.
 2. Comprueba que ve la pestaña **Cumplimiento** con las evaluaciones y la tarjeta **Dirección del equipo**.
 3. Si la contraseña era provisional, la cambia (apartado 6).
-4. Hace una **copia completa** (2.1): es la primera con su contraseña.
-5. Revisa la campana 🔔: si el PM saliente ha causado baja, sus tareas abiertas aparecen como «Responsable de
+4. Crea su **código de recuperación** en **Dirección del equipo 🔒** (el traspaso no se lo da, para que no
+   lo vea el PM saliente) y lo guarda.
+5. Hace una **copia completa** (2.1): es la primera con su contraseña.
+6. Revisa la campana 🔔: si el PM saliente ha causado baja, sus tareas abiertas aparecen como «Responsable de
    baja» para traspasarlas.
 
 **El PM saliente, si sigue en el equipo:**
 1. Entra eligiendo su nombre, ya sin contraseña.
-2. Abre **Diario** con la contraseña que eligió en el paso 4.
+2. Abre **Diario** con la contraseña que eligió en el paso 4 y crea su código de recuperación (botón 🔑).
 
 **Todo el equipo:** recarga la página (F5).
 
@@ -296,7 +316,7 @@ dirección**. La página se recarga sola y pregunta «¿Quién eres?».
   el traspaso no se llegó a hacer y puedes repetirlo. Si no funciona, prueba con la del nuevo PM. Si
   ninguna abre las evaluaciones, restaura `equipo-pm.json` y `evaluaciones-cifradas.json` con el historial
   de versiones de OneDrive (2.3) a la hora anterior al traspaso.
-- **El nuevo PM olvidó su contraseña.** No se puede recuperar. Con una copia de la carpeta `datos` (2.2)
+- **El nuevo PM olvidó su contraseña.** Si creó su código de recuperación, lo usa (6.1). Si no, con una copia de la carpeta `datos` (2.2)
   anterior al traspaso, el PM saliente puede volver a ese estado con su contraseña antigua y repetirlo.
 - **Te fuiste sin hacer el traspaso.** Los datos compartidos no están cifrados y se conservan, pero las
   evaluaciones no se pueden recuperar sin tu contraseña. El equipo necesita que hagas el traspaso, o que

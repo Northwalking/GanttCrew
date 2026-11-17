@@ -53,8 +53,9 @@ como aparecen en la interfaz en español.
 4. Como la carpeta está vacía, aparece **Carpeta vacía: crear el equipo**: escribe tu nombre y la
    contraseña de PM (8 caracteres o más). Si marcas **Cargar los datos de ejemplo**, se crea la empresa
    ficticia Astrorel con tres proyectos, tres personas, tareas y reuniones para explorar.
-   > **Guarda bien la contraseña.** Cifra las evaluaciones y los proyectos privados. Si se pierde, no se
-   > pueden recuperar.
+   > **Guarda bien la contraseña y el código de recuperación** que aparece a continuación. La contraseña
+   > cifra las evaluaciones y los proyectos privados; si la olvidas, el código permite poner una nueva
+   > («¿Has olvidado la contraseña?» en la pantalla de entrada). Sin ninguno de los dos, no se recuperan.
 5. En **Proyectos y equipo**, revisa los centros de trabajo, añade a las personas y crea los proyectos.
 
 **Cada miembro, una vez:** abre el enlace de la carpeta compartida, sincronízala en su ordenador, abre
@@ -149,6 +150,10 @@ Puedes arrastrar las barras para cambiar las fechas (si tienes permiso sobre la 
 
 ## 7. Reuniones
 
+- **Privacidad**: los detalles de una reunión (título, tipo, proyecto y notas) solo los ven sus asistentes y
+  quien la creó. El resto del equipo, también el project manager, solo ve que esas personas están
+  **reunidas** (día, hora y quiénes), marcado con 🔒. Aun así, la reunión resta horas de trabajo y cuenta en
+  las fechas previstas. Cada reunión la gestiona quien la creó; el PM, además, las que tiene como asistente.
 - **+ Reunión**: título, tipo, proyecto, fecha, hora, duración, asistentes y notas.
 - **Asistentes**: elegir personas, **Todo el equipo** o **Participantes del proyecto** (si cambian los
   participantes, cambian los asistentes).
@@ -191,7 +196,9 @@ La pestaña **Diario** es un registro personal de lo que haces cada día.
 - **Es privado.** Se guarda cifrado en `datos/diario-<persona>.json`. El project manager lo abre con su
   contraseña de PM. Cada miembro crea, la primera vez, la **contraseña de su diario**; puede marcar
   *Recordar en este navegador* para no escribirla cada vez. Nadie más puede leerlo, tampoco el project
-  manager. **Si se olvida la contraseña, el diario no se puede recuperar.**
+  manager. Al crearla aparece un **código de recuperación**: guárdalo. Si olvidas la contraseña, pulsa
+  **¿Has olvidado la contraseña?** y pon una nueva con el código. Sin contraseña ni código, el diario no se
+  puede recuperar.
 - **Día:** escribe una línea y pulsa Intro. La herramienta propone las reuniones y tareas que tenías ese
   día para añadirlas con un clic. Cada línea puede asociarse a un proyecto.
 - **Pendientes:** marca una línea como *Pendiente* y síguela en la vista **Pendientes**; al pulsar
@@ -285,6 +292,22 @@ El PM puede marcar un proyecto como **Privado (solo yo)**.
 una fase), el título, la escala (semanas, meses o trimestres) y si se incluye la leyenda o la cabecera.
 **Copiar imagen** la deja en el portapapeles para pegarla en Word (Ctrl+V); **Descargar PNG** la guarda.
 Los proyectos privados nunca se exportan.
+
+### Avisos de asignación
+
+Cuando el PM asigna una tarea nueva, la reasigna o se la retira a alguien, la persona afectada lo ve en la
+campana (🔔) al abrir la herramienta: «Tarea nueva asignada a ti», «Reasignada a ti (antes la llevaba…)» o
+«Ya no es tuya: ahora la lleva…». El aviso permanece 14 días. No se envía correo ni mensaje: la herramienta
+no tiene servidor, así que el aviso solo aparece dentro de ella.
+
+### Exportar a Excel
+
+**Exportar a Excel** (en el Gantt) descarga un libro `.xlsx` para compartir el plan con quien no usa la
+herramienta. Eliges el proyecto (o todos), el periodo, la escala (semanas o días) y si se incluyen las
+tareas completadas. La hoja **Gantt** tiene una fila por tarea, con su responsable, fechas, avance y estado,
+y una celda coloreada por semana o día con el color de cada persona (oscuro = avance, claro = pendiente,
+rosa = retraso previsto). La hoja **Tareas** contiene las mismas tareas como tabla con filtros. No se
+exportan los proyectos privados, las evaluaciones ni los diarios.
 
 ## 14. Idioma
 

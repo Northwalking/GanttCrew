@@ -96,7 +96,7 @@ function showNewTeam() {
   <label>Contraseña de project manager<input type="password" id="nP" required minlength="8" autocomplete="new-password"></label>
   <label>Repítela<input type="password" id="nP2" required autocomplete="new-password"></label>
   <label style="flex-direction:row;align-items:center;gap:8px;font-weight:400"><input type="checkbox" id="nS" checked style="width:auto"> Cargar los datos de ejemplo</label>
-  <div class="hint" style="margin:-4px 0 10px">La contraseña protege tu papel de PM y cifra las evaluaciones. <b>Guárdala bien:</b> si la pierdes, las evaluaciones no se pueden recuperar.</div>
+  <div class="hint" style="margin:-4px 0 10px">La contraseña protege tu papel de PM y cifra las evaluaciones. Al crear el equipo recibirás un <b>código de recuperación</b> para poner una contraseña nueva si la olvidas.</div>
   <div id="nMsg" class="lmsg"></div><button class="btn pri" style="width:100%;padding:9px">Crear equipo</button></form>`);
   if (DEMO === true) {
     $('#nN').value = 'Ana';
@@ -112,6 +112,7 @@ function showNewTeam() {
     }
     const salt = crypto.getRandomValues(new Uint8Array(16));
     const key = await deriveKey(pw, salt);
+    const rcode = recNew();
     const u = stamp(),
       R = (o) => ({ ...o, _u: u, _by: 'pm' });
     const recs = {
@@ -147,7 +148,7 @@ function showNewTeam() {
       app: APPID,
       version: 1,
       owner: 'pm',
-      crypto: { salt: b64(salt), check: await enc(key, 'gantt-ok') },
+      crypto: { salt: b64(salt), check: await enc(key, 'gantt-ok'), rec: await recBox(rcode, pw) },
       records: recs,
     };
     const h = await dirH.getFileHandle(PMFILE, { create: true });
@@ -167,6 +168,7 @@ function showNewTeam() {
     await loadPriv();
     rebuild();
     startApp();
+    showRecCode(rcode, 'pm');
   };
 }
 function showWho() {
@@ -181,7 +183,7 @@ function showWho() {
     return startApp();
   }
   gate(
-    `<h2>¿Quién eres?</h2><p class="hint">Elige tu nombre. El project manager necesita su contraseña.</p><div style="display:flex;flex-direction:column;gap:6px;margin:12px 0">${ms.map((m) => `<button class="btn" data-me="${m.id}" style="text-align:left;display:flex;gap:8px;align-items:center">${who(m.id)}<span class="mut">${esc(m.role || '')}</span>${m.isPM ? '<span class="tag lv3">PM</span>' : ''}</button>`).join('')}</div><div id="wPw" style="display:none"><label>Contraseña de PM<input type="password" id="wP" autocomplete="current-password"></label><div id="wMsg" class="lmsg"></div><button class="btn pri" id="wGo" style="width:100%;padding:9px">Entrar</button></div><p class="hint">¿No apareces? Pide al PM que te añada al equipo.</p>`,
+    `<h2>¿Quién eres?</h2><p class="hint">Elige tu nombre. El project manager necesita su contraseña.</p><div style="display:flex;flex-direction:column;gap:6px;margin:12px 0">${ms.map((m) => `<button class="btn" data-me="${m.id}" style="text-align:left;display:flex;gap:8px;align-items:center">${who(m.id)}<span class="mut">${esc(m.role || '')}</span>${m.isPM ? '<span class="tag lv3">PM</span>' : ''}</button>`).join('')}</div><div id="wPw" style="display:none"><label>Contraseña de PM<input type="password" id="wP" autocomplete="current-password"></label><div id="wMsg" class="lmsg"></div><button class="btn pri" id="wGo" style="width:100%;padding:9px">Entrar</button><p class="hint" style="margin:8px 0 0"><a href="#" id="wFg">¿Has olvidado la contraseña?</a></p></div><p class="hint">¿No apareces? Pide al PM que te añada al equipo.</p>`,
   );
   $('#gate')
     .querySelectorAll('[data-me]')
@@ -215,6 +217,10 @@ function showWho() {
             startApp();
           };
           $('#wGo').onclick = go;
+          $('#wFg').onclick = (e) => {
+            e.preventDefault();
+            pmRecoverForm($('#wPw'), id);
+          };
           $('#wP').onkeydown = (e) => {
             if (e.key === 'Enter') go();
           };
@@ -238,6 +244,14 @@ function startApp() {
     },
     ME.owner ? 4500 : 800,
   );
+  if (ME.owner && EVKEY && !pmRec())
+    setTimeout(
+      () =>
+        toast(
+          '🔑 No tienes código de recuperación de la contraseña de PM: créalo en «Proyectos y equipo» → «Dirección del equipo».',
+        ),
+      1500,
+    );
   if (ME.owner) {
     migratePauses()
       .catch((e) => console.warn(e))

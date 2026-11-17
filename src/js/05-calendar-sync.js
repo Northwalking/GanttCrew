@@ -187,7 +187,15 @@ function expandEvent(e, from, to) {
   }
   return out;
 }
+// Thunderbird series hidden as a whole: a marker record per calendar UID (not a meeting itself)
+let TBHID = {};
 function mergeThunderbird(meet) {
+  TBHID = {};
+  for (const [id, m] of Object.entries(meet))
+    if (m.tbHideUid) {
+      TBHID[m.tbHideUid] = { id, title: m.title || '', createdBy: m.createdBy };
+      delete meet[id];
+    }
   const T = todayN(),
     from = T - 400,
     to = T + 400,
@@ -218,6 +226,7 @@ function mergeThunderbird(meet) {
       if ((e.props.STATUS?.value || '').toUpperCase() === 'CANCELLED') continue;
       const uid =
         e.props.UID?.value || hashStr(JSON.stringify(e.props.SUMMARY || '') + e.props.DTSTART?.value);
+      if (TBHID[uid]) continue; // the whole series is hidden in the tool
       const st = icsTime(e.props.DTSTART?.value, e.props.DTSTART?.params || {});
       if (!st) continue;
       let dur = null;
@@ -701,8 +710,9 @@ function buildICS(mid) {
       'Ausencia',
     );
   }
-  for (const m of arr('meetings')) {
-    if (mid && !(m.attendees || []).includes(mid)) continue;
+  for (const m0 of arr('meetings')) {
+    if (mid && !(m0.attendees || []).includes(mid)) continue;
+    const m = mtgV(m0);
     if (m.source === 'thunderbird' && mid && m.createdBy === mid) continue;
     if (!m.date) continue;
     const p = S.projects[m.projectId];
@@ -722,7 +732,7 @@ function buildICS(mid) {
       : allDay(m.date);
     ev(
       'mtg-' + m.id,
-      'Reunión: ' + m.title,
+      m.masked ? 'Reunión' : 'Reunión: ' + m.title,
       when,
       [
         MTYPE[m.type],

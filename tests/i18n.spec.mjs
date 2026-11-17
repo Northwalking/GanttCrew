@@ -76,6 +76,25 @@ test('the English interface has no Spanish leftovers', async ({ page }) => {
       openLeaving('m1');
     },
     memberLeft: () => openMember('m1'),
+    excel: () => openExportExcel(),
+    privateMeeting: () => {
+      S.meetings.zz = {
+        title: 'x',
+        date: todayS(),
+        time: '10:00',
+        duration: 30,
+        attendees: ['m1'],
+        createdBy: 'm1',
+      };
+      openMeeting('zz');
+    },
+    recCodePm: () => showRecCode('ABCDE-FGHJK-MNPQR-STVWX', 'pm'),
+    recCodeDiary: () => showRecCode('ABCDE-FGHJK-MNPQR-STVWX', 'diary'),
+    recNew: () => openPmRecNew(),
+    recLogin: () => {
+      openDlg('x', '<div id="tmpR"></div>');
+      pmRecoverForm(document.querySelector('#tmpR'), 'pm');
+    },
     diaryImport: () => openDiaryImport(),
     diaryExport: () => {
       dAdd(todayS(), 'x', { pend: true });
@@ -97,6 +116,22 @@ test('the English interface has no Spanish leftovers', async ({ page }) => {
     }, mode);
     (await leftovers(page)).forEach((t) => found.add(`diary ${mode}: ${t}`));
   }
+  // a member's diary: creating it, locked, recovering it
+  await page.evaluate(() => {
+    ME.owner = false;
+    ME.memberId = 'm1';
+    D.st = 'init';
+    D.who = null;
+  });
+  await show(page, 'diario');
+  (await leftovers(page)).forEach((t) => found.add(`diary new: ${t}`));
+  await page.evaluate(() => {
+    D.st = 'locked';
+    dRender();
+  });
+  (await leftovers(page)).forEach((t) => found.add(`diary locked: ${t}`));
+  await page.evaluate(() => dRecoverForm());
+  (await leftovers(page)).forEach((t) => found.add(`diary recover: ${t}`));
   expect([...found]).toEqual([]);
   expect(errors).toEqual([]);
 });

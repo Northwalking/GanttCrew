@@ -24,8 +24,32 @@ const PLAN_FIELDS = [
   'estimatedHours',
   'forceStart',
   'hist',
+  'asg',
 ];
-const canEditMeeting = (m) => ME.owner || (!!ME.memberId && (!m || m.createdBy === ME.memberId));
+// Meetings are private to the people in them: their attendees and whoever created them. Everyone else,
+// the PM included, only sees that those people are in a meeting (date, time, who), without title, type,
+// project or notes. Meetings still count in everybody's available hours and forecasts.
+const mtgMine = (m) =>
+  !!m && !!ME.memberId && ((m.attendees || []).includes(ME.memberId) || m.createdBy === ME.memberId);
+function mtgV(m) {
+  if (!m || mtgMine(m)) return m;
+  return {
+    id: m.id,
+    date: m.date,
+    time: m.time,
+    duration: m.duration,
+    attendees: m.attendees,
+    createdBy: m.createdBy,
+    title: 'Reunión',
+    type: '',
+    projectId: '',
+    notes: '',
+    masked: true,
+  };
+}
+// the creator manages a meeting; the PM also manages the ones they attend
+const canEditMeeting = (m) =>
+  !!ME.memberId && (!m || m.createdBy === ME.memberId || (ME.owner && mtgMine(m)));
 function meBox() {
   const b = $('#me');
   if (!b) return;
@@ -311,6 +335,14 @@ async function savePrivRoute(col, id, data) {
 }
 async function save(col, id, data) {
   id = id || newId();
+  // remember when the PM (re)assigns a task, so the people affected are told (see alerts())
+  if (col === 'tasks' && ME.owner && data) {
+    const prev = S.tasks[id],
+      was = prev?.assigneeId || '',
+      now = data.assigneeId || '';
+    if (was !== now) data = { ...data, asg: { on: todayS(), ...(was ? { from: was } : {}) } };
+    else if (prev?.asg && !data.asg) data = { ...data, asg: prev.asg };
+  }
   if (await savePrivRoute(col, id, data || {})) return id;
   if (col === 'evals') {
     EVDATA = { ...EVDATA, [id]: clean(data) };

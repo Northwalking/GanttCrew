@@ -17,7 +17,8 @@ async function removeFile(name) {
   } catch (e) {}
   delete FILES[name];
 }
-async function setPmPassword(pw, stage) {
+// Returns the new recovery code (none on a handover: the new PM creates their own)
+async function setPmPassword(pw, stage, withCode = true) {
   // read with the old key whatever has to be written with the new one
   if (D.who !== ME.memberId || D.st === 'init' || D.st === 'loading') await dOpen();
   const salt = crypto.getRandomValues(new Uint8Array(16)),
@@ -30,9 +31,12 @@ async function setPmPassword(pw, stage) {
     D.key = key;
     await dWrite();
   }
+  const code = withCode ? recNew() : null;
   myRecords().crypto = { salt: b64(salt), check: await enc(key, 'gantt-ok') };
+  if (code) myRecords().crypto.rec = await recBox(code, pw);
   if (stage) stage(myRecords()); // changes that must land in the same write as the new password
   await writeMine();
+  return code;
 }
 function openChangePw() {
   if (!ME.owner) return;
@@ -41,7 +45,7 @@ function openChangePw() {
     `<label class="full">Contraseña actual<input type="password" id="cO" autocomplete="current-password"></label>
      <label>Contraseña nueva<input type="password" id="cN" minlength="8" autocomplete="new-password"></label>
      <label>Repítela<input type="password" id="cN2" minlength="8" autocomplete="new-password"></label>
-     <div class="full note warn">Las evaluaciones, tus proyectos privados y tu diario se vuelven a cifrar con la contraseña nueva. <b>Guárdala bien:</b> si la pierdes, no se pueden recuperar.</div>`,
+     <div class="full note warn">Las evaluaciones, tus proyectos privados y tu diario se vuelven a cifrar con la contraseña nueva. Recibirás un <b>código de recuperación</b> nuevo; el anterior deja de servir.</div>`,
     async () => {
       if (!(await pmPasswordOk($('#cO').value))) {
         toast('La contraseña actual no es correcta.');
@@ -52,8 +56,9 @@ function openChangePw() {
         toast('La contraseña debe tener 8 caracteres o más y coincidir.');
         return false;
       }
-      await setPmPassword(pw);
+      const code = await setPmPassword(pw);
       toast('Contraseña cambiada.');
+      setTimeout(() => showRecCode(code, 'pm'), 30);
     },
   );
   $('#mSave').textContent = 'Cambiar';
@@ -173,17 +178,21 @@ async function pmHandover({ mid, pw, leftOn, diaryPw }) {
   //    never holds the new password with the old PM still in charge
   const outgoing = { isPM: false };
   if (leftOn) outgoing.leftOn = leftOn;
-  await setPmPassword(pw, (doc) => {
-    doc.records.members = doc.records.members || {};
-    for (const [id, ch] of [
-      [old, outgoing],
-      [mid, { isPM: true }],
-    ]) {
-      const o = { ...S.members[id], ...ch };
-      delete o.id;
-      doc.records.members[id] = { ...clean(o), _u: stamp(), _by: 'pm' };
-    }
-  });
+  await setPmPassword(
+    pw,
+    (doc) => {
+      doc.records.members = doc.records.members || {};
+      for (const [id, ch] of [
+        [old, outgoing],
+        [mid, { isPM: true }],
+      ]) {
+        const o = { ...S.members[id], ...ch };
+        delete o.id;
+        doc.records.members[id] = { ...clean(o), _u: stamp(), _by: 'pm' };
+      }
+    },
+    false,
+  );
   rebuild();
   // 4. the new PM takes over the projects in progress
   const ps = arr('projects')

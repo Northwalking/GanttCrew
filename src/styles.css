@@ -740,6 +740,13 @@ header h1 {
 .alrow.bad {
   border-left-color: #d92d20;
 }
+.alrow.info {
+  border-left-color: #2e6bd9;
+}
+.tag.info {
+  background: #e6f0ff;
+  color: #1d4fb8;
+}
 .alrow:hover {
   background: #f9fafb;
 }
@@ -1892,4 +1899,17 @@ tr.click:hover td {
 }
 .dline.done .mdv {
   color: var(--mut);
+}
+
+.rcode {
+  font-family: ui-monospace, 'Cascadia Mono', Consolas, monospace;
+  font-size: 21px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-align: center;
+  padding: 12px;
+  background: var(--soft);
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  user-select: all;
 }

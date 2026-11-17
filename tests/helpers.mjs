@@ -22,6 +22,12 @@ export async function newTeam(page, { lang = 'es', sample = true } = {}) {
   await page.click('#nf button');
   await expect(page.locator('#nav')).toBeVisible();
   await page.waitForFunction(() => typeof started !== 'undefined' && started);
+  // the new team's recovery code
+  await expect(page.locator('#rcV')).toBeVisible();
+  await page.evaluate(() => {
+    window.__recCode = $('#rcV').textContent;
+    closeDlg();
+  });
   return errors;
 }
 

@@ -36,6 +36,8 @@ someone imports a holidays PDF.
 | `13-diary.js` | Personal work diary: per-person encrypted file, day/month/pending views, Word import/export |
 | `13-alerts.js` | Date alerts and the 🔔 bell |
 | `14-team-admin.js` | PM password change and handover of the PM role |
+| `14-export-excel.js` | Export the Gantt to a real `.xlsx` workbook (no libraries) |
+| `14-recovery.js` | Recovery codes for the PM password and diary passwords |
 | `14-export-image.js` | Export the Gantt as PNG (SVG `foreignObject` rasterisation) |
 | `15-main.js` | Bar dragging, `render()` and `init()` |
 

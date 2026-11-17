@@ -942,15 +942,21 @@ Fin objetivo el	Target end on
 =Fin objetivo	Target end
 No se cumplirá el fin objetivo (	The target end will not be met (
 » acaba o está prevista el	» ends or is forecast on
-aviso(s) de fechas	date alert(s)
-Sin avisos de fechas	No date alerts
-No hay avisos: ninguna tarea vence en los próximos 5 días laborables ni está vencida o con retraso previsto, y ningún proyecto está en riesgo.	No alerts: no task is due in the next 5 working days, overdue or forecast to be late, and no project is at risk.
+aviso(s)	alert(s)
+Sin avisos	No alerts
+No hay avisos: ninguna tarea vence en los próximos 5 días laborables ni está vencida o con retraso previsto, y ningún proyecto está en riesgo, y no hay cambios recientes en tus asignaciones.	No alerts: no task is due in the next 5 working days, overdue or forecast to be late, no project is at risk, and there are no recent changes to your assignments.
 Proyectos (	Projects (
 Tareas (	Tasks (
 Ves los avisos de todo el equipo.	You see the alerts of the whole team.
 Ves los avisos de tus tareas y de los proyectos de los que eres responsable.	You see the alerts of your tasks and of the projects you own.
-🔔 Avisos de fechas	🔔 Date alerts
-aviso(s) nuevo(s) de fechas	new date alert(s)
+🔔 Avisos	🔔 Alerts
+aviso(s) nuevo(s)	new alert(s)
+Tarea nueva asignada a ti el	New task assigned to you on
+Reasignada a ti el	Reassigned to you on
+(antes la llevaba 	(previously owned by 
+Ya no es tuya desde el	No longer yours since
+: ahora la lleva 	: now owned by 
+: queda sin asignar	: left unassigned
 Pulsa la campana para verlos.	Click the bell to see them.
 =Semanas	Weeks
 =Meses	Months
@@ -1326,3 +1332,83 @@ Tu contraseña actual no es correcta.	Your current password is not correct.
 Traspaso hecho.	Handover done.
 es ahora el project manager y entra con su contraseña.	is now the project manager and signs in with their password.
 Este diario se cifró con una contraseña de project manager que ya no está en uso y no se puede abrir. Si es tuyo y no lo necesitas, pide al project manager que borre el archivo de la carpeta de datos para empezar uno nuevo.	This diary was encrypted with a project manager password that is no longer in use and cannot be opened. If it is yours and you do not need it, ask the project manager to delete the file from the data folder to start a new one.
+Quitar evaluación	Remove evaluation
+Deja la tarea sin evaluar. También puedes pulsar otra vez la estrella marcada.	Leaves the task not evaluated. You can also click the selected star again.
+· asiste	· attended by
+Es una convocatoria periódica con	It is a recurring invitation with
+reuniones.	meetings.
+Ocultar toda la serie	Hide the whole series
+Serie «	Series «
+» oculta. Puedes volver a mostrarla en Proyectos y equipo, en la tarjeta de Thunderbird.	» hidden. You can show it again in Projects & team, on the Thunderbird card.
+Eliminar las seleccionadas	Delete the selected ones
+Borra las reuniones seleccionadas. Las de una serie periódica o de Thunderbird se ocultan solo en la herramienta.	Deletes the selected meetings. Those of a recurring series or from Thunderbird are only hidden in the tool.
+¿Eliminar # reunión(es)? Pulsa otra vez	Delete # meeting(s)? Click again
+reunión(es) eliminada(s).	meeting(s) deleted.
+La serie vuelve a mostrarse.	The series is shown again.
+Series ocultas en la herramienta:	Series hidden in the tool:
+Volver a mostrar	Show again
+=Traspasada	Handed over
+=fecha del informe	report date
+Exportar a Excel	Export to Excel
+Descargar el Gantt como hoja de Excel, con el responsable de cada tarea, para quien no usa la herramienta	Download the Gantt as an Excel sheet, with the owner of each task, for people who do not use the tool
+Exportar el Gantt a Excel	Export the Gantt to Excel
+Genera una hoja de Excel con el diagrama Gantt (una fila por tarea, con su responsable y una celda coloreada por semana o por día) y una segunda hoja con las mismas tareas en forma de tabla. Sirve para compartir el plan con quien no usa la herramienta.	Creates an Excel sheet with the Gantt chart (one row per task, with its owner and one coloured cell per week or per day) and a second sheet with the same tasks as a table. Useful to share the plan with people who do not use the tool.
+Incluir las tareas completadas	Include completed tasks
+No se exportan los proyectos privados, las evaluaciones ni los diarios.	Private projects, evaluations and diaries are not exported.
+El periodo es demasiado largo para esa escala: acórtalo o usa semanas.	The period is too long for that scale: shorten it or use weeks.
+No hay tareas en esa selección.	No tasks in that selection.
+Excel descargado:	Excel downloaded:
+Descargar Excel	Download Excel
+columnas en el diagrama.	columns in the chart.
+Además, durante 14 días, cada persona ve las tareas que el PM le ha asignado, reasignado o retirado.	Also, for 14 days, each person sees the tasks the PM has assigned to them, reassigned or taken away.
+=Copiar	Copy
+=Crear	Create
+=Volver	Back
+La contraseña no es correcta.	The password is not correct.
+Descargar (.txt)	Download (.txt)
+🔑 Código de recuperación	🔑 Recovery code
+Guárdalo ahora:	Keep it now:
+no se vuelve a mostrar y la herramienta no lo guarda.	it is not shown again and the tool does not store it.
+Si olvidas la contraseña de project manager, este código te permite poner una nueva sin perder las evaluaciones, los proyectos privados ni tu diario.	If you forget the project manager password, this code lets you set a new one without losing the evaluations, the private projects or your diary.
+Si olvidas la contraseña de tu diario, este código te permite poner una nueva sin perder lo escrito.	If you forget your diary password, this code lets you set a new one without losing what you wrote.
+Guárdalo fuera de la carpeta compartida: en un gestor de contraseñas, impreso o en un archivo personal. Quien tenga el código puede hacerse con el papel de project manager.	Keep it outside the shared folder: in a password manager, printed or in a personal file. Whoever has the code can take over the project manager role.
+Guárdalo fuera de la carpeta compartida: en un gestor de contraseñas, impreso o en un archivo personal. Quien tenga el código puede leer tu diario.	Keep it outside the shared folder: in a password manager, printed or in a personal file. Whoever has the code can read your diary.
+Lo he guardado en un lugar seguro	I have kept it in a safe place
+Marca la casilla cuando lo hayas guardado.	Tick the box once you have kept it.
+Código copiado.	Code copied.
+No se pudo copiar: selecciónalo y cópialo a mano.	Could not copy: select it and copy it by hand.
+Crear un código de recuperación nuevo	Create a new recovery code
+Crear el código de recuperación	Create the recovery code
+Crear un código de recuperación nuevo…	Create a new recovery code…
+Crear el código de recuperación…	Create the recovery code…
+El código anterior deja de servir.	The previous code stops working.
+Escribe el código de recuperación que guardaste al crear la contraseña y elige una contraseña nueva.	Type the recovery code you kept when you created the password and choose a new password.
+Escribe el código de recuperación que guardaste al crear el diario y elige una contraseña nueva.	Type the recovery code you kept when you created the diary and choose a new password.
+Código de recuperación	Recovery code
+código de recuperación	recovery code
+Recuperar y entrar	Recover and sign in
+Recuperar el diario	Recover the diary
+Este equipo no tiene código de recuperación: la contraseña no se puede recuperar. Consulta «Traspasos y copias de seguridad».	This team has no recovery code: the password cannot be recovered. See «Handovers and backups».
+Este diario no tiene código de recuperación: no se puede recuperar.	This diary has no recovery code: it cannot be recovered.
+El código no es correcto.	The code is not correct.
+Contraseña nueva guardada.	New password saved.
+¿Has olvidado la contraseña?	Forgotten your password?
+Puedes poner una nueva con tu código de recuperación.	You can set a new one with your recovery code.
+Al crearla recibirás un	When you create it you will receive a
+: guárdalo. Sin la contraseña ni el código, el diario no se puede recuperar; nadie puede restablecerla.	: keep it. Without the password or the code, the diary cannot be recovered; nobody can reset it.
+Código de recuperación de la contraseña del diario	Recovery code for the diary password
+Tu diario no tiene	Your diary has no
+: si olvidas la contraseña, se pierde.	: if you forget the password, it is lost.
+Crear el código	Create the code
+🔑 Código de recuperación creado el	🔑 Recovery code created on
+. Si olvidas la contraseña, úsalo en la pantalla de entrada («¿Has olvidado la contraseña?»).	. If you forget the password, use it on the sign-in screen («Forgotten your password?»).
+🔑 No tienes	🔑 You have no
+: si olvidas la contraseña, se pierden las evaluaciones, tus proyectos privados y tu diario. Créalo y guárdalo.	: if you forget the password, the evaluations, your private projects and your diary are lost. Create it and keep it.
+🔑 No tienes código de recuperación de la contraseña de PM: créalo en «Proyectos y equipo» → «Dirección del equipo».	🔑 You have no recovery code for the PM password: create it in «Projects & team» → «Team lead».
+La contraseña protege tu papel de PM y cifra las evaluaciones. Al crear el equipo recibirás un	The password protects your PM role and encrypts the evaluations. When you create the team you will receive a
+para poner una contraseña nueva si la olvidas.	to set a new password if you forget it.
+Recibirás un	You will receive a new
+nuevo; el anterior deja de servir.	; the previous one stops working.
+🔒 Reunión	🔒 Meeting
+Reunión privada: solo sus participantes ven el título, el proyecto y las notas.	Private meeting: only its participants see the title, the project and the notes.
+Solo los participantes ven los detalles	Only the participants see the details

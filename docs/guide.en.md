@@ -52,8 +52,9 @@ interface.
 4. As the folder is empty, you will see **Empty folder: create the team**: enter your name and a PM password
    (8 characters or more). If you tick **Load the sample data**, the fictitious company Astrorel is
    created with three projects, three people, tasks and meetings to explore.
-   > **Keep the password safe.** It encrypts the evaluations and private projects. If it is lost, they
-   > cannot be recovered.
+   > **Keep the password and the recovery code** shown next safe. The password encrypts the evaluations and
+   > private projects; if you forget it, the code lets you set a new one («Forgotten your password?» on the
+   > sign-in screen). Without either of them, they cannot be recovered.
 5. In **Projects & team**, check the offices, add people and create the projects.
 
 **Each member, once:** open the shared-folder link, sync it to their computer, open `GanttCrew.html` with
@@ -145,6 +146,10 @@ You can drag bars to change dates (if you have permission on the task).
 
 ## 7. Meetings
 
+- **Privacy**: a meeting's details (title, type, project and notes) are only seen by its attendees and by
+  whoever created it. The rest of the team, the project manager included, only sees that those people are
+  **in a meeting** (day, time and who), marked with 🔒. The meeting still takes working hours and counts in
+  the forecast dates. Each meeting is managed by whoever created it; the PM also manages the ones they attend.
 - **+ Meeting**: title, type, project, date, time, duration, attendees and notes.
 - **Attendees**: choose people, **Whole team** or **Project participants** (if the participants change, the
   attendees change).
@@ -186,7 +191,9 @@ The **Diary** tab is a personal log of what you do each day.
 - **It is private.** It is stored encrypted in `datos/diario-<person>.json`. The project manager opens it
   with the PM password. Each member creates their **diary password** the first time and can tick
   *Remember in this browser* so as not to type it every time. Nobody else can read it, not even the project
-  manager. **If the password is forgotten, the diary cannot be recovered.**
+  manager. When you create it, a **recovery code** appears: keep it. If you forget the password, click
+  **Forgotten your password?** and set a new one with the code. Without password or code, the diary cannot
+  be recovered.
 - **Day:** type a line and press Enter. The tool suggests the meetings and tasks you had that day, to add
   them with one click. Each line can be linked to a project.
 - **Pending:** mark a line as *Pending* and follow it in the **Pending** view; *Resolve* records the date it
@@ -277,6 +284,22 @@ The PM can mark a project as **Private (only me)**.
 title, the scale (weeks, months or quarters) and whether to include the legend or the header. **Copy
 image** puts it on the clipboard to paste into Word (Ctrl+V); **Download PNG** saves it. Private projects
 are never exported.
+
+### Assignment alerts
+
+When the PM assigns a new task, reassigns it or takes it away from someone, the person affected sees it in
+the bell (🔔) on opening the tool: "New task assigned to you", "Reassigned to you (previously owned by…)" or
+"No longer yours: now owned by…". The alert stays for 14 days. No e-mail or message is sent: the tool has no
+server, so the alert only appears inside it.
+
+### Export to Excel
+
+**Export to Excel** (in the Gantt) downloads an `.xlsx` workbook to share the plan with people who do not
+use the tool. Choose the project (or all), the period, the scale (weeks or days) and whether to include
+completed tasks. The **Gantt** sheet has one row per task, with its owner, dates, progress and status, and
+one coloured cell per week or day in each person's colour (dark = progress, light = remaining, pink =
+forecast delay). The **Tasks** sheet holds the same tasks as a filterable table. Private projects,
+evaluations and diaries are not exported.
 
 ## 14. Language
 

@@ -26,8 +26,9 @@ Everything is in the `datos` folder, next to the tool's file:
 
 Two important consequences:
 
-- **Encrypted data depends on a password nobody can reset.** If the PM password is lost, the evaluations and
-  private projects are lost. If someone forgets their diary password, that diary is lost.
+- **Encrypted data depends on a password nobody can reset**, except with its **recovery code** (section
+  6.1). Without password or code, losing the PM password loses the evaluations, the private projects and the
+  PM's diary; forgetting a diary password loses that diary.
 - **The PM's diary** is encrypted with the PM password; each member's, with their diary password.
 
 ---
@@ -208,7 +209,25 @@ and clear the actual end date.
 4. Wait for the «Password changed» notice.
 
 The evaluations, your private projects and your diary are encrypted again with the new one. Members notice
-nothing. **Write the new password down somewhere safe**: nobody can reset it.
+nothing. When it finishes, the tool gives you a **new recovery code** (the previous one stops working): keep
+it as explained in 6.1.
+
+### 6.1 If you forget a password: the recovery code
+
+When the PM password is created (with the team or when it is changed) and when a diary password is created,
+the tool shows **once** a 20-character code, for example `7KQ2M-X9D4T-...`. It is not stored anywhere: keep
+it yourself outside the shared folder (password manager, paper in a drawer or a personal file). With it you
+set a new password without losing anything.
+
+- **PM:** in «Who are you?», choose your name, click **Forgotten your password?**, type the code and the new
+  password twice. You sign in as PM and receive a new code.
+- **A member's diary:** in the **Diary** tab, click **Forgotten your password?**, type the code and the new
+  password. Only the owner sees the diary code; the PM's code does not open other people's diaries.
+- **No code yet.** In **Projects & team → Team lead 🔒**, the PM sees whether there is a code and can create a
+  new one with the password. In the **Diary**, the 🔑 button does the same. Teams and diaries created before
+  this version have no code: create it as soon as possible.
+- **Careful:** whoever has the PM code can take over the PM role; whoever has a diary code can read it. If
+  you think someone has seen it, create a new one: the previous one stops working.
 
 ---
 
@@ -270,13 +289,15 @@ page reloads on its own and asks «Who are you?».
 1. In «Who are you?», chooses their name and signs in with their password.
 2. Checks they see the **Performance** tab with the evaluations and the **Team lead** card.
 3. If the password was temporary, changes it (section 6).
-4. Makes a **full backup** (2.1): the first one with their password.
-5. Checks the 🔔 bell: if the outgoing PM has left the team, their open tasks show as «Owner has left», to be
+4. Creates their **recovery code** in **Team lead 🔒** (the handover does not give it, so that the outgoing
+   PM does not see it) and keeps it.
+5. Makes a **full backup** (2.1): the first one with their password.
+6. Checks the 🔔 bell: if the outgoing PM has left the team, their open tasks show as «Owner has left», to be
    handed over.
 
 **The outgoing PM, if staying in the team:**
 1. Signs in by choosing their name, now without a password.
-2. Opens **Diary** with the password chosen in step 4.
+2. Opens **Diary** with the password chosen in step 4 and creates its recovery code (🔑 button).
 
 **The whole team:** reload the page (F5).
 
@@ -286,7 +307,7 @@ page reloads on its own and asks «Who are you?».
   handover did not happen and you can repeat it. If it does not, try the new PM's. If neither opens the
   evaluations, restore `equipo-pm.json` and `evaluaciones-cifradas.json` with the version history (2.3) to
   the time before the handover.
-- **The new PM forgot their password.** It cannot be recovered. With a copy of the `datos` folder (2.2) from
+- **The new PM forgot their password.** If they created their recovery code, they use it (6.1). Otherwise, with a copy of the `datos` folder (2.2) from
   before the handover, the outgoing PM can go back to that state with the old password and repeat it.
 - **You left without handing over.** Shared data is not encrypted and is kept, but the evaluations cannot be
   recovered without your password. The team needs you to do the handover, or to give them the password to

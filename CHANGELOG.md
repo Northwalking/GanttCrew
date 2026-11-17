@@ -5,6 +5,26 @@ title and in *Projects & team → Tool version*.
 Los cambios relevantes se recogen aquí. La herramienta muestra además su fecha y hora de publicación
 (hora de Madrid) bajo el título y en *Proyectos y equipo → Versión de la herramienta*.
 
+## [Unreleased]
+
+## [1.2.0] — 2026-11-17
+
+- **Private meetings**: details only for attendees and creator; others see a 🔒 busy slot · **Reuniones
+  privadas**: detalles solo para asistentes y creador; el resto ve un hueco ocupado 🔒.
+- **Recovery code** for the PM password and for each diary password, to set a new password without
+  losing data · **Código de recuperación** de la contraseña de PM y de cada diario, para poner una
+  contraseña nueva sin perder datos.
+- **Assignment alerts**: the bell tells each person which tasks the PM has assigned, reassigned or
+  taken away from them (14 days) · **Avisos de asignación**: la campana avisa a cada persona de las
+  tareas que el PM le ha asignado, reasignado o retirado (14 días).
+- **Export to Excel**: the Gantt as a workbook (chart sheet with owners + task table), built in the
+  browser · **Exportar a Excel**: el Gantt como libro (hoja del diagrama con responsables + tabla de
+  tareas), generado en el navegador.
+- The quality rating of a task can be removed · La puntuación de calidad de una tarea se puede quitar.
+- Meetings: delete several at once; hide a whole recurring Thunderbird series (and show it again);
+  counter when filtering by attendee · Reuniones: eliminar varias a la vez; ocultar una serie periódica
+  de Thunderbird completa (y volver a mostrarla); contador al filtrar por asistente.
+
 ## [1.1.0] — 2026-11-13
 
 - **Work diary**: private, encrypted per person (the PM uses the PM password, members their own diary

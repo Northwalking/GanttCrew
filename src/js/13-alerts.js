@@ -1,6 +1,7 @@
 /* ---------- avisos de fechas ---------- */
 const AL_T = 5,
-  AL_P = 10;
+  AL_P = 10,
+  AL_A = 14; // days an assignment change stays in the list
 function addWorkG(d, n) {
   let x = d;
   while (n > 0) {
@@ -111,7 +112,33 @@ function alerts() {
         txt: `No se cumplirá el fin objetivo (${fmt(p.end)}): «${lt.name}» acaba o está prevista el ${fmt(iso(last))}`,
       });
   }
-  const rank = { bad: 0, warn: 1 };
+  // assignment changes made by the PM: told to whoever receives the task and to whoever loses it
+  if (!ME.owner && me)
+    for (const t of arr('tasks')) {
+      const a = t.asg,
+        on = dn(a?.on);
+      if (on == null || T - on > AL_A || T < on) continue;
+      const p = S.projects[t.projectId];
+      if (p && (p.status === 'closed' || p.status === 'cancelled')) continue;
+      const base = { kind: 'task', id: t.id, name: t.name, proj: p?.code || p?.name || '', sev: 'info' };
+      if (t.assigneeId === me && t.status !== 'done')
+        out.push({
+          ...base,
+          key: 'as:' + t.id + ':' + a.on + ':' + me,
+          txt: a.from
+            ? `Reasignada a ti el ${fmt(a.on)} (antes la llevaba ${mem(a.from)?.name || '—'})`
+            : `Tarea nueva asignada a ti el ${fmt(a.on)}`,
+        });
+      else if (a.from === me && t.assigneeId !== me)
+        out.push({
+          ...base,
+          key: 'un:' + t.id + ':' + a.on + ':' + (t.assigneeId || ''),
+          txt:
+            `Ya no es tuya desde el ${fmt(a.on)}` +
+            (t.assigneeId ? `: ahora la lleva ${mem(t.assigneeId)?.name || '—'}` : ': queda sin asignar'),
+        });
+    }
+  const rank = { bad: 0, warn: 1, info: 2 };
   return out.sort(
     (a, b) => rank[a.sev] - rank[b.sev] || (a.kind === b.kind ? 0 : a.kind === 'proj' ? -1 : 1),
   );
@@ -131,30 +158,29 @@ function renderBell() {
     seen = alSeen(),
     nw = A.filter((a) => !seen.has(a.key)).length;
   b.innerHTML = `🔔${A.length ? `<span class="bellN ${nw ? 'new' : ''}">${A.length}</span>` : ''}`;
-  b.title = A.length
-    ? `${A.length} aviso(s) de fechas${nw ? ' · ' + nw + ' nuevo(s)' : ''}`
-    : 'Sin avisos de fechas';
+  b.title = A.length ? `${A.length} aviso(s)${nw ? ' · ' + nw + ' nuevo(s)' : ''}` : 'Sin avisos';
 }
 function openAlerts() {
   const A = alerts();
   const seen = alSeen();
+  const rank = { bad: 0, warn: 1, info: 2 };
   const grp = [];
   for (const a of A) {
     const g = grp.find((x) => x.kind === a.kind && x.id === a.id);
     if (g) {
       g.txts.push(a.txt);
-      if (a.sev === 'bad') g.sev = 'bad';
+      if (rank[a.sev] < rank[g.sev]) g.sev = a.sev;
       if (!seen.has(a.key)) g.nw = true;
     } else grp.push({ ...a, txts: [a.txt], nw: !seen.has(a.key) });
   }
   const item = (a) =>
-    `<div class="alrow ${a.sev}" ${a.kind === 'task' ? `data-altask="${a.id}"` : `data-alproj="${a.id}"`}><div style="display:flex;gap:8px;align-items:center"><span class="tag ${a.sev}">${a.sev === 'bad' ? '!' : '⏰'}</span><b>${esc(a.name)}</b>${a.proj ? `<span class="mut">· ${esc(a.proj)}</span>` : ''}${a.kind === 'task' && ME.owner && a.who ? `<span class="sp"></span>${who(a.who, true)}` : ''}${a.nw ? '<span class="tag lv3" style="margin-left:4px">nuevo</span>' : ''}</div>${a.txts.map((x) => `<div class="mut" style="font-size:12px;margin-top:3px;padding-left:30px">${esc(x)}</div>`).join('')}</div>`;
+    `<div class="alrow ${a.sev}" ${a.kind === 'task' ? `data-altask="${a.id}"` : `data-alproj="${a.id}"`}><div style="display:flex;gap:8px;align-items:center"><span class="tag ${a.sev}">${a.sev === 'bad' ? '!' : a.sev === 'info' ? '👤' : '⏰'}</span><b>${esc(a.name)}</b>${a.proj ? `<span class="mut">· ${esc(a.proj)}</span>` : ''}${a.kind === 'task' && ME.owner && a.who ? `<span class="sp"></span>${who(a.who, true)}` : ''}${a.nw ? '<span class="tag lv3" style="margin-left:4px">nuevo</span>' : ''}</div>${a.txts.map((x) => `<div class="mut" style="font-size:12px;margin-top:3px;padding-left:30px">${esc(x)}</div>`).join('')}</div>`;
   const P = grp.filter((a) => a.kind === 'proj'),
     Tk = grp.filter((a) => a.kind === 'task');
-  const body = `<div class="full">${A.length ? '' : '<p class="hint">No hay avisos: ninguna tarea vence en los próximos 5 días laborables ni está vencida o con retraso previsto, y ningún proyecto está en riesgo.</p>'}
+  const body = `<div class="full">${A.length ? '' : '<p class="hint">No hay avisos: ninguna tarea vence en los próximos 5 días laborables ni está vencida o con retraso previsto, y ningún proyecto está en riesgo, y no hay cambios recientes en tus asignaciones.</p>'}
     ${P.length ? `<div class="alh">Proyectos (${P.length})</div>${P.map(item).join('')}` : ''}${Tk.length ? `<div class="alh">Tareas (${Tk.length})</div>${Tk.map(item).join('')}` : ''}
-    <p class="hint" style="margin-top:10px">${ME.owner ? 'Ves los avisos de todo el equipo.' : 'Ves los avisos de tus tareas y de los proyectos de los que eres responsable.'} Avisa de tareas que vencen en los próximos 5 días laborables, vencidas, con retraso previsto o que acaban después del fin objetivo de su proyecto; y de proyectos cuyo fin objetivo llega en 10 días laborables, ya pasó o no se cumplirá.</p></div>`;
-  openDlg('🔔 Avisos de fechas', body, null, null, true);
+    <p class="hint" style="margin-top:10px">${ME.owner ? 'Ves los avisos de todo el equipo.' : 'Ves los avisos de tus tareas y de los proyectos de los que eres responsable.'} Avisa de tareas que vencen en los próximos 5 días laborables, vencidas, con retraso previsto o que acaban después del fin objetivo de su proyecto; y de proyectos cuyo fin objetivo llega en 10 días laborables, ya pasó o no se cumplirá. Además, durante 14 días, cada persona ve las tareas que el PM le ha asignado, reasignado o retirado.</p></div>`;
+  openDlg('🔔 Avisos', body, null, null, true);
   if ($('#mCancel')) $('#mCancel').textContent = 'Cerrar';
   try {
     localStorage.setItem(seenKey(), JSON.stringify(A.map((a) => a.key)));
@@ -183,7 +209,7 @@ function alertToast() {
   if (nw.length) {
     const b = nw.filter((a) => a.sev === 'bad').length;
     toast(
-      `🔔 ${nw.length} aviso(s) nuevo(s) de fechas${b ? ` (${b} importante(s))` : ''}. Pulsa la campana para verlos.`,
+      `🔔 ${nw.length} aviso(s) nuevo(s)${b ? ` (${b} importante(s))` : ''}. Pulsa la campana para verlos.`,
     );
   }
 }

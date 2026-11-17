@@ -11,6 +11,7 @@ const D = {
   days: {},
   key: null,
   salt: null,
+  rec: null, // password encrypted with the recovery code (see 14-recovery.js)
   lm: 0,
   timer: null,
   q: Promise.resolve(),
@@ -37,7 +38,16 @@ async function dRead() {
 }
 // Opens the diary of the current user: decrypts it if the key is at hand, otherwise asks for the password
 async function dOpen() {
-  Object.assign(D, { st: 'loading', who: ME.memberId, days: {}, key: null, salt: null, lm: 0, dirty: false });
+  Object.assign(D, {
+    st: 'loading',
+    who: ME.memberId,
+    days: {},
+    key: null,
+    salt: null,
+    rec: null,
+    lm: 0,
+    dirty: false,
+  });
   const r = await dRead();
   if (!r) {
     // no diary yet: the PM's is created with the PM key, a member's with their own password
@@ -46,6 +56,7 @@ async function dOpen() {
     return;
   }
   D.salt = r.j.salt || null;
+  D.rec = r.j.rec || null;
   if (D.salt) {
     // protected with its own password (also a PM who already had a diary as a member)
     const key = await kvGet('dkey-' + ME.memberId);
@@ -72,10 +83,13 @@ async function dUnlock(pw, remember) {
     // first time: this password creates the diary
     D.salt = b64(crypto.getRandomValues(new Uint8Array(16)));
     D.key = await deriveKey(pw, ub64(D.salt));
+    D.newCode = recNew();
+    D.rec = await recBox(D.newCode, pw);
     Object.assign(D, { st: 'open', days: {} });
     await dWrite();
   } else {
     D.salt = r.j.salt;
+    D.rec = r.j.rec || null;
     const key = await deriveKey(pw, ub64(D.salt));
     if (!(await dDecrypt(key, r))) return false;
   }
@@ -109,6 +123,7 @@ function dWrite() {
         version: 1,
         member: ME.memberId,
         salt: D.salt || undefined,
+        rec: (D.salt && D.rec) || undefined,
         check: await enc(D.key, 'diario-ok'),
         box: await enc(D.key, { days: D.days }),
         updatedAt: new Date().toISOString(),
@@ -200,8 +215,8 @@ function vDiario() {
         <div><button class="btn pri">${nw ? 'Crear mi diario' : 'Abrir'}</button></div>
         <div class="note ${nw ? 'warn' : 'info'}">${
           nw
-            ? '<b>Guárdala bien:</b> si la olvidas, el diario no se puede recuperar. Nadie puede restablecerla.'
-            : 'Si la has olvidado, el diario no se puede recuperar.'
+            ? 'Al crearla recibirás un <b>código de recuperación</b>: guárdalo. Sin la contraseña ni el código, el diario no se puede recuperar; nadie puede restablecerla.'
+            : '<a href="#" id="dFg">¿Has olvidado la contraseña?</a> Puedes poner una nueva con tu código de recuperación.'
         }</div>
       </form></div>`
     );
@@ -222,7 +237,7 @@ function vDiario() {
       )
       .join(
         '',
-      )}</div><input type="search" id="dQ" placeholder="🔍 Buscar en el diario…" value="${esc(DUI.q)}" style="max-width:240px"><span class="sp"></span><button class="btn" id="dImp">Importar…</button><button class="btn" id="dExp">Descargar…</button></div>`;
+      )}</div><input type="search" id="dQ" placeholder="🔍 Buscar en el diario…" value="${esc(DUI.q)}" style="max-width:240px"><span class="sp"></span>${D.salt ? '<button class="btn" id="dRcN" title="Código de recuperación de la contraseña del diario">🔑</button>' : ''}<button class="btn" id="dImp">Importar…</button><button class="btn" id="dExp">Descargar…</button></div>${D.salt && !D.rec ? '<div class="note warn" style="margin:8px 0">Tu diario no tiene <b>código de recuperación</b>: si olvidas la contraseña, se pierde. <a href="#" id="dRcW">Crear el código</a></div>' : ''}`;
   if (DUI.q.trim()) h += dvSearch();
   else if (DUI.mode === 'month') h += dvMonth();
   else if (DUI.mode === 'pend') h += dvPend(pend);
@@ -327,6 +342,11 @@ function dGo(day, mode) {
 }
 function bindDiario() {
   const f = $('#dPwF');
+  if ($('#dFg'))
+    $('#dFg').onclick = (e) => {
+      e.preventDefault();
+      dRecoverForm();
+    };
   if (f) {
     f.onsubmit = async (e) => {
       e.preventDefault();
@@ -335,10 +355,18 @@ function bindDiario() {
       if (pw.length < 8) return toast('La contraseña debe tener 8 caracteres o más.');
       if (!(await dUnlock(pw, $('#dRem').checked))) return toast('Contraseña incorrecta.');
       dRender(true);
+      if (D.newCode) {
+        showRecCode(D.newCode, 'diary');
+        D.newCode = null;
+      }
     };
     return;
   }
   const on = (sel, ev, fn) => document.querySelectorAll(sel).forEach((el) => el.addEventListener(ev, fn));
+  on('#dRcN, #dRcW', 'click', (e) => {
+    e.preventDefault();
+    openDiaryRecNew();
+  });
   on('#dMode [data-dm]', 'click', (e) => {
     DUI.mode = e.currentTarget.dataset.dm;
     DUI.q = '';
@@ -501,7 +529,7 @@ function dDocx(days, title) {
   });
 }
 // Minimal ZIP writer (stored, no compression): enough for a .docx
-function zipStore(files) {
+function zipStore(files, type) {
   const te = new TextEncoder(),
     tbl = new Uint32Array(256).map((_, n) => {
       for (let k = 0; k < 8; k++) n = n & 1 ? 0xedb88320 ^ (n >>> 1) : n >>> 1;
@@ -557,7 +585,7 @@ function zipStore(files) {
   e.setUint32(12, csz, true);
   e.setUint32(16, off, true);
   return new Blob([...parts, ...cen, new Uint8Array(e.buffer)], {
-    type: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    type: type || 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   });
 }
 function dDownload(blob, name) {

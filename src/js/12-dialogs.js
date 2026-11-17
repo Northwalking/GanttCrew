@@ -515,6 +515,7 @@ function openTask(id, defs = {}) {
       if (ME.owner) {
         const e = evCollect();
         if (e) await save('evals', nid, e);
+        else if (S.evals[nid]) await del('evals', nid); // rating removed: the evaluation is deleted
       }
     },
     id && planOK ? () => delTask(id) : null,
@@ -597,15 +598,22 @@ function openTask(id, defs = {}) {
         : 'Elige de 1 a 5 estrellas según la escala.';
     };
     qd(q);
+    $('#tQ').insertAdjacentHTML(
+      'afterend',
+      `<button type="button" class="btn sm ghost" id="tQx" style="align-self:flex-start;font-size:12px;${q ? '' : 'display:none'}" title="Deja la tarea sin evaluar. También puedes pulsar otra vez la estrella marcada.">Quitar evaluación</button>`,
+    );
+    $('#tQx').onclick = () => $('#tQ').querySelector(`[data-q="${q}"]`)?.click();
     $('#tQ')
       .querySelectorAll('button')
       .forEach((b) => {
         b.onclick = () => {
-          q = +b.dataset.q;
+          // clicking the selected star again removes the rating
+          q = q === +b.dataset.q ? 0 : +b.dataset.q;
           $('#tQ')
             .querySelectorAll('button')
             .forEach((x) => x.classList.toggle('on', +x.dataset.q <= q));
           qd(q);
+          if ($('#tQx')) $('#tQx').style.display = q ? '' : 'none';
           upd();
         };
         b.onmouseenter = () => qd(+b.dataset.q);
@@ -627,6 +635,20 @@ function openTask(id, defs = {}) {
 }
 function openMeeting(id, defs = {}) {
   const me = myMemberId();
+  if (id && S.meetings[id] && !mtgMine(S.meetings[id])) {
+    // someone else's meeting: only that those people are in a meeting
+    const x = S.meetings[id];
+    openDlg(
+      '🔒 Reunión',
+      `<p class="full" style="margin:0"><b>${fmt(x.date)}</b>${x.time ? ' · ' + esc(x.time) + '–' + esc(endTime(x.time, x.duration)) : ''}</p>
+       <div class="full">${(x.attendees || []).map((a) => who(a, true)).join(' ')}</div>
+       <div class="full note info">Reunión privada: solo sus participantes ven el título, el proyecto y las notas.</div>`,
+      null,
+      null,
+      false,
+    );
+    return;
+  }
   const occ = id && String(id).startsWith('rs-') ? S.meetings[id] : null;
   const sr = occ ? SERIES[occ.seriesId] : null;
   const m = id
@@ -689,7 +711,7 @@ function openMeeting(id, defs = {}) {
        .join('') || '<span class="hint">Añade miembros del equipo primero.</span>'
    }</div></div>
    <label class="full">Acuerdos / notas<textarea id="mN">${esc(m.notes)}</textarea></label>
-   ${tbm ? '<div class="note info">📅 Convocatoria registrada desde <b>Thunderbird</b>. El título, la fecha, la hora y la duración se cambian allí; aquí puedes completar el tipo, el proyecto, los asistentes y las notas.</div>' : ''}
+   ${tbm ? '<div class="note info">📅 Convocatoria registrada desde <b>Thunderbird</b>. El título, la fecha, la hora y la duración se cambian allí; aquí puedes completar el tipo, el proyecto, los asistentes y las notas.<span id="tbAllW"></span></div>' : ''}
    ${id && !editable ? '<div class="note info">Solo quien registró la reunión o el PM pueden modificarla.</div>' : ''}`;
   const scope = () => (occ ? val('mScope') : null);
   const freq = () => ($('#mRe') && !(occ && scope() === 'one') ? val('mRe') : '');
@@ -846,6 +868,31 @@ function openMeeting(id, defs = {}) {
     ['mT', 'mD', 'mH', 'mF'].forEach((i) => ($('#' + i).disabled = true));
     const d = $('#mDel');
     if (d) d.textContent = 'Ocultar en la herramienta';
+    // a recurring invitation: offer to hide every occurrence at once, present and future
+    const same = arr('meetings').filter((x) => x.tbUid && x.tbUid === m.tbUid).length;
+    if (editable && m.tbUid && same > 1) {
+      $('#tbAllW').innerHTML =
+        ` Es una convocatoria periódica con <b>${same}</b> reuniones. <button type="button" class="btn sm" id="tbAll">Ocultar toda la serie</button>`;
+      let armed = false;
+      $('#tbAll').onclick = async () => {
+        if (!armed) {
+          armed = true;
+          $('#tbAll').textContent = '¿Seguro? Pulsa otra vez';
+          return;
+        }
+        await save('meetings', 'tbhide-' + hashStr(m.tbUid), {
+          tbHideUid: m.tbUid,
+          title: m.title,
+          hidden: true,
+          tbOverride: true,
+          createdBy: m.createdBy,
+        });
+        closeDlg();
+        toast(
+          `Serie «${m.title}» oculta. Puedes volver a mostrarla en Proyectos y equipo, en la tarjeta de Thunderbird.`,
+        );
+      };
+    }
   }
   const paint = () =>
     $('#mA')
@@ -1455,4 +1502,27 @@ function openHandover(id, backTo) {
   };
   ['hM', 'hD', 'hS', 'hE', 'hH', 'hP'].forEach((i) => $('#' + i).addEventListener('change', upd));
   upd();
+}
+
+// Removes several meetings at once: plain meetings are deleted; occurrences of a series and
+// Thunderbird invitations are hidden (the series and the Thunderbird file are not touched).
+async function bulkDeleteMeetings(ids) {
+  const ms = ids
+    .map((id) => (S.meetings[id] ? { id, ...S.meetings[id] } : null))
+    .filter((x) => x && canEditMeeting(x));
+  const hide = [],
+    gone = [];
+  for (const x of ms) {
+    if (x.source === 'thunderbird')
+      hide.push([x.id, { hidden: true, tbOverride: true, createdBy: x.createdBy }]);
+    else if (String(x.id).startsWith('rs-'))
+      hide.push([
+        x.id,
+        { occOverride: true, hidden: true, createdBy: SERIES[x.seriesId]?.createdBy || x.createdBy },
+      ]);
+    else gone.push(x.id);
+  }
+  if (hide.length) await saveMany('meetings', hide);
+  for (const id of gone) await del('meetings', id);
+  return ms.length;
 }

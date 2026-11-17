@@ -1,26 +1,30 @@
 [
   {
-    "es": "Diario de trabajo: pestaña nueva «Diario» donde cada persona apunta lo que hace cada día. Es privado y va cifrado: el project manager lo abre con su contraseña y cada miembro crea la contraseña de su diario; nadie más puede leerlo, tampoco el project manager. Sugiere las reuniones y tareas del día, permite marcar pendientes, buscar, importar un Word o texto con entradas «Día dd/mm/aaaa» y descargarlo en Word o texto.",
-    "en": "Work diary: a new «Diary» tab where each person notes what they do each day. It is private and encrypted: the project manager opens it with their password and each member creates their own diary password; nobody else can read it, not even the project manager. It suggests the day's meetings and tasks, lets you mark pending items, search, import a Word or text file with «Día dd/mm/yyyy» entries and download it as Word or text."
+    "es": "Reuniones privadas: los detalles de una reunión solo los ven sus asistentes y quien la creó. El resto del equipo, también el PM, solo ve que esas personas están reunidas (🔒), y la reunión sigue restando horas en la planificación.",
+    "en": "Private meetings: a meeting's details are only seen by its attendees and by whoever created it. The rest of the team, the PM included, only sees that those people are in a meeting (🔒), and the meeting still takes hours in the planning."
   },
   {
-    "es": "Planificación solo del project manager: los miembros ya no crean tareas ni cambian fechas planificadas, dedicación, horas estimadas, prioridad, dependencias o pausas. En sus tareas actualizan el estado, el avance, las horas pendientes, las fechas reales y el motivo de un bloqueo.",
-    "en": "Planning is for the project manager only: members no longer create tasks or change planned dates, dedication, estimated hours, priority, dependencies or pauses. On their tasks they update the status, progress, hours remaining, actual dates and the reason for a block."
+    "es": "Código de recuperación: al crear la contraseña de PM o la de un diario, la herramienta muestra una vez un código para poner una contraseña nueva si se olvida («¿Has olvidado la contraseña?»). Si ya tenías equipo o diario, créalo en «Proyectos y equipo» → «Dirección del equipo» o con el botón 🔑 del Diario.",
+    "en": "Recovery code: when the PM password or a diary password is created, the tool shows once a code to set a new password if it is forgotten («Forgotten your password?»). If you already had a team or diary, create it in «Projects & team» → «Team lead» or with the 🔑 button in the Diary."
   },
   {
-    "es": "Formato en las notas: el diario, las notas de las reuniones y la descripción de las tareas admiten **negrita**, *cursiva*, listas con «- » o «1. » y enlaces. Se ve con formato al salir del campo y se edita al pulsar encima. El diario descargado en Word sale con negritas y listas de Word.",
-    "en": "Formatting in notes: the diary, meeting notes and task descriptions accept **bold**, *italic*, lists with «- » or «1. » and links. The formatted text shows when you leave the field; click it to edit. The diary downloaded as Word keeps bold text and uses real Word lists."
+    "es": "Avisos de asignación: cuando el PM asigna una tarea nueva, la reasigna o se la retira a alguien, la persona afectada lo ve en la campana (🔔) al entrar, durante 14 días. No se envía correo: el aviso aparece dentro de la herramienta.",
+    "en": "Assignment alerts: when the PM assigns a new task, reassigns it or takes it away from someone, the person affected sees it in the bell (🔔) on opening the tool, for 14 days. No e-mail is sent: the alert appears inside the tool."
   },
   {
-    "es": "Bajas del equipo: en la ficha de cada miembro hay una «Fecha de baja». Desde el día siguiente no aparece para entrar ni para asignarle trabajo, y no cuenta en la carga ni en las reuniones; su histórico se conserva. Al darlo de baja se listan sus tareas abiertas para traspasarlas.",
-    "en": "Leaving the team: each member's form has a «Leave date». From the next day they are not offered at sign-in or for new work and do not count in the load or meetings; their history is kept. When someone leaves, their open tasks are listed to hand them over."
+    "es": "Exportar a Excel: en el Gantt, el botón «Exportar a Excel» descarga una hoja con el diagrama (una fila por tarea, su responsable y una celda coloreada por semana o por día) y otra con las tareas en forma de tabla, para compartir el plan con quien no usa la herramienta. No incluye proyectos privados, evaluaciones ni diarios.",
+    "en": "Export to Excel: in the Gantt, the «Export to Excel» button downloads a sheet with the chart (one row per task, its owner and one coloured cell per week or day) and another with the tasks as a table, to share the plan with people who do not use the tool. Private projects, evaluations and diaries are not included."
   },
   {
-    "es": "Traspasar una tarea: el botón «⇄ Traspasar…» de la ficha cierra la parte hecha a nombre de quien la llevaba y crea la continuación, enlazada, para otra persona con las horas pendientes. Las tareas que dependían de ella pasan a depender de la continuación.",
-    "en": "Handing over a task: the «⇄ Hand over…» button in the task form closes the part done under its owner's name and creates a linked continuation for someone else with the hours remaining. Tasks that depended on it now depend on the continuation."
+    "es": "Evaluación: la puntuación de calidad se puede quitar. Pulsa otra vez la estrella marcada, o «Quitar evaluación», y guarda: la tarea vuelve a quedar sin evaluar.",
+    "en": "Evaluation: the quality rating can be removed. Click the selected star again, or «Remove evaluation», and save: the task goes back to not evaluated."
   },
   {
-    "es": "Dirección del equipo (en Proyectos y equipo): «Cambiar la contraseña» de project manager y «Traspasar la dirección del equipo» a otra persona, que continúa con todo lo compartido y las evaluaciones. El PM saliente puede guardar antes su copia personal; sus proyectos privados no se traspasan y su diario se conserva con contraseña propia o se elimina.",
-    "en": "Team lead (in Projects & team): «Change the password» of the project manager and «Hand over the team lead» to someone else, who continues with everything shared and the evaluations. The outgoing PM can save a personal copy first; their private projects are not handed over and their diary is kept under a password of their own or removed."
+    "es": "Reuniones: en «Seleccionar varias» hay un botón «Eliminar las seleccionadas». En una convocatoria periódica de Thunderbird, «Ocultar toda la serie» quita de una vez todas sus reuniones, también las futuras; se puede volver a mostrar en la tarjeta de Thunderbird de Proyectos y equipo.",
+    "en": "Meetings: «Select several» now has a «Delete the selected ones» button. On a recurring Thunderbird invitation, «Hide the whole series» removes all its meetings at once, future ones too; it can be shown again on the Thunderbird card in Projects & team."
+  },
+  {
+    "es": "Reuniones: al filtrar por asistente, el título indica cuántas reuniones cumplen el filtro («asiste Lucía: 5 de 6»).",
+    "en": "Meetings: when filtering by attendee, the title shows how many meetings match («attended by Lucía: 5 of 6»)."
   }
 ]

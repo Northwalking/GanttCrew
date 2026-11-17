@@ -237,6 +237,18 @@ function render() {
       render();
     });
     on('mSelEdit', () => openBulkMeetings([...UI.meetPick]));
+    on('mSelDel', async () => {
+      const b = $('#mSelDel');
+      if (!b.dataset.armed) {
+        b.dataset.armed = 1;
+        b.textContent = `¿Eliminar ${UI.meetPick.size} reunión(es)? Pulsa otra vez`;
+        return;
+      }
+      const n = await bulkDeleteMeetings([...UI.meetPick]);
+      UI.meetPick = new Set();
+      render();
+      toast(`${n} reunión(es) eliminada(s).`);
+    });
   }
   if (UI.view === 'ausencias') {
     on('yPrev', () => {
@@ -354,7 +366,15 @@ function render() {
   on('icsTeam', () => downloadICS(null));
   on('bkExp', () => exportBackup());
   on('pmPw', openChangePw);
+  on('pmRc', openPmRecNew);
   on('pmHo', openPmHandover);
+  document.querySelectorAll('[data-tbshow]').forEach(
+    (b) =>
+      (b.onclick = async () => {
+        await del('meetings', b.dataset.tbshow);
+        toast('La serie vuelve a mostrarse.');
+      }),
+  );
   on('pvHs', async () => {
     const v = +val('pvH');
     if (!(v > 0)) {

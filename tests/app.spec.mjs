@@ -125,3 +125,22 @@ test('date alerts: the PM sees the whole team, a member only their own tasks', a
   expect(r.all).toBeGreaterThan(0);
   expect(r.ok).toBe(true);
 });
+
+test('a quality rating can be removed, which deletes the evaluation', async ({ page }) => {
+  await newTeam(page);
+  await page.evaluate(() => openTask('t1')); // evaluated with 4 stars in the sample
+  await expect(page.locator('#tQ button.on')).toHaveCount(4);
+  await page.click('#tQ [data-q="4"]');
+  await expect(page.locator('#tQ button.on')).toHaveCount(0);
+  await expect(page.locator('#tQx')).toBeHidden();
+  await page.click('#mSave');
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => !!S.evals.t1)).toBe(false);
+  // and it can be rated again
+  await page.evaluate(() => openTask('t1'));
+  await page.click('#tQ [data-q="5"]');
+  await expect(page.locator('#tQx')).toBeVisible();
+  await page.click('#mSave');
+  await page.waitForTimeout(500);
+  expect(await page.evaluate(() => S.evals.t1.quality)).toBe(5);
+});

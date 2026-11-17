@@ -148,6 +148,7 @@ function bindTimeTools() {
       render();
     };
   if ($('#expImg')) $('#expImg').onclick = () => openExportGantt();
+  if ($('#expXls')) $('#expXls').onclick = () => openExportExcel();
   const at = $('#addTask');
   if (at) at.onclick = () => openTask(null);
   const am = $('#addMeet');
@@ -446,7 +447,7 @@ function ganttHead(n) {
     <select id="fOrigin"><option value="">Cualquier origen</option>${Object.entries(ORIG)
       .map(([k, v]) => `<option value="${k}" ${UI.origin === k ? 'selected' : ''}>${v.t}</option>`)
       .join('')}</select>
-    <label class="chip ${UI.showDone ? 'on' : ''}" id="fDone">Mostrar completadas</label>${pv ? `<button class="btn ${UI.showPriv === false ? '' : 'pri'}" id="tgPriv" title="Mostrar u ocultar tus proyectos privados">🔒 Privados: ${UI.showPriv === false ? 'ocultos' : 'visibles'}</button>` : ''}<span class="sp"></span><button class="btn" id="expImg" title="Exportar el Gantt de un proyecto o de una fase como imagen para Word">🖼 Exportar imagen</button></div></div>`;
+    <label class="chip ${UI.showDone ? 'on' : ''}" id="fDone">Mostrar completadas</label>${pv ? `<button class="btn ${UI.showPriv === false ? '' : 'pri'}" id="tgPriv" title="Mostrar u ocultar tus proyectos privados">🔒 Privados: ${UI.showPriv === false ? 'ocultos' : 'visibles'}</button>` : ''}<span class="sp"></span><button class="btn" id="expImg" title="Exportar el Gantt de un proyecto o de una fase como imagen para Word">🖼 Exportar imagen</button><button class="btn" id="expXls" title="Descargar el Gantt como hoja de Excel, con el responsable de cada tarea, para quien no usa la herramienta">Exportar a Excel</button></div></div>`;
 }
 function vGantt_(X) {
   const R = X ? X.R : range(),
@@ -534,8 +535,9 @@ function vGantt_(X) {
           if (k)
             trk += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + absWhen(a))}"></div>`;
         }
-        for (const x of arr('meetings')) {
-          if (!(x.attendees || []).includes(m.id)) continue;
+        for (const x0 of arr('meetings')) {
+          if (!(x0.attendees || []).includes(m.id)) continue;
+          const x = mtgV(x0);
           const d = dn(x.date) - R.s;
           if (d < 0 || d >= R.days) continue;
           trk += `<div class="mtg" data-meet="${x.id}" title="Reunión: ${esc(x.title)} · ${fmt(x.date)} ${esc(x.time || '')}" style="left:${d * UI.ppd + UI.ppd / 2 - 5}px;top:5px"></div>`;
@@ -571,7 +573,7 @@ function vGantt_(X) {
         sum = `<div class="sumbar" style="left:${c.x}px;width:${c.w}px;background:${esc(p.color || '#9aa4b5')}55" title="${esc(p.name)} · ${Math.round(pr)}%"><i style="width:${pr}%;background:${esc(p.color || '#3a4252')}"></i></div>`;
     }
     const mts = arr('meetings')
-      .filter((m) => m.projectId === p.id)
+      .filter((m) => m.projectId === p.id && mtgMine(m))
       .map((m) => {
         const d = dn(m.date) - R.s;
         return d < 0 || d >= R.days
