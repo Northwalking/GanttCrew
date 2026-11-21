@@ -92,7 +92,7 @@ function xlSheet(rows, o = {}) {
       : ''
   }<pageSetup orientation="landscape" fitToWidth="1" fitToHeight="0"/></worksheet>`;
 }
-function xlBook(sheets, stylesXml) {
+function xlBook(sheets, stylesXml, title) {
   const X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
     files = {
       '[Content_Types].xml': `${X}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/>${sheets.map((_, i) => `<Override PartName="/xl/worksheets/sheet${i + 1}.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/>`).join('')}</Types>`,
@@ -102,7 +102,7 @@ function xlBook(sheets, stylesXml) {
       'xl/styles.xml': stylesXml,
     };
   sheets.forEach((s, i) => (files[`xl/worksheets/sheet${i + 1}.xml`] = s.xml));
-  return zipStore(files, XL_MIME);
+  return zipStore(officeProps(files, title), XL_MIME);
 }
 
 // Status of a task in words, as in the tool
@@ -268,6 +268,10 @@ function ganttWorkbook(o) {
     ['F79009', T('Hoy')],
   ])
     rows.push([t, { v: '', s: S_({ fill: c, bd: 1 }) }]);
+  rows.push([]);
+  rows.push([
+    { v: `${T('Generado con')} ${APP_SIGN()} · ${fmt(todayS())}`, s: S_({ color: '98A2B3', sz: 9 }) },
+  ]);
   const gantt = xlSheet(rows, {
     freeze: [FIX, 3],
     cols: [
@@ -356,6 +360,7 @@ function ganttWorkbook(o) {
         { name: T('Tareas'), xml: table },
       ],
       st.xml(),
+      'Gantt',
     ),
     tasks: flat.length,
     columns: cols.length,

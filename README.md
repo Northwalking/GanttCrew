@@ -61,9 +61,10 @@ The interface is in **Spanish and English** (switch `ES | EN` next to the versio
 6. In *Projects & team*, add people (with their email if you use Thunderbird), offices and projects.
    Everyone else just opens the same file and picks their name.
 
-The full user guide is in [docs/guide.en.md](docs/guide.en.md); backups, people leaving and handing over
-the team lead are covered step by step in [docs/handovers-and-backups.en.md](docs/handovers-and-backups.en.md),
-and how the workload and forecast dates are calculated, with formulas, in
+Everything is explained in the **[user manual](docs/manual.en.md)**: setting up, day-to-day use, backups,
+people leaving and handing over the team lead (also as a single HTML file,
+[docs/manual.en.html](docs/manual.en.html), the same one that goes in the installation package). How the
+workload and forecast dates are calculated, with formulas, is in
 [docs/workload-and-forecast.en.md](docs/workload-and-forecast.en.md).
 Try it first in the [online demo](https://northwalking.github.io/GanttCrew/): it runs with the sample
 company **Astrorel** and stores data only in your browser (PM password `demo-1234`).
@@ -114,7 +115,7 @@ Never attach real team data to an issue.
 
 ### License
 
-[MIT](LICENSE) © GanttCrew contributors.
+[MIT](LICENSE) © 2026 Liang.
 
 ---
 
@@ -175,10 +176,11 @@ La interfaz está en **español e inglés** (selector `ES | EN` junto a la versi
 6. En *Proyectos y equipo*, añade a las personas (con su correo si usáis Thunderbird), los centros y los
    proyectos. El resto del equipo solo tiene que abrir el mismo archivo y elegir su nombre.
 
-La guía completa está en [docs/guia.es.md](docs/guia.es.md); las copias de seguridad, las bajas y el
-traspaso de la dirección del equipo se explican paso a paso en
-[docs/traspasos-y-copias.es.md](docs/traspasos-y-copias.es.md), y cómo se calculan la carga de trabajo y
-las fechas previstas, con sus fórmulas, en [docs/carga-y-prevision.es.md](docs/carga-y-prevision.es.md).
+Todo se explica en el **[manual de usuario](docs/manual.es.md)**: puesta en marcha, uso diario, copias de
+seguridad, bajas y traspaso de la dirección del equipo (también como un único archivo HTML,
+[docs/manual.es.html](docs/manual.es.html), el mismo que va en el paquete de instalación). Cómo se calculan
+la carga de trabajo y las fechas previstas, con sus fórmulas, está en
+[docs/carga-y-prevision.es.md](docs/carga-y-prevision.es.md).
 Pruébala antes en la [demo en línea](https://northwalking.github.io/GanttCrew/): usa la empresa ficticia
 **Astrorel** y guarda los datos solo en tu navegador (contraseña de PM `demo-1234`).
 
@@ -223,4 +225,4 @@ No adjuntes nunca datos reales de tu equipo en una incidencia.
 
 ### Licencia
 
-[MIT](LICENSE) © GanttCrew contributors.
+[MIT](LICENSE) © 2026 Liang.

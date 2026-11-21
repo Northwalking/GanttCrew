@@ -7,6 +7,10 @@ test('collaborators share a task: their load, the forecast and their alert', asy
     const t = arr('tasks').find((x) => x.assigneeId === 'm1' && x.status !== 'done' && !x.deps?.length);
     return t.id;
   });
+  // a fixed amount of work, so that the help can only bring the end forward
+  await page.evaluate(async (id) => {
+    await save('tasks', id, { ...S.tasks[id], estimatedHours: 40, remainingHours: null, progress: 0 });
+  }, id);
   await page.evaluate((id) => openTask(id), id);
   await page.selectOption('#tAddCol', 'm2');
   await page.fill('[data-cd="m2"]', '50');
@@ -32,7 +36,7 @@ test('collaborators share a task: their load, the forecast and their alert', asy
   expect(r.colOn).toEqual(['m2']);
   expect(r.inTask).toBe(true);
   expect(r.helperLoad).toBeGreaterThan(0);
-  expect(r.withC).toBeLessThanOrEqual(r.without);
+  expect(r.withC).toBeLessThan(r.without);
   expect(r.names).toContain(' + ');
   // the collaborator is told
   const al = await page.evaluate(() => {

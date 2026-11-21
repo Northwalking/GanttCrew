@@ -48,10 +48,13 @@ export function build({ demo = false } = {}) {
   js = js
     .replace('__I18N_EN__', () => JSON.stringify(dictionary()))
     .replace("'__BUILD__'", () => JSON.stringify(b))
+    .replace("'__VERSION__'", () => JSON.stringify(JSON.parse(rd('package.json')).version))
     .replace('__NEWS__', () => JSON.stringify(JSON.parse(rd('news.json'))))
     .replace("'__DEMO__'", demo ? 'true' : 'false');
+  const version = JSON.parse(rd('package.json')).version;
   const html = rd('src/index.html')
     .replace('__BUILD__', b)
+    .replace(/__VERSION__/g, version)
     .replace('/*__STYLES__*/\n', () => rd('src/styles.css'))
     .replace('/*__SCRIPT__*/\n', () => js);
   return { html, stamp: b };

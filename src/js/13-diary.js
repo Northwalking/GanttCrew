@@ -520,13 +520,35 @@ function dDocx(days, title) {
     X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>';
   const lvl = (n, ch, left) =>
     `<w:lvl w:ilvl="${n}"><w:start w:val="1"/><w:numFmt w:val="bullet"/><w:lvlText w:val="${ch}"/><w:lvlJc w:val="left"/><w:pPr><w:ind w:left="${left}" w:hanging="360"/></w:pPr><w:rPr><w:rFonts w:ascii="Calibri" w:hAnsi="Calibri" w:hint="default"/></w:rPr></w:lvl>`;
-  return zipStore({
+  const files = {
     '[Content_Types].xml': `${X}<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/><Override PartName="/word/numbering.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.numbering+xml"/></Types>`,
     '_rels/.rels': `${X}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships>`,
     'word/_rels/document.xml.rels': `${X}<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/numbering" Target="numbering.xml"/></Relationships>`,
     'word/numbering.xml': `${X}<w:numbering ${W}><w:abstractNum w:abstractNumId="0"><w:multiLevelType w:val="hybridMultilevel"/>${lvl(0, '•', 720)}${lvl(1, '–', 1440)}</w:abstractNum><w:num w:numId="1"><w:abstractNumId w:val="0"/></w:num></w:numbering>`,
     'word/document.xml': `${X}<w:document ${W}><w:body>${body}<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1417" w:right="1417" w:bottom="1417" w:left="1417" w:header="708" w:footer="708" w:gutter="0"/></w:sectPr></w:body></w:document>`,
-  });
+  };
+  return zipStore(officeProps(files, 'Diario de trabajo'));
+}
+// Office document properties: the program that made the file (the tool and its maker) and, as author,
+// the person who exports it. Adds docProps/app.xml and docProps/core.xml with their content types and
+// package relationships.
+function officeProps(files, title) {
+  const X = '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
+    now = new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
+    who = xmlEsc(S.members[ME.memberId]?.name || APP.name);
+  files['docProps/app.xml'] =
+    `${X}<Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties"><Application>${xmlEsc(APP_SIGN())}</Application></Properties>`;
+  files['docProps/core.xml'] =
+    `${X}<cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title>${xmlEsc(title || '')}</dc:title><dc:creator>${who}</dc:creator><cp:lastModifiedBy>${who}</cp:lastModifiedBy><dc:description>${xmlEsc('Generado con ' + APP_SIGN())}</dc:description><dcterms:created xsi:type="dcterms:W3CDTF">${now}</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">${now}</dcterms:modified></cp:coreProperties>`;
+  files['[Content_Types].xml'] = files['[Content_Types].xml'].replace(
+    '</Types>',
+    '<Override PartName="/docProps/core.xml" ContentType="application/vnd.openxmlformats-package.core-properties+xml"/><Override PartName="/docProps/app.xml" ContentType="application/vnd.openxmlformats-officedocument.extended-properties+xml"/></Types>',
+  );
+  files['_rels/.rels'] = files['_rels/.rels'].replace(
+    '</Relationships>',
+    '<Relationship Id="rId8" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId9" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/></Relationships>',
+  );
+  return files;
 }
 // Minimal ZIP writer (stored, no compression): enough for a .docx
 function zipStore(files, type) {

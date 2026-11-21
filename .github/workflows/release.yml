@@ -1,7 +1,7 @@
 name: Release
 
 # Publish a release on GitHub (Releases → Draft a new release, tag e.g. v1.0.0):
-# this workflow builds GanttCrew.html and attaches it to that release.
+# this workflow builds GanttCrew.html and attaches it, with the HTML user manuals, to that release.
 on:
   release:
     types: [published]
@@ -18,7 +18,11 @@ jobs:
         with:
           node-version: 20
       - run: node scripts/build.mjs
-      - name: Attach GanttCrew.html to the release
+      - name: Attach GanttCrew.html and the user manuals to the release
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh release upload "${{ github.event.release.tag_name }}" dist/GanttCrew.html --clobber
+        run: |
+          cp docs/manual.es.html "dist/MANUAL-DE-USUARIO.html"
+          cp docs/manual.en.html "dist/USER-MANUAL.html"
+          gh release upload "${{ github.event.release.tag_name }}" dist/GanttCrew.html \
+            dist/MANUAL-DE-USUARIO.html dist/USER-MANUAL.html --clobber

@@ -1913,3 +1913,35 @@ tr.click:hover td {
   border-radius: 8px;
   user-select: all;
 }
+
+.appfoot {
+  text-align: center;
+  font-size: 11px;
+  color: #98a2b3;
+  padding: 18px 0 10px;
+}
+.appfoot a {
+  color: inherit;
+}
+#aboutBtn {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.mtg.multi {
+  background: #b45309;
+}
+.mtgn {
+  position: absolute;
+  z-index: 4;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 12px;
+  min-width: 12px;
+  padding: 0 2px;
+  text-align: center;
+  color: #fff;
+  background: #b45309;
+  border-radius: 6px;
+  pointer-events: none;
+}

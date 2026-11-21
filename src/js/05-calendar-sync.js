@@ -408,7 +408,7 @@ async function createTBFile() {
   const txt = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//GanttCrew//ES',
+    'PRODID:-//Liang//GanttCrew ' + APP.version + '//ES',
     'X-WR-CALNAME:Convocatorias · ' + icsEsc(mem(ME.memberId)?.name || ''),
     'END:VCALENDAR',
     '',
@@ -771,7 +771,7 @@ function buildICS(mid) {
   const head = [
     'BEGIN:VCALENDAR',
     'VERSION:2.0',
-    'PRODID:-//GanttCrew//ES',
+    'PRODID:-//Liang//GanttCrew ' + APP.version + '//ES',
     'CALSCALE:GREGORIAN',
     'METHOD:PUBLISH',
     'X-WR-CALNAME:' + icsEsc(name),

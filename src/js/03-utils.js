@@ -44,6 +44,16 @@ const members = () =>
   arr('members').sort((a, b) => (b.isPM ? 1 : 0) - (a.isPM ? 1 : 0) || String(a.name).localeCompare(b.name));
 const projects = () => arr('projects').sort((a, b) => String(a.name).localeCompare(b.name));
 const APP_BUILD = '__BUILD__';
+// who made the tool: shown in «Acerca de», in the footer and in the files it generates
+const APP = {
+  name: 'GanttCrew',
+  version: '__VERSION__',
+  author: 'Liang',
+  year: '2026',
+  license: 'MIT',
+  repo: 'https://github.com/Northwalking/GanttCrew',
+};
+const APP_SIGN = () => `${APP.name} ${APP.version} · ${APP.author}`;
 const APP_NEWS = __NEWS__;
 const mem = (id) => S.members[id];
 const DEFAULT_PTYPES = [

@@ -7,6 +7,19 @@ Los cambios relevantes se recogen aquí. La herramienta muestra además su fecha
 
 ## [Unreleased]
 
+## [1.4.0] — 2026-11-21
+
+- **Single user manual** (`docs/manual.es.md`, `docs/manual.en.md`, and the same text as HTML, also attached
+  to each release), replacing the guide, the setup notes and the handovers document · **Manual de usuario
+  único**, que sustituye a la guía, a las notas de instalación y al documento de traspasos.
+- Gantt: several meetings on the same day show as one marker with their number and a list · Gantt: varias
+  reuniones el mismo día se muestran en un solo rombo con su número y una lista.
+- Forecast: collaborators keep helping until the task finishes, not only until its planned end · Previsión:
+  los colaboradores ayudan hasta que la tarea termina, no solo hasta su fin planificado.
+- **Creator record**: «About» dialog, footer, licence holder (© 2026 Liang), document properties and a
+  signature in the Excel and image exports · **Registro del creador**: ventana «Acerca de», pie de página,
+  titular de la licencia (© 2026 Liang), propiedades de los documentos y firma en el Excel y la imagen.
+
 ## [1.3.0] — 2026-11-17
 
 - New document with the workload and forecast formulas · Documento nuevo con las fórmulas de la carga y

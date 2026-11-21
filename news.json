@@ -1,5 +1,21 @@
 [
   {
+    "es": "Manual de usuario único: la guía de uso, la puesta en marcha (antes en LEEME) y los traspasos y copias de seguridad están ahora en un solo documento, «MANUAL DE USUARIO.html», el mismo que se publica en GitHub.",
+    "en": "Single user manual: the user guide, the setup (previously in the README file of the package) and handovers and backups are now in a single document, «USER MANUAL.html», the same one published on GitHub."
+  },
+  {
+    "es": "Gantt: cuando un día tiene varias reuniones, el rombo muestra cuántas son; al pasar el ratón aparecen todas con su horario y al pulsarlo se abre la lista para entrar en cualquiera. Antes se dibujaban unas encima de otras y solo se veía una.",
+    "en": "Gantt: when a day has several meetings, the diamond shows how many there are; hovering lists them all with their times and clicking opens the list to open any of them. Before, they were drawn on top of each other and only one was visible."
+  },
+  {
+    "es": "Colaboradores: en la fecha prevista, su ayuda cuenta hasta que la tarea termina, no solo hasta su fin planificado. Antes, si la tarea se alargaba, añadir un colaborador podía retrasar la fecha prevista.",
+    "en": "Collaborators: in the forecast date their help counts until the task finishes, not only until its planned end. Before, if the task ran late, adding a collaborator could delay the forecast date."
+  },
+  {
+    "es": "Autoría: la herramienta indica que la ha creado Liang, en «Acerca de» (ℹ junto a la versión), al pie de la página y en los archivos que genera (Excel, Word, imagen del Gantt y calendarios .ics).",
+    "en": "Authorship: the tool states that it was created by Liang, in «About» (ℹ next to the version), in the page footer and in the files it generates (Excel, Word, Gantt image and .ics calendars)."
+  },
+  {
     "es": "Colaboradores en las tareas: además del responsable, el PM puede añadir personas que le ayudan, cada una con su dedicación. Sus horas cuentan en su carga y en el aviso de sobrecarga, adelantan la fecha prevista y la tarea aparece también en su Gantt y su calendario. El Excel muestra los colaboradores.",
     "en": "Task collaborators: besides the owner, the PM can add people who help, each with their own dedication. Their hours count in their load and in the overload warning, bring the forecast date forward, and the task also shows in their Gantt and calendar. The Excel export lists the collaborators."
   },

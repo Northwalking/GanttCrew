@@ -88,6 +88,7 @@ test('the English interface has no Spanish leftovers', async ({ page }) => {
       };
       openMeeting('zz');
     },
+    about: () => openAbout(),
     recCodePm: () => showRecCode('ABCDE-FGHJK-MNPQR-STVWX', 'pm'),
     recCodeDiary: () => showRecCode('ABCDE-FGHJK-MNPQR-STVWX', 'diary'),
     recNew: () => openPmRecNew(),

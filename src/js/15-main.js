@@ -76,6 +76,13 @@ function readHash() {
     ? v
     : 'gantt';
 }
+// «Acerca de»: the ℹ next to the version and the footer link
+document.addEventListener('click', (e) => {
+  const a = e.target.closest?.('#aboutBtn, [data-about]');
+  if (!a) return;
+  e.preventDefault();
+  openAbout();
+});
 window.addEventListener('hashchange', () => {
   readHash();
   render();
@@ -153,6 +160,12 @@ function render() {
     el.addEventListener('click', (e) => {
       e.stopPropagation();
       openMeeting(el.dataset.meet);
+    }),
+  );
+  m.querySelectorAll('[data-meets]').forEach((el) =>
+    el.addEventListener('click', (e) => {
+      e.stopPropagation();
+      openMeetingList(el.dataset.meets.split(','));
     }),
   );
   if (UI.view === 'equipo') bindCalendar(m);

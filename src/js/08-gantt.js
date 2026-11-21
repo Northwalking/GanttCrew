@@ -539,13 +539,11 @@ function vGantt_(X) {
           if (k)
             trk += `<div class="absband" style="left:${k.x}px;width:${k.w}px" title="${esc(absLabel(a) + ' · ' + absWhen(a))}"></div>`;
         }
-        for (const x0 of arr('meetings')) {
-          if (!(x0.attendees || []).includes(m.id)) continue;
-          const x = mtgV(x0);
-          const d = dn(x.date) - R.s;
-          if (d < 0 || d >= R.days) continue;
-          trk += `<div class="mtg" data-meet="${x.id}" title="Reunión: ${esc(x.title)} · ${fmt(x.date)} ${esc(x.time || '')}" style="left:${d * UI.ppd + UI.ppd / 2 - 5}px;top:5px"></div>`;
-        }
+        trk += mtgMarkers(
+          R,
+          arr('meetings').filter((x) => (x.attendees || []).includes(m.id)),
+          5,
+        );
       }
       const wk = m ? weekLoads(m.id, T, 1)[0] : null;
       const lv = wk ? loadLevel(wk.avg) : null;
@@ -576,15 +574,11 @@ function vGantt_(X) {
       if (c)
         sum = `<div class="sumbar" style="left:${c.x}px;width:${c.w}px;background:${esc(p.color || '#9aa4b5')}55" title="${esc(p.name)} · ${Math.round(pr)}%"><i style="width:${pr}%;background:${esc(p.color || '#3a4252')}"></i></div>`;
     }
-    const mts = arr('meetings')
-      .filter((m) => m.projectId === p.id && mtgMine(m))
-      .map((m) => {
-        const d = dn(m.date) - R.s;
-        return d < 0 || d >= R.days
-          ? ''
-          : `<div class="mtg" data-meet="${m.id}" title="Reunión: ${esc(m.title)} · ${fmt(m.date)}" style="left:${d * UI.ppd + UI.ppd / 2 - 5}px;top:11px"></div>`;
-      })
-      .join('');
+    const mts = mtgMarkers(
+      R,
+      arr('meetings').filter((m) => m.projectId === p.id && mtgMine(m)),
+      11,
+    );
     body += `<div class="grow proj" style="height:40px"><div class="lbl">${X ? '' : `<span class="tog" data-tog="${p.id}">${col ? '▸' : '▾'}</span>`}<span class="dot" style="background:${esc(p.color || '#98a2b3')}"></span><span class="tname" title="${esc(p.name)}${ptypeOf(p.type) ? ' · ' + esc(ptypeLbl(p.type)) : ''}${
       projPeople(p).length
         ? ' · Participantes: ' +
@@ -645,4 +639,55 @@ function vGantt_(X) {
         ),
       );
   return h;
+}
+
+// Meeting markers on a Gantt row: one diamond per day. When a day has several meetings, the diamond
+// carries their number, the tooltip lists them all and a click opens the list.
+function mtgMarkers(R, list, top) {
+  const byDay = {};
+  for (const x0 of list) {
+    const d = dn(x0.date) - R.s;
+    if (d < 0 || d >= R.days) continue;
+    (byDay[d] = byDay[d] || []).push(mtgV(x0));
+  }
+  let h = '';
+  for (const [d, ms] of Object.entries(byDay)) {
+    ms.sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+    const left = d * UI.ppd + UI.ppd / 2 - 5;
+    const line = (x) => `${x.time ? x.time + '–' + endTime(x.time, x.duration) + ' ' : ''}${x.title}`;
+    if (ms.length === 1) {
+      const x = ms[0];
+      h += `<div class="mtg" data-meet="${x.id}" title="${esc('Reunión: ' + x.title + ' · ' + fmt(x.date) + (x.time ? ' ' + x.time + '–' + endTime(x.time, x.duration) : ''))}" style="left:${left}px;top:${top}px"></div>`;
+      continue;
+    }
+    const hrs = ms.reduce((a, x) => a + (x.duration || 0), 0) / 60;
+    h += `<div class="mtg multi" data-meets="${ms.map((x) => x.id).join(',')}" title="${esc(`${ms.length} reuniones · ${fmt(ms[0].date)} · ${hrs.toFixed(1).replace('.0', '')} h\n` + ms.map(line).join('\n'))}" style="left:${left}px;top:${top}px"></div><span class="mtgn" style="left:${left + 9}px;top:${top - 4}px">${ms.length}</span>`;
+  }
+  return h;
+}
+// The meetings of one day, to open any of them
+function openMeetingList(ids) {
+  const ms = ids
+    .map((id) => S.meetings[id] && { id, ...mtgV({ id, ...S.meetings[id] }) })
+    .filter(Boolean)
+    .sort((a, b) => (a.time || '').localeCompare(b.time || ''));
+  if (!ms.length) return;
+  openDlg(
+    `Reuniones del ${fmt(ms[0].date)}`,
+    `<div class="full">${ms
+      .map(
+        (x) =>
+          `<div class="dep" data-ml="${x.id}" style="cursor:pointer;align-items:center"><span class="mut" style="min-width:96px">${x.time ? esc(x.time) + '–' + esc(endTime(x.time, x.duration)) : 'Sin hora'}</span><span style="flex:1">${x.masked ? '🔒 ' : ''}${esc(x.title)}</span><span class="mut">${(x.attendees || []).length} asist.</span></div>`,
+      )
+      .join('')}</div>`,
+    null,
+  );
+  $('#mCancel').textContent = 'Cerrar';
+  document.querySelectorAll('#dlg [data-ml]').forEach(
+    (el) =>
+      (el.onclick = () => {
+        closeDlg();
+        setTimeout(() => openMeeting(el.dataset.ml), 30);
+      }),
+  );
 }

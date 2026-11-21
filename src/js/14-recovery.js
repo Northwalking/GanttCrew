@@ -137,7 +137,7 @@ function pmRecoverForm(box, id) {
     const rec = pmRec();
     if (!rec)
       return msg(
-        'Este equipo no tiene código de recuperación: la contraseña no se puede recuperar. Consulta «Traspasos y copias de seguridad».',
+        'Este equipo no tiene código de recuperación: la contraseña no se puede recuperar. Consulta el manual de usuario («Contraseñas y código de recuperación»).',
       );
     $('#wRgo').disabled = true;
     const old = await recOpen($('#wRc').value, rec);

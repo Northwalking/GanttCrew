@@ -1,6 +1,6 @@
 # Carga de trabajo y fecha prevista: cómo se calculan
 
-[English](workload-and-forecast.en.md) · Guía de uso: [guia.es.md](guia.es.md)
+[English](workload-and-forecast.en.md) · Manual de usuario: [manual.es.md](manual.es.md)
 
 Este documento explica, con las fórmulas que usa la herramienta, de dónde salen tres cosas:
 
@@ -223,15 +223,19 @@ que su ritmo se cuentan como «sobrecarga o prioridad de otras tareas».
 
 ### 5.4 Ayuda de los colaboradores
 
-Para cada colaborador $c$, en sus días laborables normales entre $\max(\text{inicio}, T)$ y el **fin
-planificado**:
+Para cada colaborador $c$, en cada día laborable normal suyo en que la tarea está activa (5.1), **hasta que
+la tarea termina**:
 
 ```math
 k_{t,c}(d) = J_c \cdot \frac{\mathrm{ded}_{t,c}}{100} \cdot a_c(d)
 ```
 
 Esas horas se **reservan** en el día del colaborador (forman su $K_c(d)$, que reduce lo que puede dar a sus
-propias tareas) y se **restan** de la tarea los días en que está activa.
+propias tareas) y se **restan** de la tarea.
+
+Si la tarea **no tiene horas estimadas**, su tamaño $E_t$ (4.1) ya incluye lo que aportan los colaboradores:
+añadir uno sin bajar la dedicación del responsable hace la tarea más grande, no más corta. Para que la ayuda
+adelante la tarea, pon sus **horas estimadas** o baja la dedicación del responsable.
 
 ### 5.5 Avance de la tarea y fin previsto
 
@@ -311,8 +315,8 @@ k = 8 \cdot 0{,}25 = 2\ \text{h/día}
 48 / 5{,}5 \approx 8{,}7 \;\Rightarrow\; \textbf{9 días laborables}
 ```
 
-Lucía tiene esas 2 h reservadas cada día dentro de las fechas planificadas de A, así que sus propias tareas
-disponen de 2 h menos y su carga sube $2/8 = 25$ puntos.
+Lucía tiene esas 2 h reservadas cada día mientras A está abierta, así que sus propias tareas disponen de
+2 h menos y su carga sube $2/8 = 25$ puntos.
 
 Si el fin planificado de A estaba a 10 días laborables, sin Lucía el desvío sería de **+4 días** (aviso de
 retraso) y con Lucía de **−1 día** (sin aviso).

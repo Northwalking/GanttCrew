@@ -158,7 +158,7 @@ function openExportGantt(pid) {
       : '';
     const XW = g.W + 230;
     const css = `#xEl .tname{white-space:normal!important;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;line-height:1.2;font-size:12px}#xEl .legend span{white-space:nowrap}#xEl .legend{max-width:${XW}px}${ppd < 3 ? '#xEl .ovh{display:none}' : ''}`;
-    return `<div id="xEl" style="background:#fff;padding:14px;width:${XW + 30}px;box-sizing:border-box"><style>${css}</style>${head}<div style="border:1px solid var(--line);border-radius:10px;background:#fff;width:${XW}px;box-sizing:border-box"><div class="ginner" style="width:${g.W}px">${g.inner}</div></div>${$('#xL').checked ? g.legend : ''}</div>`;
+    return `<div id="xEl" style="background:#fff;padding:14px;width:${XW + 30}px;box-sizing:border-box"><style>${css}</style>${head}<div style="border:1px solid var(--line);border-radius:10px;background:#fff;width:${XW}px;box-sizing:border-box"><div class="ginner" style="width:${g.W}px">${g.inner}</div></div>${$('#xL').checked ? g.legend : ''}<div style="text-align:right;font-size:10px;color:#98a2b3;margin-top:6px">Generado con ${esc(APP_SIGN())}</div></div>`;
   };
   const draw = () => {
     const h = build();

@@ -6,7 +6,10 @@ import { newTeam, show } from './helpers.mjs';
 test('meeting details are only visible to its participants', async ({ page }) => {
   const errors = await newTeam(page);
   const r = await page.evaluate(async () => {
-    const d = iso(todayN() + 1);
+    // the next working day of both people (meetings on days off do not count)
+    let n = todayN() + 1;
+    while (!isRegM('m1', n) || !isRegM('m2', n)) n++;
+    const d = iso(n);
     // a meeting between two members, without the PM
     const id = await save('meetings', null, {
       title: 'Charla secreta de Carlos',

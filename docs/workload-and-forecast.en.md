@@ -1,6 +1,6 @@
 # Workload and forecast date: how they are calculated
 
-[Español](carga-y-prevision.es.md) · User guide: [guide.en.md](guide.en.md)
+[Español](carga-y-prevision.es.md) · User manual: [manual.en.md](manual.en.md)
 
 This document explains, with the formulas the tool uses, where three things come from:
 
@@ -221,15 +221,19 @@ counted as "overload or priority of other tasks".
 
 ### 5.4 Collaborators' help
 
-For each collaborator $c$, on their regular working days between $\max(\text{start}, T)$ and the **planned
-end**:
+For each collaborator $c$, on each of their regular working days when the task is active (5.1), **until the
+task finishes**:
 
 ```math
 k_{t,c}(d) = J_c \cdot \frac{\mathrm{ded}_{t,c}}{100} \cdot a_c(d)
 ```
 
 Those hours are **reserved** in the collaborator's day (they make up their $K_c(d)$, reducing what they can
-give to their own tasks) and **taken off** the task on the days it is active.
+give to their own tasks) and **taken off** the task.
+
+If the task **has no estimated hours**, its size $E_t$ (4.1) already includes what the collaborators
+contribute: adding one without lowering the owner's dedication makes the task bigger, not shorter. For the
+help to bring the task forward, set its **estimated hours** or lower the owner's dedication.
 
 ### 5.5 Task progress and forecast end
 
@@ -308,8 +312,8 @@ k = 8 \cdot 0.25 = 2\ \text{h/day}
 48 / 5.5 \approx 8.7 \;\Rightarrow\; \textbf{9 working days}
 ```
 
-Lucía has those 2 h reserved every day within A's planned dates, so her own tasks get 2 h less and her load
-goes up by $2/8 = 25$ points.
+Lucía has those 2 h reserved every day while A is open, so her own tasks get 2 h less and her load goes up
+by $2/8 = 25$ points.
 
 If A's planned end was 10 working days away, without Lucía the slip would be **+4 days** (delay alert) and
 with Lucía **−1 day** (no alert).

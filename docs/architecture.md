@@ -1,7 +1,8 @@
 # Architecture
 
-A short map of the code for contributors. The user-facing guides are [guide.en.md](guide.en.md) and
-[guia.es.md](guia.es.md).
+A short map of the code for contributors. The user manual is [manual.en.md](manual.en.md) /
+[manual.es.md](manual.es.md); `scripts/manual.sh` (pandoc) builds the HTML copies that also go in the
+installation package.
 
 ## Build
 
@@ -70,7 +71,7 @@ Encryption: PBKDF2 (SHA-256) derives an AES-GCM key from the PM password with a 
 `forecasts()` simulates each person day by day from today: capacity = hours per day on their working days
 (minus holidays, absences and meetings; plus extra days); open tasks get hours in proportion to their
 dedication, high priority first, respecting dependencies. Collaborators' hours (`t.collab`) are reserved
-in their own days between the task's start and planned end and credited to the task while it is active.
+in their own days and credited to the task on every day it is active, until it finishes.
 Paused or cancelled tasks are skipped. Private tasks use a virtual resource with the PM's private calendar
 (N hours, every day). The load (`loadDays`, `weekLoads`, `dayInfo`) adds each task's dedication for its
 owner and collaborators plus meeting hours, over the available hours. Every formula is written out in

@@ -103,21 +103,9 @@ function forecasts(override) {
   }
   // collaborators' hours: reserved in their own days between the task's start and planned end, and
   // credited to the task on the days it can advance
-  const helpH = {};
-  for (const x of Object.values(st)) {
-    if (res[x.t.id] || x.mid === '__priv') continue;
-    const cs = collabOf(x.t);
-    if (!cs.length) continue;
-    x.help = {};
-    for (const c of cs)
-      for (let d = Math.max(x.ps, T); d <= Math.min(dn(x.t.end), HZ); d++) {
-        if (!isRegM(c.id, d)) continue;
-        const hh = ((capOf(c.id) * c.ded) / 100) * absAvail(absOn(c.id, d));
-        if (hh <= 0) continue;
-        helpH[c.id + '|' + d] = (helpH[c.id + '|' + d] || 0) + hh;
-        x.help[d] = (x.help[d] || 0) + hh;
-      }
-  }
+  // tasks with collaborators: each day they can progress, the collaborators' hours are reserved in
+  // their own day and credited to the task, until it finishes
+  const helped = Object.values(st).filter((x) => !res[x.t.id] && x.mid !== '__priv' && collabOf(x.t).length);
   const byMid = {};
   for (const x of Object.values(st)) if (!res[x.t.id]) (byMid[x.mid] = byMid[x.mid] || []).push(x);
   let pending = Object.values(byMid).reduce((a, l) => a + l.length, 0);
@@ -135,6 +123,18 @@ function forecasts(override) {
     return true;
   };
   for (let d = T; d <= HZ && pending > 0; d++) {
+    const helpD = {};
+    for (const x of helped) {
+      x.helpToday = 0;
+      if (res[x.t.id] || x.t.status === 'blocked' || d < x.ps || !depsOk(x, d)) continue;
+      for (const c of collabOf(x.t)) {
+        if (!isRegM(c.id, d)) continue;
+        const hh = ((capOf(c.id) * c.ded) / 100) * absAvail(absOn(c.id, d));
+        if (hh <= 0) continue;
+        helpD[c.id] = (helpD[c.id] || 0) + hh;
+        x.helpToday += hh;
+      }
+    }
     for (const [mid, list] of Object.entries(byMid)) {
       const PV = mid === '__priv';
       const cap = PV ? privH() : capOf(mid),
@@ -142,7 +142,7 @@ function forecasts(override) {
         reg = PV ? true : isRegM(mid, d),
         work = reg || !!EX,
         av = PV ? cap : (reg ? cap * absAvail(absOn(mid, d)) : 0) + (EX ? EX.free : 0);
-      let avail = Math.max(0, av - (meetH[mid + '|' + d] || 0) - (helpH[mid + '|' + d] || 0));
+      let avail = Math.max(0, av - (meetH[mid + '|' + d] || 0) - (helpD[mid] || 0));
       const act = [];
       for (const x of list) {
         if (res[x.t.id] || x.t.status === 'blocked' || d < x.ps) continue;
@@ -157,8 +157,8 @@ function forecasts(override) {
           else if ((meetH[mid + '|' + d] || 0) > 0 && avail < x.pace) x.meet++;
         }
         act.push(x);
-        if (x.help?.[d]) {
-          x.rem -= x.help[d];
+        if (x.helpToday) {
+          x.rem -= x.helpToday;
           if (x.rem <= 1e-6) {
             res[x.t.id] = { end: d };
             pending--;

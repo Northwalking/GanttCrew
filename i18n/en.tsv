@@ -1286,7 +1286,7 @@ Parte traspasada a otra persona	Part handed over to someone else
 Continúa una tarea traspasada	Continues a handed-over task
 ⇄ continuación	⇄ continuation
 Dirección del equipo 🔒	Team lead 🔒
-La contraseña de project manager protege tu papel y cifra las evaluaciones, tus proyectos privados y tu diario. Si vas a dejar la dirección del equipo, traspásala aquí para que otra persona continúe con todo el histórico. Antes, lee los pasos en el documento «Traspasos y copias de seguridad» que acompaña a la herramienta.	The project manager password protects your role and encrypts the evaluations, your private projects and your diary. If you are going to stop leading the team, hand it over here so someone else continues with the whole history. First read the steps in the «Handovers and backups» document that comes with the tool.
+La contraseña de project manager protege tu papel y cifra las evaluaciones, tus proyectos privados y tu diario. Si vas a dejar la dirección del equipo, traspásala aquí para que otra persona continúe con todo el histórico. Antes, lee los pasos en el manual de usuario («Traspasar la dirección del equipo a otro PM»).	The project manager password protects your role and encrypts the evaluations, your private projects and your diary. If you are going to stop leading the team, hand it over here so someone else continues with the whole history. First read the steps in the user manual («Handing the team lead over to another PM»).
 Cambiar la contraseña…	Change the password…
 Traspasar la dirección del equipo…	Hand over the team lead…
 Cambiar la contraseña de project manager	Change the project manager password
@@ -1388,7 +1388,7 @@ Código de recuperación	Recovery code
 código de recuperación	recovery code
 Recuperar y entrar	Recover and sign in
 Recuperar el diario	Recover the diary
-Este equipo no tiene código de recuperación: la contraseña no se puede recuperar. Consulta «Traspasos y copias de seguridad».	This team has no recovery code: the password cannot be recovered. See «Handovers and backups».
+Este equipo no tiene código de recuperación: la contraseña no se puede recuperar. Consulta el manual de usuario («Contraseñas y código de recuperación»).	This team has no recovery code: the password cannot be recovered. See the user manual («Passwords and recovery code»).
 Este diario no tiene código de recuperación: no se puede recuperar.	This diary has no recovery code: it cannot be recovered.
 El código no es correcto.	The code is not correct.
 Contraseña nueva guardada.	New password saved.
@@ -1423,3 +1423,17 @@ Colaboras en esta tarea desde el	You collaborate on this task since
 (responsable:	(owner:
 Colaboradores:	Collaborators:
 # % de su jornada	# % of their working day
+Acerca de GanttCrew	About GanttCrew
+Acerca de	About
+Gantt y control de proyectos para equipos	Gantt and project control for teams
+Creado por	Created by
+=Licencia	Licence
+Código fuente	Source code
+Software libre: puedes usarlo, copiarlo, modificarlo y distribuirlo, también con fines comerciales, siempre que conserves el aviso de copyright y la licencia. Se ofrece tal cual, sin garantía.	Free software: you may use, copy, modify and distribute it, also for commercial purposes, as long as you keep the copyright notice and the licence. It is provided as is, without warranty.
+Generado con	Generated with
+· creado por	· created by
+· licencia	· licence
+reuniones ·	meetings ·
+Reuniones del	Meetings on
+Sin hora	No time
+asist.	attendees
